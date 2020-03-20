@@ -3,3 +3,6 @@
 
 # Run development server
 `npm start`
+
+# Make production build
+`npm run build`
