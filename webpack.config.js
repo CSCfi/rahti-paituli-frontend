@@ -7,6 +7,16 @@ module.exports = {
   devServer: {
     contentBase: './dist',
     port: 9000,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8080',
+        pathRewrite: {'^/api' : ''}
+      },
+      '/download': {
+        target: 'http://localhost:8080',
+        pathRewrite: {'^/api' : ''}
+      }
+    }
   },
   output: {
     filename: 'main.js',

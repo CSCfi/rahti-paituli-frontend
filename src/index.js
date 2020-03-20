@@ -1,16 +1,16 @@
-METADATA_API = "datasets_lr.json";
+const METADATA_API = "/api/datasets";
+const GENERATE_PACKAGE_API_URL = "/download";
 
 hakaUser = false;
-geoserver_username = '';
-geoserver_password = '';
-currentIndexMapLayer = null;
+const geoserver_username = '';
+const geoserver_password = '';
 
-FINNISH_LANGUAGE = "fi_FI";
-ENGLISH_LANGUAGE = "en_US";
-// USED_LANGUAGE = Liferay.ThemeDisplay.getLanguageId();
-USED_LANGUAGE = "fi_FI"
+const FINNISH_LANGUAGE = "fi_FI";
+const ENGLISH_LANGUAGE = "en_US";
 
-metadata = null;
+var USED_LANGUAGE = "fi_FI"
+var currentIndexMapLayer = null;
+var metadata = null;
 
 proj4.defs([
     [
@@ -19,9 +19,7 @@ proj4.defs([
         "EPSG:3857","+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs"
     ]
   ]);
-
 ol.proj.proj4.register(proj4);
-
 
 function getUrlParameter(param) {
     var pageURL = window.location.search.substring(1);
@@ -70,8 +68,6 @@ function checkAccessRights(){
 function checkParameterDatasetAccess() {
 
     loadMetadata(function() {
-
-        console.log(pageDataIdParam)
         if (pageDataIdParam === null || pageDataIdParam.length == 0) {
             main();
         } else {
@@ -95,7 +91,6 @@ function checkParameterDatasetAccess() {
 function loadMetadata(afterMetadataLoadCallback) {
     $.getJSON(METADATA_API , function(data) {
         metadata = data;
-        console.log(metadata)
         afterMetadataLoadCallback();
     });
 }
@@ -465,7 +460,6 @@ function main() {
     // Etsin
     var ETSIN_BASE = "//metax.fairdata.fi" // "//metax-test.csc.fi" "//etsin.avointiede.fi" "//etsin-demo.avointiede.fi"
     var ETSIN_BASE_URN = "http://urn.fi/" //
-    // ETSIN_METADATA_JSON_BASE_URL =  ETSIN_BASE +"/api/3/action/package_show?id=";
 	var ETSIN_METADATA_JSON_BASE_URL =  ETSIN_BASE +"/rest/datasets?format=json&preferred_identifier=";
 
     // GeoServer
@@ -474,15 +468,11 @@ function main() {
     var LAYER_NAME_MUNICIPALITIES = "paituli:mml_hallinto_2014_100k";
     var LAYER_NAME_CATCHMENT_AREAS = "paituli:syke_valuma_maa";
 
-    // var WFS_INDEX_MAP_LAYER_URL = BASE_URL + "wfs?service=WFS&version=2.0.0&request=GetFeature&srsname=epsg:3857&typeNames=" + INDEX_LAYER + "&cql_filter=BBOX(geom,!extent!,'EPSG:4326') AND !key! = '!value!'";
     var WFS_INDEX_MAP_LAYER_URL = BASE_URL + "wfs?service=WFS&version=2.0.0&request=GetFeature&srsname=epsg:3857&typeNames=" + INDEX_LAYER + "&cql_filter= !key! = '!value!'";
     var WMS_INDEX_MAP_LABEL_LAYER_URL = BASE_URL + "wms?service=WMS&LAYERS= " + INDEX_LAYER + "&CQL_FILTER=data_id = '!value!'";
     var WMS_PAITULI_BASE_URL = BASE_URL + "wms?";
     var WMS_PAITULI_BASE_URL_GWC = BASE_URL + "gwc/service/wms?";
     var WFS_INDEX_MAP_DOWNLOAD_SHAPE = BASE_URL + "wfs?service=WFS&version=2.0.0&request=GetFeature&srsname=epsg:4326&typeNames=" + INDEX_LAYER + "&outputFormat=shape-zip&propertyname=label,path,geom&cql_filter= !key! = '!value!'";
-
-    // Paituli APIs
-    var GENERATE_PACKAGE_API_URL = "/paituli-portlet/generatePackageAPI.jsp";
 
     // Location search
     var NOMINATIM_API_URL = "//nominatim.openstreetmap.org/search?format=json&q=!query!&addressdetails=0&limit=1";
@@ -543,47 +533,27 @@ function main() {
     }
 
     function emailDataOrList(input, dlType,licence, modal, tipsOutput){
-        var filesToPackagePaths = getSemicolonStrFromStrArray(fileList);
-        var filesToPackageNames = getSemicolonStrFromStrArray(fileLabelList);
         var emailVal = input.val();
         var url = GENERATE_PACKAGE_API_URL;
 
-        if(filesToPackagePaths && emailVal) {
-            var postParams = "";
-            postParams = postParams.concat("filepaths=" + filesToPackagePaths + "&email=" + emailVal);
-            if(filesToPackageNames) {
-                postParams = postParams.concat("&filenames=" + filesToPackageNames);
-            }
-            var org = getCurrentLayerData('org');
-            if(org) {
-                postParams = postParams.concat("&org=" + org);
-            }
-            var name = getCurrentLayerData('name');
-            if(name) {
-                postParams = postParams.concat("&data=" + name);
-            }
-            var scale = getCurrentLayerData('scale');
-            if(scale) {
-                postParams = postParams.concat("&scale=" + scale);
-            }
-            var year = getCurrentLayerData('year');
-            if(year) {
-                postParams = postParams.concat("&year=" + year);
-            }
-            var coordsys = getCurrentLayerData('coord_sys');
-            if(coordsys) {
-                postParams = postParams.concat("&coordsys=" + coordsys);
-            }
-            var format = getCurrentLayerData('format');
-            if(format) {
-                postParams = postParams.concat("&format=" + format);
-            }
-            if(currentDataId) {
-                postParams = postParams.concat("&data_id=" + currentDataId);
-            }
-            postParams = postParams.concat("&dl_type="+dlType);
-            postParams = postParams.concat("&language="+USED_LANGUAGE);
+        if (fileList && fileList.length > 0 && emailVal) {
+            const downloadRequest = {
+                data_id: currentDataId,
+                downloadType: dlType.toUpperCase(),
+                email: emailVal,
+                language: USED_LANGUAGE,
+                filePaths: fileList,
+                filenames: fileLabelList,
+                org: getCurrentLayerData('org'),
+                data: getCurrentLayerData('name'),
+                scale: getCurrentLayerData('scale'),
+                year: getCurrentLayerData('year'),
+                coord_sys: getCurrentLayerData('coord_sys'),
+                format: getCurrentLayerData('format')
+            };
 
+            console.log(downloadRequest);
+            console.log(JSON.stringify(downloadRequest));
 
             // Validate input fields
             var valid = true;
@@ -595,8 +565,15 @@ function main() {
 
             if (valid) {
                 modal.data('email', input.val());
-                $.post(url, postParams, function(data, status) {
-                    modal.dialog("close");
+                $.ajax({
+                    type: 'POST',
+                    url,
+                    data: JSON.stringify(downloadRequest),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function(data) {
+                        modal.dialog.close();
+                    }
                 });
             }
             return valid;
@@ -813,7 +790,6 @@ function main() {
 
     function createFeatureInfoContent(rootElem, event) {
         var viewResolution = view.getResolution();
-        // var wmsSource = getFeatureInfoWmsSrc(currentDataUrl);
         var url = currentDataLayerSrc.getGetFeatureInfoUrl(
             event.coordinate, viewResolution, 'EPSG:3857',
             {	'INFO_FORMAT': 'text/plain',
@@ -1384,7 +1360,6 @@ function main() {
             var dataIdResult = alasql("SELECT data_id FROM ? WHERE org='" + selectedProducer + "' AND name='" + selectedData + "' AND scale='" + selectedScale + "' AND year='" + selectedYear + "' AND format='" + selectedFormat + "' AND coord_sys='" + selectedCoordsys + "'", [metadata]).map(function(item) {
                 return item.data_id;
             });
-            console.log(dataIdResult)
             if(typeof dataIdResult[0] !== 'undefined') {
                 currentDataId = dataIdResult[0];
                 var dataUrl = getCurrentLayerData('data_url');
@@ -1676,11 +1651,8 @@ function main() {
         if(rawEtsinMetadata != null) {
             var etsinLinks = '<br>' + translator.getVal('info.metadatalinksheader') + "<ul>";
             $.each(rawEtsinMetadata.research_dataset.remote_resources, function (key, data) {
-			//.each(rawEtsinMetadata.result.resources, function (key, data) {
-                //if(data.name != null){
 				if(data.title != null){	 
 					if(data.download_url.identifier.toLowerCase().indexOf("latauspalvelu") === -1){
-						//etsinLinks = etsinLinks  + '<li><a href="' + data.url + '" target="_blank">' + data.name + '</a></li>';
 						etsinLinks = etsinLinks  + '<li><a href="' + data.download_url.identifier + '" target="_blank">' + data.title + '</a></li>';
 					}
                 }
@@ -1697,7 +1669,6 @@ function main() {
 	// Get dataset's metadata description from Metax
     function getNotesAsHtmlFromEtsinMetadata(rawEtsinMetadata) {
         if(rawEtsinMetadata != null) {
-			//console.log(rawEtsinMetadata); 
 			notes = rawEtsinMetadata.research_dataset.description
 			if(USED_LANGUAGE == FINNISH_LANGUAGE) {
                 notes = notes.fi;
@@ -1705,28 +1676,15 @@ function main() {
                 notes = notes.en;
             }
 			 
-			console.log(notes); 
 			if(notes == null) {
                 return null;
             }
-            /*
-			if(USED_LANGUAGE == FINNISH_LANGUAGE) {
-                notes = notes.fin;
-            } else if(USED_LANGUAGE == ENGLISH_LANGUAGE) {
-                notes = notes.eng;
-            }
-            if(notes == null) {
-                return null;
-            }
-			*/
 			// Fix links from MarkDown to HTML
             var regexp = /\[.*?\]\(http.*?\)/g;
             var match, matches = [];
 
             while ((match = regexp.exec(notes)) != null) {
                 matches.push(match.index);
-				console.log(match.index)
-				console.log(match)
             }
 
             matches.reverse();
@@ -1744,27 +1702,20 @@ function main() {
     }
 
     function cutLicenseURL(urn) {
-
         if (urn != null) {
-
             var arr = urn.split("geodata/");
             urn = arr[1];
-
         }
-
         return urn;
     }
 
     function flipURN(urn) {
-
         var colon = ":";
         var dash = "-";
-
         if (urn.indexOf(colon) == -1) {
             var arr = urn.split(dash);
             urn = arr[0] + colon + arr[1] + colon + arr[2] + colon + arr[3] + dash + arr[4];
         }
-
         return urn;
     }
 
@@ -1798,7 +1749,6 @@ function main() {
         locationSearchInput.val('');
         clearMapFeatureSelection();
         clearInfoBoxTabs();
-        // clearSearchField();
         clearSearchResults();
         $('#feature-search-field').value='';
         if(currentDataId != null) {
@@ -1811,10 +1761,9 @@ function main() {
                 currentIndexMapLayer.getSource().on('change', function(e) {
                     if (this.getState() == 'ready' && isFirstTimeLoaded) {
                         var hasInfoTab = layerHasFeatureInfo();
-                        // mapsheets = getCurrentLayerData("map_sheets")
-                        if(mapsheets > 1) {
+                        mapsheets = getCurrentLayerData("map_sheets");
+                        if (mapsheets > 1) {
                             featureSearchContainer.css("visibility","visible");
-                            //} else if(getTotalAmountOfLayerFeatures() == 1) {
                             // Show all files for dataset, if in PostGIS DB mapsheeets is set to 1. Sometimes
                             // there might be more than one file, although only 1 mapsheet (for example FMI scenarios).
                         } else if(mapsheets == 1) {
@@ -1849,9 +1798,8 @@ function main() {
                 loadDataLayer();
                 if(currentDataLayer !== null) {
                     map.getLayers().insertAt(1, currentDataLayer);
-                    clearMapWarning()
-                }
-                else{
+                    clearMapWarning();
+                } else {
                     setDataAvailabiltyWarning();
                 }
                 map.addLayer(currentIndexMapLayer);
@@ -1872,7 +1820,7 @@ function main() {
     }
 
     function layerHasFeatureInfo() {
-        return getCurrentLayerData('data_url') !== null;
+        return getCurrentLayerData("data_url") !== null;
     }
 
     //Show map related tools
@@ -1882,7 +1830,6 @@ function main() {
             selectSelectContainer.show();
             clearSelectContainer.show();
             drawSelectContainer.show();
-
         } else {
             selectSelectContainer.hide();
             clearSelectContainer.hide();
@@ -1902,16 +1849,10 @@ function main() {
     }
 
     function getCurrentLayerData(field) {
-        
         var value = alasql("SELECT " + field + " FROM ? WHERE data_id='" + currentDataId + "'", [metadata]).map(function(item) {
             return item[field];
         });
-        console.log(value)
-        if (value[0]=="paituli:mml_hallinto_2020_10k"){
-            
-
-        }
-        if(typeof value !== 'undefined' && value !== null && typeof value[0] !== 'undefined' && value[0] !== null) {
+        if (typeof value !== 'undefined' && value !== null && typeof value[0] !== 'undefined' && value[0] !== null) {
             return value[0];
         } else {
             return null;
@@ -1940,16 +1881,13 @@ function main() {
     function loadIndexLayer() {
         if(currentDataId !== null) {
             var url = WFS_INDEX_MAP_LAYER_URL.replace('!key!', 'data_id').replace('!value!', currentDataId);
-
             var indexSource = new ol.source.Vector({
                 format: new ol.format.GeoJSON(),
-                //projection: 'EPSG:3857',
                 loader: function(extent, resolution, projection) {
                     var proj = projection.getCode();
                     $.ajax({
                         jsonpCallback: 'loadIndexMapFeatures',
                         dataType: 'jsonp',
-                        // url: url.replace("!extent!", extent.join(',')) + '&outputFormat=text/javascript&format_options=callback:loadIndexMapFeatures',
                         url: url + '&outputFormat=text/javascript&format_options=callback:loadIndexMapFeatures',
                         success: function(response) {
                             var features = indexSource.getFormat().readFeatures(response);
@@ -1957,15 +1895,9 @@ function main() {
                         }
                     })
                 },
-                // strategy: ol.loadingstrategy.bbox // This does not seem to work anyway, so commented out.
             });
 
             currentIndexMapLayer = new ol.layer.Vector({
-                /*renderOrder: function(f1, f2){
-                    if(f1.getStyle()!=null){
-                        return 1;
-                    }return -1;
-                },*/
                 title: translator.getVal("map.indexmap"),
                 source: indexSource,
                 visible: true,
@@ -2016,17 +1948,6 @@ function main() {
                 });
             }
 
-            /*
-             * //Set baseurl correctly for password protected datasets. var url =
-             * WMS_PAITULI_BASE_URL_GWC; if(currentDataUrl.indexOf("protected") >
-             * -1){ url = WMS_PAITULI_BASE_URL; } currentDataLayerSrc = new
-             * ol.source.TileWMS({ url: url, params: {'LAYERS':
-             * currentDataUrl,'VERSION': '1.1.1'}, serverType: 'geoserver' });
-             * currentDataLayer = new ol.layer.Tile({ title:
-             * translator.getVal("map.datamap"), source: currentDataLayerSrc,
-             * visible: true });
-             */
-
             if(currentMaxResolution !== null) {
                 currentDataLayer.setMaxResolution(currentMaxResolution);
             }
@@ -2039,12 +1960,6 @@ function main() {
         return scale / 2835;
     }
 
-    // KYlli, not needed?
-    /*
-     * var loadIndexMapLabelFeatures = function(response) {
-     * currentIndexMapLabelLayer.getSource().addFeatures(currentIndexMapLabelLayer.getSource().readFeatures(response)); };
-     */
-
     function getSearchResultFeatures(searchStr) {
         var hits = [];
         currentIndexMapLayer.getSource().forEachFeature(function(feature) {
@@ -2054,10 +1969,6 @@ function main() {
         });
         return hits;
     }
-// Kylli, not needed
-    /* 	function getTotalAmountOfLayerFeatures() {
-            return currentIndexMapLayer.getSource().getFeatures().length;
-        } */
 
     var osmLayer = new ol.layer.Tile({
         title: translator.getVal("map.basemap"),
@@ -2112,7 +2023,6 @@ function main() {
         collapsed: false,
         layers: [osmLayer]
     });
-
 
     var map = new ol.Map({
         layers: [osmLayer, catchmentLayer, municipalitiesLayer],
@@ -2169,73 +2079,23 @@ function main() {
         style: selected_style,
         multi: true //Select several, if overlapping
     });
+
     featureSelectInteraction.on('select', function(e) {
         setInfoContent('download');
     });
 
     var selectedFeatures = featureSelectInteraction.getFeatures();
 
-    /*
-     * selectedFeatures.on('add', function(e) { var maxFeatures =
-     * getMaxDownloadableFeatureAmount(); if(selectedFeatures.getLength() >
-     * maxFeatures) { selectedFeatures.remove(e.element);
-     * alert(translator.getVal("info.maxfeaturewarning").replace('!maxFeatures!',
-     * maxFeatures)); } else { fileLabelList.push(e.element.get('label')); } });
-     */
     selectedFeatures.on('add', function(e) {
         fileLabelList.push(e.element.get('label'));
     });
+
     selectedFeatures.on('remove', function(e) {
         var deleteIdx = fileLabelList.indexOf(e.element.get('label'));
         if(deleteIdx > -1) {
             fileLabelList.splice(deleteIdx, 1);
         }
     });
-
-
-    /*
-     * Highlight features on map and dl list when mouse over them. Don't simply clear and add all hovered features each time because that causes rendering
-     * order to be undefined -> flickering when moving mouse over selected features. Instead check if feature was already highlighted and highlight only if not.
-     * OL4 changes: forEachFeatureAtPixel, highlightOverlay
-     * /
-    /*
-    
-    map.on('pointermove', function(evt) {
-        if (evt.dragging) return;
-        var features = new Set();
-        map.forEachFeatureAtPixel(
-            evt.pixel,
-            function(ft, l){
-                    if(l){
-                        return;
-                    }
-                    if(ft.getId()){
-                        features.add(ft)
-                    };
-            }
-        );
-        var remove = []
-        highlightOverlay.getFeatures().forEach(function(feature, idx, array) {
-            if(features.has(feature)){
-                features.delete(feature);
-            }else{
-                remove.push(feature);
-            }
-        });
-        remove.forEach(function(ft){
-            $('#data-download-list').find('label[ol_id ="'+ft.getId()+'"]').css("font-weight","normal");	 
-            highlightOverlay.removeFeature(ft);
-        });
-        features.forEach(function(ft){
-            var elem = $('#data-download-list').find('label[ol_id ="'+ft.getId()+'"]')
-            elem.css("font-weight","Bold");	        
-            highlightOverlay.addFeature(ft);
-        });
-    });
-    
-    
-    */
-
 
     function clearMapFeatureSelection() {
         selectedFeatures.clear();
@@ -2244,14 +2104,9 @@ function main() {
         return false;
     }
 
-    function getMaxDownloadableFeatureAmount() {
-        var fileSize = getCurrentLayerData("file_size")
-        return fileSize !== null ? Math.floor(MAX_DOWNLOADABLE_SIZE / getCurrentLayerData("file_size")) : 0;
-    }
-
     function getTotalDownloadSize() {
-        var fileSize = getCurrentLayerData("file_size")
-        return fileSize !== null ? Math.ceil(getCurrentLayerData("file_size") * selectedFeatures.getLength()) : 0;
+        var fileSize = getCurrentLayerData("file_size");
+        return fileSize !== null ? Math.ceil(fileSize * selectedFeatures.getLength()) : 0;
     }
 
     map.addInteraction(featureSelectInteraction);
@@ -2264,7 +2119,6 @@ function main() {
         var extent = mapDragBox.getGeometry().getExtent();
 
         // Check which mapsheets were selected before and which are new
-        // mapsheets
         var newFeatures = [];
         var oldFeaturesInSelection = [];
         var existing;
@@ -2277,18 +2131,6 @@ function main() {
                 newFeatures.push(feature);
             }
         });
-        // If any of the selected map sheets was new, select all selected
-        // mapsheets
-        // If all selected mapsheets were selected before leave them unselected
-        /*
-         * if (newFeatures.length > 0) {
-         * selectedFeatures.extend(oldFeaturesInSelection); var maxFeatureAmount =
-         * getMaxDownloadableFeatureAmount(); if(selectedFeatures.getLength() +
-         * newFeatures.length > maxFeatureAmount) {
-         * alert(translator.getVal("info.maxfeaturewarning").replace('!maxFeatures!',
-         * getMaxDownloadableFeatureAmount())); } else {
-         * selectedFeatures.extend(newFeatures); } }
-         */
         if (newFeatures.length > 0) {
             selectedFeatures.extend(oldFeaturesInSelection);
             selectedFeatures.extend(newFeatures);
@@ -2509,10 +2351,9 @@ function main() {
 
     selectPanTool();
 
-
-    // map.addControl(overviewMap);
-    // map.addControl(layerSwitcher);
-    // map.addControl(scaleLineControl);
+    map.addControl(overviewMap);
+    map.addControl(layerSwitcher);
+    map.addControl(scaleLineControl);
 
     initFormInputs('form-input-container');
     initLocationSearch();
