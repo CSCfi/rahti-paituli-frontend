@@ -1,16 +1,32 @@
+import { Collection, Map, Observable, View } from 'ol';
+import { unByKey } from 'ol/Observable';
+import * as control from 'ol/control';
+import * as condition from 'ol/events/condition';
+import * as format from 'ol/format';
+import * as interaction from 'ol/interaction';
+import * as layer from 'ol/layer';
+import * as proj from 'ol/proj';
+import { register } from 'ol/proj/proj4';
+import * as source from 'ol/source';
+import * as style from 'ol/style';
+import LayerSwitcher from 'ol-layerswitcher';
+import proj4 from 'proj4';
+
 const METADATA_API = "/api/datasets";
 const GENERATE_PACKAGE_API_URL = "/download";
 
-hakaUser = false;
 const geoserver_username = '';
 const geoserver_password = '';
 
 const FINNISH_LANGUAGE = "fi_FI";
 const ENGLISH_LANGUAGE = "en_US";
 
+var hakaUser = false;
 var USED_LANGUAGE = "fi_FI"
 var currentIndexMapLayer = null;
 var metadata = null;
+
+var selectedTool = "";
 
 proj4.defs([
     [
@@ -19,7 +35,7 @@ proj4.defs([
         "EPSG:3857","+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs"
     ]
   ]);
-ol.proj.proj4.register(proj4);
+register(proj4);
 
 function getUrlParameter(param) {
     var pageURL = window.location.search.substring(1);
@@ -33,7 +49,7 @@ function getUrlParameter(param) {
     return null;
 }
 
-pageDataIdParam = getUrlParameter("data_id");
+var pageDataIdParam = getUrlParameter("data_id");
 // If the user is logged in with HAKA, let's set ready GeoServer's username and
 // password for paituli_protected datasets
 function checkAccessRights(){
@@ -400,28 +416,28 @@ function main() {
         }
     }
 
-    var selected_style = new ol.style.Style({
-        stroke: new ol.style.Stroke({
+    var selected_style = new style.Style({
+        stroke: new style.Stroke({
             color: 'rgba(102, 178, 255, 1.0)',
             width: 3
         }),
-        fill: new ol.style.Fill({
+        fill: new style.Fill({
             color: [255, 255, 255, 0.4]
         }),
-        image: new ol.style.Circle({
+        image: new style.Circle({
             radius: 4,
-            fill: new ol.style.Fill({
+            fill: new style.Fill({
                 color: 'rgba(102, 178, 255, 1.0)'
             })
         })
     });
 
-    var highlighted_style = new ol.style.Style({
-        stroke: new ol.style.Stroke({
+    var highlighted_style = new style.Style({
+        stroke: new style.Stroke({
             color: 'rgba(255, 51, 204,1)',
             width: 8
         }),
-        fill: new ol.style.Fill({
+        fill: new style.Fill({
             color: [255, 255, 255, 0.8]
         })
 
@@ -551,9 +567,6 @@ function main() {
                 coord_sys: getCurrentLayerData('coord_sys'),
                 format: getCurrentLayerData('format')
             };
-
-            console.log(downloadRequest);
-            console.log(JSON.stringify(downloadRequest));
 
             // Validate input fields
             var valid = true;
@@ -1594,18 +1607,18 @@ function main() {
     }
 
     function fixDropDownItemForOrdering(label){
-        var parts;
+        let d;
         // Split is for cases like: 1:10 000, 25mx25m, "1:20 000, 1:50 000",
         // 2015-2017.
         // Count only with the last number.
-        if(label.search(/[?,:\.xX-]+/) != -1) {
-            parts = label.split(/[?,:\.xX-]+/g);
+        if (label.search(/[?,:\.xX-]+/) != -1) {
+            let parts = label.split(/[?,:\.xX-]+/g);
             d = parts[parts.length - 1];
         } else {
             d = label;
         }
         // Remove anything non-numeric
-        d= d.replace(/\D/g,'');
+        d = d.replace(/\D/g,'');
         return d;
     }
 
@@ -1669,7 +1682,7 @@ function main() {
 	// Get dataset's metadata description from Metax
     function getNotesAsHtmlFromEtsinMetadata(rawEtsinMetadata) {
         if(rawEtsinMetadata != null) {
-			notes = rawEtsinMetadata.research_dataset.description
+			let notes = rawEtsinMetadata.research_dataset.description
 			if(USED_LANGUAGE == FINNISH_LANGUAGE) {
                 notes = notes.fi;
             } else if(USED_LANGUAGE == ENGLISH_LANGUAGE) {
@@ -1862,13 +1875,13 @@ function main() {
     function loadIndexMapLabelLayer() {
         if(currentDataId !== null) {
             var url = WMS_INDEX_MAP_LABEL_LAYER_URL.replace('!value!', currentDataId);
-            var src = new ol.source.ImageWMS({
+            var src = new source.ImageWMS({
                 url: url,
                 params: {'VERSION': '1.1.1'},
                 serverType: 'geoserver'
             });
 
-            currentIndexMapLabelLayer = new ol.layer.Image({
+            currentIndexMapLabelLayer = new layer.Image({
                 source: src,
                 visible: true
             });
@@ -1881,8 +1894,8 @@ function main() {
     function loadIndexLayer() {
         if(currentDataId !== null) {
             var url = WFS_INDEX_MAP_LAYER_URL.replace('!key!', 'data_id').replace('!value!', currentDataId);
-            var indexSource = new ol.source.Vector({
-                format: new ol.format.GeoJSON(),
+            var indexSource = new source.Vector({
+                format: new format.GeoJSON(),
                 loader: function(extent, resolution, projection) {
                     var proj = projection.getCode();
                     $.ajax({
@@ -1897,12 +1910,12 @@ function main() {
                 },
             });
 
-            currentIndexMapLayer = new ol.layer.Vector({
+            currentIndexMapLayer = new layer.Vector({
                 title: translator.getVal("map.indexmap"),
                 source: indexSource,
                 visible: true,
-                style: new ol.style.Style({
-                    stroke: new ol.style.Stroke({
+                style: new style.Style({
+                    stroke: new style.Stroke({
                         color: 'rgba(0, 0, 255, 1.0)',
                         width: 2
                     })
@@ -1922,26 +1935,26 @@ function main() {
             if(currentDataUrl.indexOf("protected") > -1){
                 url = WMS_PAITULI_BASE_URL;
 
-                currentDataLayerSrc = new ol.source.ImageWMS({
+                currentDataLayerSrc = new source.ImageWMS({
                     url: url,
                     params: {'LAYERS': currentDataUrl,'VERSION': '1.1.1'},
                     serverType: 'geoserver'
                 });
 
-                currentDataLayer = new ol.layer.Image({
+                currentDataLayer = new layer.Image({
                     title: translator.getVal("map.datamap"),
                     source: currentDataLayerSrc,
                     visible: true
                 });
             }
             else{
-                currentDataLayerSrc = new ol.source.TileWMS({
+                currentDataLayerSrc = new source.TileWMS({
                     url: url,
                     params: {'LAYERS': currentDataUrl,'VERSION': '1.1.1'},
                     serverType: 'geoserver'
                 });
 
-                currentDataLayer = new ol.layer.Tile({
+                currentDataLayer = new layer.Tile({
                     title: translator.getVal("map.datamap"),
                     source: currentDataLayerSrc,
                     visible: true
@@ -1970,9 +1983,9 @@ function main() {
         return hits;
     }
 
-    var osmLayer = new ol.layer.Tile({
+    var osmLayer = new layer.Tile({
         title: translator.getVal("map.basemap"),
-        source : new ol.source.TileWMS({
+        source : new source.TileWMS({
             url: "http://ows.terrestris.de/osm/service?",
             attributions: 'Background map: © <a target="_blank" href="http://ows.terrestris.de/dienste.html">terrestris</a>. Data: © <a target="_blank" href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>',
             params: {
@@ -1984,9 +1997,9 @@ function main() {
         visible: true
     });
 
-    var municipalitiesLayer = new ol.layer.Tile({
+    var municipalitiesLayer = new layer.Tile({
         title: translator.getVal("map.municipalitiesmap"),
-        source : new ol.source.TileWMS({
+        source : new source.TileWMS({
             url : WMS_PAITULI_BASE_URL,
             params : {
                 'LAYERS' : LAYER_NAME_MUNICIPALITIES,
@@ -1998,9 +2011,9 @@ function main() {
         visible : false
     });
 
-    var catchmentLayer = new ol.layer.Tile({
+    var catchmentLayer = new layer.Tile({
         title: translator.getVal("map.catchment"),
-        source : new ol.source.TileWMS({
+        source : new source.TileWMS({
             url : WMS_PAITULI_BASE_URL,
             params : {
                 'LAYERS' : LAYER_NAME_CATCHMENT_AREAS,
@@ -2019,18 +2032,18 @@ function main() {
         }
     }
 
-    var overviewMap = new ol.control.OverviewMap({
+    var overviewMap = new control.OverviewMap({
         collapsed: false,
         layers: [osmLayer]
     });
 
-    var map = new ol.Map({
+    var map = new Map({
         layers: [osmLayer, catchmentLayer, municipalitiesLayer],
         // controls: [overviewMap],
         target: mapContainerId,
         // pixelRatio: 1,
-        view: new ol.View({
-            center: ol.proj.transform([500000, 7200000], 'EPSG:3067', 'EPSG:3857'),
+        view: new View({
+            center: proj.transform([500000, 7200000], 'EPSG:3067', 'EPSG:3857'),
             zoom: 5
         })
     });
@@ -2069,13 +2082,13 @@ function main() {
 
     function resetMapView() {
         view.setZoom(5);
-        view.setCenter(ol.proj.transform([500000, 7200000], 'EPSG:3067', 'EPSG:3857'));
+        view.setCenter(proj.transform([500000, 7200000], 'EPSG:3067', 'EPSG:3857'));
         return false;
     }
 
     // a normal select interaction to handle click
-    var featureSelectInteraction = new ol.interaction.Select({
-        toggleCondition: ol.events.condition.always,
+    var featureSelectInteraction = new interaction.Select({
+        toggleCondition: condition.always,
         style: selected_style,
         multi: true //Select several, if overlapping
     });
@@ -2112,7 +2125,7 @@ function main() {
     map.addInteraction(featureSelectInteraction);
 
     // a DragBox interaction used to select features by drawing boxes
-    var mapDragBox = new ol.interaction.DragBox({
+    var mapDragBox = new interaction.DragBox({
     });
 
     mapDragBox.on('boxend', function(e) {
@@ -2145,12 +2158,12 @@ function main() {
     var sketch;
 
     /* Add drawing vector source */
-    var drawingSource = new ol.source.Vector({
+    var drawingSource = new source.Vector({
         useSpatialIndex : false,
     });
 
     /* Add drawing layer */
-    var drawingLayer = new ol.layer.Vector({
+    var drawingLayer = new layer.Vector({
         source: drawingSource
     });
     map.addLayer(drawingLayer);
@@ -2164,7 +2177,7 @@ function main() {
     var modify;
 
     // Drawing interaction
-    draw = new ol.interaction.Draw({
+    draw = new interaction.Draw({
         source : drawingSource,
         type : 'Polygon',
         style: selected_style
@@ -2210,10 +2223,10 @@ function main() {
         updateDrawSelection(event);
     });
 
-    var highlightCollection = new ol.Collection();
-    var highlightOverlay = new ol.layer.Vector({
+    var highlightCollection = new Collection();
+    var highlightOverlay = new layer.Vector({
         map: map,
-        source: new ol.source.Vector({
+        source: new source.Vector({
             features: highlightCollection,
             useSpatialIndex: false // optional, might improve performance
         }),
@@ -2234,9 +2247,9 @@ function main() {
     // Select right tool
     // Set default
     var dragPan;
-    map.getInteractions().forEach(function(interaction) {
-        if (interaction instanceof ol.interaction.DragPan) {
-            dragPan = interaction;
+    map.getInteractions().forEach(i => {
+        if (i instanceof interaction.DragPan) {
+            dragPan = i;
         }
     }, this);
 
@@ -2253,7 +2266,7 @@ function main() {
         featureSelectInteraction.setActive(false);
         mapDragBox.setActive(false);
         draw.setActive(false);
-        ol.Observable.unByKey(getFeatureInfoToolKey);
+        unByKey(getFeatureInfoToolKey);
     }
 
     function selectSelectTool(){
@@ -2269,7 +2282,7 @@ function main() {
         featureSelectInteraction.setActive(true);
         mapDragBox.setActive(true);
         draw.setActive(false);
-        ol.Observable.unByKey(getFeatureInfoToolKey);
+        unByKey(getFeatureInfoToolKey);
     }
 
     function selectInfoTool(){
@@ -2306,17 +2319,17 @@ function main() {
         mapDragBox.setActive(false);
         mapDragBox.setActive(false);
         draw.setActive(true);
-        ol.Observable.unByKey(getFeatureInfoToolKey);
+        unByKey(getFeatureInfoToolKey);
 
     }
 
    
  
-    var layerSwitcher = new ol.control.LayerSwitcher({
+    var layerSwitcher = new LayerSwitcher({
         tipLabel: 'Toggle layers' // Optional label for button
     });
 
-    var scaleLineControl = new ol.control.ScaleLine();
+    var scaleLineControl = new control.ScaleLine();
 
     function initLocationSearch() {
         locationSearchInput.keypress(function(event) {
@@ -2327,7 +2340,7 @@ function main() {
                     var queryUrl = NOMINATIM_API_URL.replace('!query!', searchStr);
                     $.getJSON(queryUrl, function(data) { 
                         if(data.length > 0) {
-                            map.getView().setCenter(ol.proj.transform([Number(data[0].lon), Number(data[0].lat)], 'EPSG:4326', 'EPSG:3857'));
+                            map.getView().setCenter(proj.transform([Number(data[0].lon), Number(data[0].lat)], 'EPSG:4326', 'EPSG:3857'));
                             if (searchStr.indexOf(",") != -1){
                                 map.getView().setZoom(16);
                             } else {
@@ -2358,8 +2371,6 @@ function main() {
     initFormInputs('form-input-container');
     initLocationSearch();
     resetMapView();
-
-
 }
 
 // checkAccessRights();

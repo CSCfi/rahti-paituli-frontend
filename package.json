@@ -10,7 +10,11 @@
   },
   "author": "",
   "license": "",
-  "dependencies": {},
+  "dependencies": {
+    "ol": "^5.3.0",
+    "ol-layerswitcher": "^3.5.0",
+    "proj4": "^2.6.0"
+  },
   "devDependencies": {
     "webpack": "^4.42.0",
     "webpack-cli": "^3.3.11",
