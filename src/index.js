@@ -1,7 +1,6 @@
 import alasql from 'alasql';
 import $ from 'jquery';
 import 'jquery-ui-bundle/jquery-ui';
-import 'jquery-ui-bundle/jquery-ui.css';
 import { Collection, Map, View } from 'ol';
 import * as control from 'ol/control';
 import * as condition from 'ol/events/condition';
@@ -16,10 +15,15 @@ import * as style from 'ol/style';
 import LayerSwitcher from 'ol-layerswitcher';
 import proj4 from 'proj4';
 
+import './index.css';
+import 'jquery-ui-bundle/jquery-ui.css';
+import 'ol/ol.css';
+import 'ol-layerswitcher/src/ol-layerswitcher.css';
+
 const METADATA_API = "/api/datasets";
 const GENERATE_PACKAGE_API_URL = "/download";
-const FINNISH_LANGUAGE = "fi_FI";
-const ENGLISH_LANGUAGE = "en_US";
+const FINNISH_LANGUAGE = 'fi_FI';
+const ENGLISH_LANGUAGE = 'en_US';
 
 const geoserver_username = '';
 const geoserver_password = '';
