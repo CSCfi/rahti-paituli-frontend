@@ -16,6 +16,7 @@ import LayerSwitcher from 'ol-layerswitcher';
 import proj4 from 'proj4';
 
 import './index.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import 'jquery-ui-bundle/jquery-ui.css';
 import 'ol/ol.css';
 import 'ol-layerswitcher/src/ol-layerswitcher.css';
