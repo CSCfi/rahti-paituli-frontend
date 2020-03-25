@@ -1,10 +1,14 @@
-import { Collection, Map, Observable, View } from 'ol';
-import { unByKey } from 'ol/Observable';
+import alasql from 'alasql';
+import $ from 'jquery';
+import 'jquery-ui-bundle/jquery-ui';
+import 'jquery-ui-bundle/jquery-ui.css';
+import { Collection, Map, View } from 'ol';
 import * as control from 'ol/control';
 import * as condition from 'ol/events/condition';
 import * as format from 'ol/format';
 import * as interaction from 'ol/interaction';
 import * as layer from 'ol/layer';
+import { unByKey } from 'ol/Observable';
 import * as proj from 'ol/proj';
 import { register } from 'ol/proj/proj4';
 import * as source from 'ol/source';
@@ -14,12 +18,11 @@ import proj4 from 'proj4';
 
 const METADATA_API = "/api/datasets";
 const GENERATE_PACKAGE_API_URL = "/download";
+const FINNISH_LANGUAGE = "fi_FI";
+const ENGLISH_LANGUAGE = "en_US";
 
 const geoserver_username = '';
 const geoserver_password = '';
-
-const FINNISH_LANGUAGE = "fi_FI";
-const ENGLISH_LANGUAGE = "en_US";
 
 var hakaUser = false;
 var USED_LANGUAGE = "fi_FI"
@@ -549,9 +552,7 @@ function main() {
     }
 
     function emailDataOrList(input, dlType,licence, modal, tipsOutput){
-        var emailVal = input.val();
-        var url = GENERATE_PACKAGE_API_URL;
-
+        const emailVal = input.val();
         if (fileList && fileList.length > 0 && emailVal) {
             const downloadRequest = {
                 data_id: currentDataId,
@@ -580,7 +581,7 @@ function main() {
                 modal.data('email', input.val());
                 $.ajax({
                     type: 'POST',
-                    url,
+                    GENERATE_PACKAGE_API_URL,
                     data: JSON.stringify(downloadRequest),
                     contentType: 'application/json; charset=utf-8',
                     dataType: 'json',
