@@ -1,126 +1,170 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" >
+  <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+  />
+  <main id="dl-service-content">
+    <div class="container">
+      <div class="row">
+        <header id="dl-service-header">
+          <h1></h1>
+        </header>
+      </div>
+      <div class="row" id="application_area">
+        <div class="col" id="column_left">
+          <div id="data-form">
+            <fieldset>
+              <legend></legend>
+              <div id="form-input-container"></div>
+            </fieldset>
+            <div id="feature-search-container">&nbsp;</div>
+          </div>
+          <div id="dataset-info-container"></div>
+          <div id="info-container-wrapper">
+            <div id="info-container">
+              <ul>
+                <li id="download-container-tab">
+                  <a
+                    class="tab-header"
+                    id="download-container-anchor"
+                    href="#download-container"
+                  ></a>
+                </li>
+                <li id="feature-info-container-tab">
+                  <a
+                    class="tab-header"
+                    id="feature-info-container-anchor"
+                    href="#feature-info-container"
+                  ></a>
+                </li>
+                <li id="metadata-container-tab">
+                  <a
+                    class="tab-header"
+                    id="metadata-container-anchor"
+                    href="#metadata-container"
+                  ></a>
+                </li>
+                <li id="links-container-tab">
+                  <a
+                    class="tab-header"
+                    id="links-container-anchor"
+                    href="#links-container"
+                  ></a>
+                </li>
+              </ul>
+              <div id="download-container"></div>
+              <div id="feature-info-container"></div>
+              <div id="metadata-container"></div>
+              <div id="links-container"></div>
+            </div>
+          </div>
+        </div>
 
-<main id="dl-service-content">
-	<div class="container">
-<div class="row">
-	<header id="dl-service-header">
-		<h1></h1>
-	</header>
-</div>
-<div class="row" id="application_area">
-	<div class="col" id="column_left">
-		<div id="data-form">
-			<fieldset>
-				<legend></legend>
-				<div id="form-input-container"></div>
-			</fieldset>
-			<div id="feature-search-container">&nbsp;</div>
+        <div class="col-8" id="column_right">
+          <section id="map-controls-container">
+            <div class="control-item-container" id="resetview-container">
+              <div class="control-button" id="resetview-button"></div>
+            </div>
+            <div class="control-item-container" id="panselection-container">
+              <div class="control-button" id="panselection-button"></div>
+            </div>
+            <div class="control-item-container" id="selectselection-container">
+              <div class="control-button" id="selectselection-button"></div>
+            </div>
+            <div class="control-item-container" id="drawselection-container">
+              <div class="control-button" id="drawselection-button"></div>
+            </div>
+            <div class="control-item-container" id="clearselection-container">
+              <div class="control-button" id="clearselection-button"></div>
+            </div>
+            <div class="control-item-container" id="infoselection-container">
+              <div class="control-button" id="infoselection-button"></div>
+            </div>
+            <div class="control-item-container" id="location-search-container">
+              <input type="text" id="location-search-input" />
+            </div>
+          </section>
 
-		</div>
-		<div id="dataset-info-container"></div>
-		<div id="info-container-wrapper">
-			<div id="info-container">
-				<ul>
-					<li id="download-container-tab"><a class="tab-header"
-						id="download-container-anchor" href="#download-container"></a></li>
-					<li id="feature-info-container-tab"><a class="tab-header"
-						id="feature-info-container-anchor" href="#feature-info-container"></a></li>
-					<li id="metadata-container-tab"><a class="tab-header"
-						id="metadata-container-anchor" href="#metadata-container"></a></li>
-					<li id="links-container-tab"><a class="tab-header"
-						id="links-container-anchor" href="#links-container"></a></li>
-				</ul>
-				<div id="download-container"></div>
-				<div id="feature-info-container"></div>
-				<div id="metadata-container"></div>
-				<div id="links-container"></div>
-			</div>
-		</div>
-	</div>
+          <div id="map-container">
+            <div id="notification-container"></div>
+          </div>
+          <div id="map-overview-container">&nbsp;</div>
+        </div>
+      </div>
+    </div>
+  </main>
 
-	<div class="col-8" id="column_right">
-		<section id="map-controls-container">
-			<div class="control-item-container" id="resetview-container">
-				<div class="control-button" id="resetview-button"></div>
-			</div>
-			<div class="control-item-container" id="panselection-container">
-				<div class="control-button" id="panselection-button"></div>
-			</div>
-			<div class="control-item-container" id="selectselection-container">
-				<div class="control-button" id="selectselection-button"></div>
-			</div>
-			<div class="control-item-container" id="drawselection-container">
-				<div class="control-button" id="drawselection-button"></div>
-			</div>
-			<div class="control-item-container" id="clearselection-container">
-				<div class="control-button" id="clearselection-button"></div>
-			</div>
-			<div class="control-item-container" id="infoselection-container">
-				<div class="control-button" id="infoselection-button"></div>
-			</div>
-			<div class="control-item-container" id="location-search-container">
-				<input type="text" id="location-search-input">
-			</div>
-		</section>
+  <div id="email-modal">
+    <p id="email-modal-tips"></p>
+    <div id="email-modal-content">
+      <div id="data-description" class="modal-content-block"></div>
+      <div class="modal-content-block">
+        <form id="email-modal-form">
+          <fieldset>
+            <legend></legend>
+            <div class="form-input-block">
+              <label id="email-input-label" for="email-input"></label>
+              <input
+                type="email"
+                name="email-input"
+                id="email-input"
+                placeholder=""
+                class="text ui-widget-content ui-corner-all"
+                required
+              />
+            </div>
+            <div class="form-input-block">
+              <input
+                type="checkbox"
+                name="licence-checkbox"
+                id="licence-checkbox"
+                class="ui-widget-content"
+                required
+              />
+              <div id="licence-checkbox-label"></div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+      <div id="email-instructions" class="modal-content-block"></div>
+    </div>
+  </div>
 
-		<div id="map-container">
-			<div id="notification-container"></div>
-		</div>
-		<div id="map-overview-container">&nbsp;</div>
-	</div>
-</div>
-</main>
-
-<div id="email-modal">
-	<p id="email-modal-tips"></p>
-	<div id="email-modal-content">
-		<div id="data-description" class="modal-content-block"></div>
-		<div class="modal-content-block">
-			<form id="email-modal-form">
-				<fieldset>
-					<legend></legend>
-					<div class="form-input-block">
-						<label id="email-input-label" for="email-input"></label> <input
-							type="email" name="email-input" id="email-input" placeholder=""
-							class="text ui-widget-content ui-corner-all" required>
-					</div>
-					<div class="form-input-block">
-						<input type="checkbox" name="licence-checkbox"
-							id="licence-checkbox" class="ui-widget-content" required>
-						<div id="licence-checkbox-label"></div>
-					</div>
-				</fieldset>
-			</form>
-		</div>
-		<div id="email-instructions" class="modal-content-block"></div>
-	</div>
-</div>
-<div id="email-list-modal">
-	<p id="email-list-modal-tips"></p>
-	<div id="email-list-modal-content">
-		<div id="data-description-list" class="modal-content-block"></div>
-		<div class="modal-content-block">
-			<form id="email-list-modal-form">
-				<fieldset>
-					<legend></legend>
-					<div class="form-input-block">
-						<label id="email-list-input-label" for="email-list-input"></label>
-						<input type="email" name="email-list-input" id="email-list-input"
-							placeholder="" class="text ui-widget-content ui-corner-all"
-							required>
-					</div>
-					<div class="form-input-block">
-						<input type="checkbox" name="licence-list-checkbox"
-							id="licence-list-checkbox" class="ui-widget-content" required>
-						<div id="licence-list-checkbox-label"></div>
-					</div>
-				</fieldset>
-			</form>
-		</div>
-		<div id="email-list-instructions" class="modal-content-block"></div>
-	</div>
-</div>
-<script type="text/javascript" src="main.js"></script></div>
+  <div id="email-list-modal">
+    <p id="email-list-modal-tips"></p>
+    <div id="email-list-modal-content">
+      <div id="data-description-list" class="modal-content-block"></div>
+      <div class="modal-content-block">
+        <form id="email-list-modal-form">
+          <fieldset>
+            <legend></legend>
+            <div class="form-input-block">
+              <label id="email-list-input-label" for="email-list-input"></label>
+              <input
+                type="email"
+                name="email-list-input"
+                id="email-list-input"
+                placeholder=""
+                class="text ui-widget-content ui-corner-all"
+                required
+              />
+            </div>
+            <div class="form-input-block">
+              <input
+                type="checkbox"
+                name="licence-list-checkbox"
+                id="licence-list-checkbox"
+                class="ui-widget-content"
+                required
+              />
+              <div id="licence-list-checkbox-label"></div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+      <div id="email-list-instructions" class="modal-content-block"></div>
+    </div>
+  </div>
+  <script type="text/javascript" src="main.js"></script>
 </html>
