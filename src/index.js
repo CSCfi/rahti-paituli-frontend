@@ -584,15 +584,12 @@ function main() {
 
             if (valid) {
                 modal.data('email', input.val());
-                $.ajax({
-                    type: 'POST',
-                    GENERATE_PACKAGE_API_URL,
+                $.post({
+                    url: GENERATE_PACKAGE_API_URL,
                     data: JSON.stringify(downloadRequest),
                     contentType: 'application/json; charset=utf-8',
                     dataType: 'json',
-                    success: function(data) {
-                        modal.dialog.close();
-                    }
+                    success: (data) => modal.dialog.close()
                 });
             }
             return valid;
@@ -1575,7 +1572,7 @@ function main() {
             inputElem.append(optionElem);
         });
 
-        if(inputElem.find('option').size() <= 1) {
+        if(inputElem.find('option').length <= 1) {
             inputElem.prop('disabled', true);
         }
 
