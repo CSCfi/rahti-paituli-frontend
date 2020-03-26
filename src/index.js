@@ -589,7 +589,7 @@ function main() {
                     data: JSON.stringify(downloadRequest),
                     contentType: 'application/json; charset=utf-8',
                     dataType: 'json',
-                    success: (data) => modal.dialog.close()
+                    success: (data) => modal.dialog("close")
                 });
             }
             return valid;
@@ -630,7 +630,7 @@ function main() {
                 icons: {
                     primary: "ui-icon-close"
                 },
-                click: function() {$(this).dialog("close");}
+                click: () => $(this).dialog("close")
             }
         ],
         close: function() {
