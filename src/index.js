@@ -62,11 +62,10 @@ function getUrlParameter(param) {
 
 var pageDataIdParam = getUrlParameter('data_id')
 
-/*
-TODO Haka login
+/* TODO Haka login
 
-const geoserver_username = ''
-const geoserver_password = ''
+let geoserver_username = ''
+let geoserver_password = ''
 
 // If the user is logged in with HAKA, let's set ready GeoServer's username and
 // password for paituli_protected datasets
@@ -76,10 +75,10 @@ function checkAccessRights() {
     $.ajax({
       url: '/secure/files/geoserverp.txt',
       dataType: 'json',
-      success: function (result) {
+      success: (result) => {
         geoserver_username = result.username
         geoserver_password = result.pwd
-        var testurl =
+        let testurl =
           'https://avaa.tdata.fi/geoserver/paituli_protected/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=paituli_protected:il_temp_monthly_stat&maxFeatures=1&outputFormat=application%2Fjson'
 
         $.ajax({
@@ -87,12 +86,8 @@ function checkAccessRights() {
           username: geoserver_username,
           url: testurl,
           type: 'GET',
-          success: function () {
-            console.log('log in success')
-          },
-          error: function (err) {
-            console.log('log in not successful')
-          },
+          success: () => console.log('log in success'),
+          error: (err) => console.err('log in not successful', err),
         })
       },
     })
@@ -105,7 +100,7 @@ function checkAccessRights() {
 */
 
 function checkParameterDatasetAccess() {
-  loadMetadata(function () {
+  loadMetadata(() => {
     if (pageDataIdParam === null || pageDataIdParam.length == 0) {
       main()
     } else {
@@ -115,9 +110,7 @@ function checkParameterDatasetAccess() {
       var dataIdRow = alasql(
         "SELECT * FROM ? WHERE data_id='" + pageDataIdParam + "'",
         [metadata]
-      ).map(function (item) {
-        return item
-      })
+      )
       if (typeof dataIdRow[0] !== 'undefined') {
            if (dataIdRow[0].access == 2 && !hakaUser) {
                window.location.replace('https://' + window.location.host + '/c/portal/login?p_l_id= ' + Liferay.ThemeDisplay.getPlid());
@@ -133,7 +126,7 @@ function checkParameterDatasetAccess() {
 }
 
 function loadMetadata(afterMetadataLoadCallback) {
-  $.getJSON(METADATA_API, function (data) {
+  $.getJSON(METADATA_API, (data) => {
     metadata = data
     afterMetadataLoadCallback()
   })
@@ -253,9 +246,7 @@ function main() {
 
   function updateModalTips(t, tipsOutput) {
     tipsOutput.text(t).addClass('ui-state-highlight')
-    setTimeout(function () {
-      tipsOutput.removeClass('ui-state-highlight', 1500)
-    }, 500)
+    setTimeout(() => tipsOutput.removeClass('ui-state-highlight', 1500), 500)
   }
 
   function checkLength(obj, min, max, errMsg, tipsOutput) {
@@ -392,7 +383,7 @@ function main() {
         click: () => $(this).dialog('close'),
       },
     ],
-    close: function () {
+    close: () => {
       emailForm[0].reset()
       emailInput.removeClass('ui-state-error')
       licenceCheckbox.removeClass('ui-state-error')
@@ -400,7 +391,7 @@ function main() {
   })
 
   emailForm = emailModal.find('form')
-  emailForm.on('submit', function (event) {
+  emailForm.on('submit', (event) => {
     event.preventDefault()
     emailData()
   })
@@ -428,19 +419,17 @@ function main() {
         icons: {
           primary: 'ui-icon-close',
         },
-        click: function () {
-          $(this).dialog('close')
-        },
+        click: () => emailListModal.dialog('close'),
       },
     ],
-    close: function () {
+    close: () => {
       emailListForm[0].reset()
       emailListInput.removeClass('ui-state-error')
       licenceCheckboxList.removeClass('ui-state-error')
     },
   })
   emailListForm = emailListModal.find('form')
-  emailListForm.on('submit', function (event) {
+  emailListForm.on('submit', (event) => {
     event.preventDefault()
     emailList()
   })
@@ -501,9 +490,7 @@ function main() {
   var linksTabContentRootId = 'links-container'
   var linksTabContentRoot = $('#' + linksTabContentRootId)
   tabContainer.tabs({
-    activate: function (event, ui) {
-      prevSelectedTab = ui.newPanel.get(0).id
-    },
+    activate: (event, ui) => (prevSelectedTab = ui.newPanel.get(0).id),
   })
 
   function strStartsWith(str, prefix) {
@@ -546,10 +533,10 @@ function main() {
       id: 'feature-search-field',
       type: 'search',
     })
-    searchField.keyup((e) => {
-      if (e.keyCode == 13) {
+    searchField.keyup((event) => {
+      if (event.keyCode == 13) {
         searchBtn.click()
-        e.target.blur()
+        event.target.blur()
       }
     })
     searchField.focus(() => clearSearchResults())
@@ -818,18 +805,18 @@ function main() {
           )
         })
         dlLabel.hover(
-          (e) => {
+          (event) => {
             highlightOverlay.getSource().clear()
             var feature = currentIndexMapLayer
               .getSource()
-              .getFeatureById($(e.target).attr('ol_id'))
+              .getFeatureById($(event.target).attr('ol_id'))
             highlightOverlay.getSource().addFeature(feature)
             dlLabel.css('font-weight', 'Bold')
           },
-          (e) => {
+          (event) => {
             var feature = currentIndexMapLayer
               .getSource()
-              .getFeatureById($(e.target).attr('ol_id'))
+              .getFeatureById($(event.target).attr('ol_id'))
             highlightOverlay.getSource().removeFeature(feature)
             dlLabel.css('font-weight', 'normal')
           }
@@ -838,16 +825,14 @@ function main() {
         dlLabel.append(label)
         dlLabelList.push(dlLabel)
       })
-      dlLabelList.sort(function (a, b) {
+      dlLabelList.sort((a, b) => {
         if (a.attr('data-value') >= b.attr('data-value')) {
           return 1
         } else {
           return -1
         }
       })
-      $.each(dlLabelList, function (idx, val) {
-        val.appendTo(dataListContainerElem)
-      })
+      $.each(dlLabelList, (idx, val) => val.appendTo(dataListContainerElem))
       if (i > 0) {
         dataListContainerElem.appendTo(rootElem)
       }
@@ -864,7 +849,7 @@ function main() {
       downloadInfo.text(translator.getVal('info.info'))
       downloadInfo.appendTo(rootElem)
     }
-    dlLicInput.on('change', function () {
+    dlLicInput.on('change', () => {
       updateDownloadFileList(
         dlButton,
         dlButtonWrapper,
@@ -873,7 +858,7 @@ function main() {
       )
       updateFileLabelListForLicence(dlLicInput, licenceUrl)
     })
-    dlButton.on('click', function (event) {
+    dlButton.on('click', (event) => {
       event.preventDefault()
       event.stopImmediatePropagation()
       updateEmailModal()
@@ -887,7 +872,7 @@ function main() {
         emailModal.dialog('open')
       }
     })
-    dlListButton.on('click', function (event) {
+    dlListButton.on('click', (event) => {
       event.preventDefault()
       event.stopImmediatePropagation()
       updateEmailListModal()
@@ -928,9 +913,7 @@ function main() {
   ) {
     fileList = []
     var markedForDownload = $('.download-checkbox:checked')
-    markedForDownload.each(function (i, checkbox) {
-      fileList.push(checkbox.value)
-    })
+    markedForDownload.each((i, checkbox) => fileList.push(checkbox.value))
 
     updateDownloadButton(dlButton, dlButtonWrapper, dlLicInput)
     updateDownloadListButton(dlListButton, dlLicInput)
@@ -1181,16 +1164,16 @@ function main() {
     formatInputRow.appendTo(rootElem)
     coordsysInputRow.appendTo(rootElem)
 
-    $('#' + producerInputId).on('change', function () {
+    $('#' + producerInputId).on('change', () =>
       updateDataList(producerInput, dataInput)
-    })
-    $('#' + dataInputId).on('change', function () {
+    )
+    $('#' + dataInputId).on('change', () =>
       updateScaleList(producerInput, dataInput, scaleInput)
-    })
-    $('#' + scaleInputId).on('change', function () {
+    )
+    $('#' + scaleInputId).on('change', () =>
       updateYearList(producerInput, dataInput, scaleInput, yearInput)
-    })
-    $('#' + yearInputId).on('change', function () {
+    )
+    $('#' + yearInputId).on('change', () =>
       updateFormatList(
         producerInput,
         dataInput,
@@ -1198,8 +1181,8 @@ function main() {
         yearInput,
         formatInput
       )
-    })
-    $('#' + formatInputId).on('change', function () {
+    )
+    $('#' + formatInputId).on('change', () =>
       updateCoordsysList(
         producerInput,
         dataInput,
@@ -1208,8 +1191,8 @@ function main() {
         formatInput,
         coordsysInput
       )
-    })
-    $('#' + coordsysInputId).on('change', function () {
+    )
+    $('#' + coordsysInputId).on('change', () => {
       var selectedProducer = producerInput.val()
       var selectedData = dataInput.val()
       var selectedScale = scaleInput.val()
@@ -1231,9 +1214,7 @@ function main() {
           selectedCoordsys +
           "'",
         [metadata]
-      ).map(function (item) {
-        return item.data_id
-      })
+      ).map((item) => item.data_id)
       if (typeof dataIdResult[0] !== 'undefined') {
         currentDataId = dataIdResult[0]
         var dataUrl = getCurrentLayerData('data_url')
@@ -1277,9 +1258,7 @@ function main() {
     var dataIdRow = alasql(
       "SELECT * FROM ? WHERE data_id='" + pageDataIdParam + "'",
       [metadata]
-    ).map(function (item) {
-      return item
-    })
+    )
     if (typeof dataIdRow[0] !== 'undefined') {
       var producer = dataIdRow[0].org
       var dataName = dataIdRow[0].name
@@ -1308,16 +1287,12 @@ function main() {
     var producers
     if (hakaUser) {
       producers = alasql('SELECT DISTINCT org FROM ? ', [metadata]).map(
-        function (item) {
-          return item.org
-        }
+        (item) => item.org
       )
     } else {
       producers = alasql('SELECT DISTINCT org FROM ? WHERE access=1', [
         metadata,
-      ]).map(function (item) {
-        return item.org
-      })
+      ]).map((item) => item.org)
     }
 
     updateOptions(producerInput, sortDropdownData('ascending', producers), true)
@@ -1326,7 +1301,6 @@ function main() {
   function updateDataList(producerInput, dataInput) {
     var selectedProducerId = producerInput.val()
     if (!strStartsWith(selectedProducerId, '--')) {
-      // var isSignedIn = Liferay.ThemeDisplay.isSignedIn();
       var data
       if (hakaUser) {
         data = alasql(
@@ -1334,25 +1308,19 @@ function main() {
             selectedProducerId +
             "' GROUP BY name",
           [metadata]
-        ).map(function (item) {
-          return item
-        })
+        )
       } else {
         data = alasql(
           "SELECT name FROM ? WHERE org='" +
             selectedProducerId +
             "' AND access=1 GROUP BY name",
           [metadata]
-        ).map(function (item) {
-          return item
-        })
+        )
       }
 
       var dataNames = sortDropdownData(
         'ascending',
-        $.map(data, function (item) {
-          return item.name
-        })
+        $.map(data, (item) => item.name)
       )
       updateOptions(dataInput, dataNames, false)
     } else {
@@ -1371,9 +1339,7 @@ function main() {
           selectedDataId +
           "'",
         [metadata]
-      ).map(function (item) {
-        return item.scale
-      })
+      ).map((item) => item.scale)
       updateOptions(scaleInput, sortDropdownData('shortest', scales), false)
     } else {
       addEmptyOption(scaleInput)
@@ -1394,9 +1360,7 @@ function main() {
           selectedScaleId +
           "'",
         [metadata]
-      ).map(function (item) {
-        return item.year
-      })
+      ).map((item) => item.year)
       updateOptions(yearInput, sortDropdownData('newest', years), false)
     } else {
       addEmptyOption(yearInput)
@@ -1426,9 +1390,7 @@ function main() {
           selectedYearId +
           "'",
         [metadata]
-      ).map(function (item) {
-        return item.format
-      })
+      ).map((item) => item.format)
       updateOptions(formatInput, sortDropdownData('ascending', formats), false)
     } else {
       addEmptyOption(formatInput)
@@ -1462,9 +1424,7 @@ function main() {
           selectedFormatId +
           "'",
         [metadata]
-      ).map(function (item) {
-        return item.coord_sys
-      })
+      ).map((item) => item.coord_sys)
       updateOptions(
         coordsysInput,
         sortDropdownData('ascending', coordsyses),
@@ -1508,7 +1468,7 @@ function main() {
       optionElem.text(title)
       inputElem.append(optionElem)
     }
-    $.each(optionNames, function (idx, value) {
+    $.each(optionNames, (idx, value) => {
       var optionElem = $('<option>', {
         value: value,
       })
@@ -1534,7 +1494,7 @@ function main() {
         data.sort()
         break
       case 'newest': // Used for dates
-        data.sort(function (a, b) {
+        data.sort((a, b) => {
           var c = fixDropDownItemForOrdering(a)
           var d = fixDropDownItemForOrdering(b)
           return d - c
@@ -1546,7 +1506,7 @@ function main() {
         // The scales are basicallly ordered in numeric order from smaller
         // to bigger.
 
-        data.sort(function (a, b) {
+        data.sort((a, b) => {
           var c = fixDropDownItemForOrdering(a)
           var d = fixDropDownItemForOrdering(b)
           return c - d
@@ -1593,12 +1553,12 @@ function main() {
       id: 'metadata-notes',
     })
 
-    var errorFunction = function (metadataNotes) {
+    var errorFunction = (metadataNotes) => {
       metadataNotes.html(translator.getVal('info.nometadataavailable'))
       metadataTabContentRoot.append(metadataNotes)
     }
 
-    var successFunction = function (rawEtsinMetadata, metadataNotes) {
+    var successFunction = (rawEtsinMetadata, metadataNotes) => {
       var notesHtml = getNotesAsHtmlFromEtsinMetadata(rawEtsinMetadata)
       var linksHtml = getLinksAsHtmlFromEtsinMetadata(rawEtsinMetadata)
       if (rawEtsinMetadata == null || notesHtml == null) {
@@ -1629,26 +1589,26 @@ function main() {
     if (rawEtsinMetadata != null) {
       var etsinLinks =
         '<br>' + translator.getVal('info.metadatalinksheader') + '<ul>'
-      $.each(rawEtsinMetadata.research_dataset.remote_resources, function (
-        key,
-        data
-      ) {
-        if (data.title != null) {
-          if (
-            data.download_url.identifier
-              .toLowerCase()
-              .indexOf('latauspalvelu') === -1
-          ) {
-            etsinLinks =
-              etsinLinks +
-              '<li><a href="' +
-              data.download_url.identifier +
-              '" target="_blank">' +
-              data.title +
-              '</a></li>'
+      $.each(
+        rawEtsinMetadata.research_dataset.remote_resources,
+        (key, data) => {
+          if (data.title != null) {
+            if (
+              data.download_url.identifier
+                .toLowerCase()
+                .indexOf('latauspalvelu') === -1
+            ) {
+              etsinLinks =
+                etsinLinks +
+                '<li><a href="' +
+                data.download_url.identifier +
+                '" target="_blank">' +
+                data.title +
+                '</a></li>'
+            }
           }
         }
-      })
+      )
       etsinLinks = etsinLinks + '</ul>'
       if (etsinLinks.indexOf('href') > 0) {
         return etsinLinks
@@ -1681,7 +1641,7 @@ function main() {
       }
 
       matches.reverse()
-      $.each(matches, function (loopIdx, matchIdx) {
+      $.each(matches, (loopIdx, matchIdx) => {
         notes = notes.insert(
           matchIdx + 1,
           '<a href="' +
@@ -1743,12 +1703,8 @@ function main() {
   ) {
     $.ajax({
       url: ETSIN_METADATA_JSON_BASE_URL + flipURN(metadataURN),
-      success: function (data) {
-        successFn(data, metadataNotes)
-      },
-      error: function () {
-        errorFn(metadataNotes)
-      },
+      success: (data) => successFn(data, metadataNotes),
+      error: () => errorFn(metadataNotes),
     })
   }
 
@@ -1779,8 +1735,8 @@ function main() {
       loadIndexMapLabelLayer()
 
       if (currentIndexMapLayer !== null) {
-        currentIndexMapLayer.getSource().once('change', (e) => {
-          if (e.target.getState() == 'ready' && isFirstTimeLoaded) {
+        currentIndexMapLayer.getSource().once('change', (event) => {
+          if (event.target.getState() == 'ready' && isFirstTimeLoaded) {
             var hasInfoTab = layerHasFeatureInfo()
             mapsheets = getCurrentLayerData('map_sheets')
             if (mapsheets > 1) {
@@ -1800,7 +1756,7 @@ function main() {
         })
 
         if (currentIndexMapLabelLayer !== null) {
-          currentIndexMapLayer.on('change:visible', function () {
+          currentIndexMapLayer.on('change:visible', () => {
             if (currentIndexMapLayer.getVisible()) {
               currentIndexMapLabelLayer.setVisible(true)
             } else {
@@ -1832,7 +1788,7 @@ function main() {
         // Kylli, without next 3 rows, the warning of previously
         // selected dataset was visible.
         if (currentMaxResolution != null) {
-          setMaxResolutionWaringing()
+          setMaxResolutionWarning()
         }
       }
       tabContainer.show()
@@ -1875,9 +1831,7 @@ function main() {
     var value = alasql(
       'SELECT ' + field + " FROM ? WHERE data_id='" + currentDataId + "'",
       [metadata]
-    ).map(function (item) {
-      return item[field]
-    })
+    ).map((item) => item[field])
     if (
       typeof value !== 'undefined' &&
       value !== null &&
@@ -1994,7 +1948,7 @@ function main() {
 
   function getSearchResultFeatures(searchStr) {
     var hits = []
-    currentIndexMapLayer.getSource().forEachFeature(function (feature) {
+    currentIndexMapLayer.getSource().forEachFeature((feature) => {
       if (
         feature.get('label').toLowerCase().indexOf(searchStr.toLowerCase()) !=
         -1
@@ -2068,11 +2022,9 @@ function main() {
 
   var view = map.getView()
 
-  map.on('moveend', function () {
-    setMaxResolutionWaringing()
-  })
+  map.on('moveend', () => setMaxResolutionWarning())
 
-  function setMaxResolutionWaringing() {
+  function setMaxResolutionWarning() {
     if (currentMaxResolution !== null) {
       var currRes = view.getResolution()
       if (currRes > currentMaxResolution) {
@@ -2119,12 +2071,12 @@ function main() {
 
   var selectedFeatures = featureSelectInteraction.getFeatures()
 
-  selectedFeatures.on('add', function (e) {
-    fileLabelList.push(e.element.get('label'))
+  selectedFeatures.on('add', (event) => {
+    fileLabelList.push(event.element.get('label'))
   })
 
-  selectedFeatures.on('remove', function (e) {
-    var deleteIdx = fileLabelList.indexOf(e.element.get('label'))
+  selectedFeatures.on('remove', (event) => {
+    var deleteIdx = fileLabelList.indexOf(event.element.get('label'))
     if (deleteIdx > -1) {
       fileLabelList.splice(deleteIdx, 1)
     }
@@ -2231,9 +2183,7 @@ function main() {
     drawingSource.clear()
   }
 
-  draw.on('drawend', function (event) {
-    updateDrawSelection(event)
-  })
+  draw.on('drawend', (event) => updateDrawSelection(event))
 
   var highlightCollection = new Collection()
   var highlightOverlay = new layer.Vector({
@@ -2306,9 +2256,7 @@ function main() {
     if (selectedTool != 'drag') {
       dragPan.setActive(true)
     }
-    getFeatureInfoToolKey = map.on('singleclick', function (evt) {
-      getFeatureInfo(evt)
-    })
+    getFeatureInfoToolKey = map.on('singleclick', (event) => getFeatureInfo(event))
   }
 
   function selectDrawTool() {
@@ -2334,13 +2282,13 @@ function main() {
   var scaleLineControl = new control.ScaleLine()
 
   function initLocationSearch() {
-    locationSearchInput.keypress(function (event) {
+    locationSearchInput.keypress((event) => {
       var keyCode = event.keyCode || event.charCode
       if (keyCode == 13) {
         var searchStr = locationSearchInput.val()
         if (searchStr.length > 0) {
           var queryUrl = NOMINATIM_API_URL.replace('!query!', searchStr)
-          $.getJSON(queryUrl, function (data) {
+          $.getJSON(queryUrl, (data) => {
             if (data.length > 0) {
               map
                 .getView()
