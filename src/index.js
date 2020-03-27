@@ -28,9 +28,6 @@ const GENERATE_PACKAGE_API_URL = '/download'
 const FINNISH_LANGUAGE = 'fi_FI'
 const ENGLISH_LANGUAGE = 'en_US'
 
-const geoserver_username = ''
-const geoserver_password = ''
-
 var hakaUser = false
 // TODO localization
 var USED_LANGUAGE = 'fi_FI'
@@ -64,6 +61,13 @@ function getUrlParameter(param) {
 }
 
 var pageDataIdParam = getUrlParameter('data_id')
+
+/*
+TODO Haka login
+
+const geoserver_username = ''
+const geoserver_password = ''
+
 // If the user is logged in with HAKA, let's set ready GeoServer's username and
 // password for paituli_protected datasets
 function checkAccessRights() {
@@ -98,29 +102,33 @@ function checkAccessRights() {
     geoserver_password = ''
   }
 }
+*/
 
 function checkParameterDatasetAccess() {
   loadMetadata(function () {
     if (pageDataIdParam === null || pageDataIdParam.length == 0) {
       main()
     } else {
+      /*
+      TODO Haka
+
       var dataIdRow = alasql(
         "SELECT * FROM ? WHERE data_id='" + pageDataIdParam + "'",
         [metadata]
       ).map(function (item) {
         return item
       })
-      // if (typeof dataIdRow[0] !== 'undefined') {
-      //     if (dataIdRow[0].access == 2 && !hakaUser) {
-      //         window.location.replace('https://' + window.location.host + '/c/portal/login?p_l_id= ' + Liferay.ThemeDisplay.getPlid());
-      //     } else {
-      //         main();
-      //     }
-      // } else {
-      //     main();
-      // }
+      if (typeof dataIdRow[0] !== 'undefined') {
+           if (dataIdRow[0].access == 2 && !hakaUser) {
+               window.location.replace('https://' + window.location.host + '/c/portal/login?p_l_id= ' + Liferay.ThemeDisplay.getPlid());
+           } else {
+               main();
+           }
+      } else {
+           main();
+      }
+      */
     }
-    // debugger;
   })
 }
 
@@ -129,10 +137,6 @@ function loadMetadata(afterMetadataLoadCallback) {
     metadata = data
     afterMetadataLoadCallback()
   })
-}
-
-var loadIndexMapFeatures = function (response) {
-  //TODO currentIndexMapLayer.getSource().addFeatures(currentIndexMapLayer.getSource().readFeatures(response));
 }
 
 function main() {
@@ -176,13 +180,10 @@ function main() {
 
   var panSelectBtn = $('#panselection-button')
   var selectSelectContainer = $('#selectselection-container')
-  var selectSelectBtn = $('#selectselection-button')
   var clearSelectContainer = $('#clearselection-container')
-  var clearSelectBtn = $('#clearselection-button')
   var infoSelectContainer = $('#infoselection-container')
   var infoSelectBtn = $('#infoselection-button')
   var drawSelectContainer = $('#drawselection-container')
-  var drawSelectBtn = $('#drawselection-button')
   selectSelectContainer.hide()
   clearSelectContainer.hide()
   infoSelectContainer.hide()
@@ -198,7 +199,6 @@ function main() {
   var currentMaxResolution = null
 
   var mapContainerId = 'map-container'
-  var layerCheckboxContainer = $('#layer-checkbox-container')
 
   // Etsin
   var ETSIN_BASE = '//metax.fairdata.fi' // "//metax-test.csc.fi" "//etsin.avointiede.fi" "//etsin-demo.avointiede.fi"
@@ -241,7 +241,7 @@ function main() {
   var emailForm = null
   var emailListModal = null
   var emailListForm = null
-  var emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+  var emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
   var emailInput = $('#email-input')
   var emailListInput = $('#email-list-input')
   var licenceCheckbox = $('#licence-checkbox')
@@ -342,7 +342,7 @@ function main() {
           data: JSON.stringify(downloadRequest),
           contentType: 'application/json; charset=utf-8',
           dataType: 'json',
-          success: (data) => modal.dialog('close'),
+          success: () => modal.dialog('close'),
         })
       }
       return valid
@@ -511,7 +511,6 @@ function main() {
   }
 
   function setInfoContent(contentType, params) {
-    var rootElem = null
     switch (contentType) {
       case 'download':
         createDownloadContent(downloadTabContentRoot)
@@ -523,8 +522,10 @@ function main() {
       case 'metadata':
         clearMetadataTabContent()
         createMetadataTabContent()
+        break
       case 'links':
         createLinksContent(linksTabContentRoot)
+        break
       default:
         break
     }
@@ -545,15 +546,13 @@ function main() {
       id: 'feature-search-field',
       type: 'search',
     })
-    searchField.keyup(function (e) {
+    searchField.keyup((e) => {
       if (e.keyCode == 13) {
         searchBtn.click()
-        this.blur()
+        e.target.blur()
       }
     })
-    searchField.focus(function (e) {
-      clearSearchResults()
-    })
+    searchField.focus(() => clearSearchResults())
 
     var searchResults = $('<div>', {
       id: 'feature-search-results',
@@ -790,7 +789,7 @@ function main() {
       fileLabelList = []
       var dlLabelList = []
 
-      selectedFeatures.forEach(function (feature, idx, array) {
+      selectedFeatures.forEach((feature) => {
         var label = feature.get('label')
         fileLabelList.push(label)
         var filePath = feature.get('path')
@@ -809,7 +808,7 @@ function main() {
           value: filePath,
           class: 'download-checkbox',
         })
-        dlInput.on('change', function () {
+        dlInput.on('change', () => {
           updateSelectedFeatures(feature, dlInput)
           updateDownloadFileList(
             dlButton,
@@ -819,18 +818,18 @@ function main() {
           )
         })
         dlLabel.hover(
-          function (e) {
+          (e) => {
             highlightOverlay.getSource().clear()
             var feature = currentIndexMapLayer
               .getSource()
-              .getFeatureById($(this).attr('ol_id'))
+              .getFeatureById($(e.target).attr('ol_id'))
             highlightOverlay.getSource().addFeature(feature)
             dlLabel.css('font-weight', 'Bold')
           },
-          function (e) {
+          (e) => {
             var feature = currentIndexMapLayer
               .getSource()
-              .getFeatureById($(this).attr('ol_id'))
+              .getFeatureById($(e.target).attr('ol_id'))
             highlightOverlay.getSource().removeFeature(feature)
             dlLabel.css('font-weight', 'normal')
           }
@@ -1351,7 +1350,7 @@ function main() {
 
       var dataNames = sortDropdownData(
         'ascending',
-        $.map(data, function (item, i) {
+        $.map(data, function (item) {
           return item.name
         })
       )
@@ -1564,8 +1563,8 @@ function main() {
     // Split is for cases like: 1:10 000, 25mx25m, "1:20 000, 1:50 000",
     // 2015-2017.
     // Count only with the last number.
-    if (label.search(/[?,:\.xX-]+/) != -1) {
-      let parts = label.split(/[?,:\.xX-]+/g)
+    if (label.search(/[?,:.xX-]+/) != -1) {
+      let parts = label.split(/[?,:.xX-]+/g)
       d = parts[parts.length - 1]
     } else {
       d = label
@@ -1780,8 +1779,8 @@ function main() {
       loadIndexMapLabelLayer()
 
       if (currentIndexMapLayer !== null) {
-        currentIndexMapLayer.getSource().once('change', function (e) {
-          if (this.getState() == 'ready' && isFirstTimeLoaded) {
+        currentIndexMapLayer.getSource().once('change', (e) => {
+          if (e.target.getState() == 'ready' && isFirstTimeLoaded) {
             var hasInfoTab = layerHasFeatureInfo()
             mapsheets = getCurrentLayerData('map_sheets')
             if (mapsheets > 1) {
@@ -1801,7 +1800,7 @@ function main() {
         })
 
         if (currentIndexMapLabelLayer !== null) {
-          currentIndexMapLayer.on('change:visible', function (e) {
+          currentIndexMapLayer.on('change:visible', function () {
             if (currentIndexMapLayer.getVisible()) {
               currentIndexMapLabelLayer.setVisible(true)
             } else {
@@ -1917,15 +1916,14 @@ function main() {
       )
       var indexSource = new source.Vector({
         format: new format.GeoJSON(),
-        loader: function (extent, resolution, projection) {
-          var proj = projection.getCode()
+        loader: () => {
           $.ajax({
             jsonpCallback: 'loadIndexMapFeatures',
             dataType: 'jsonp',
             url:
               url +
               '&outputFormat=text/javascript&format_options=callback:loadIndexMapFeatures',
-            success: function (response) {
+            success: (response) => {
               var features = indexSource.getFormat().readFeatures(response)
               indexSource.addFeatures(features)
             },
@@ -2050,13 +2048,6 @@ function main() {
     visible: false,
   })
 
-  function toggleMapLayer(evt, layer) {
-    var isNowChecked = evt.target.checked
-    if (layer !== null) {
-      layer.setVisible(isNowChecked)
-    }
-  }
-
   var overviewMap = new control.OverviewMap({
     collapsed: false,
     layers: [new layer.Tile(osmLayerOptions)],
@@ -2124,9 +2115,7 @@ function main() {
     multi: true, //Select several, if overlapping
   })
 
-  featureSelectInteraction.on('select', function (e) {
-    setInfoContent('download')
-  })
+  featureSelectInteraction.on('select', () => setInfoContent('download'))
 
   var selectedFeatures = featureSelectInteraction.getFeatures()
 
@@ -2160,7 +2149,7 @@ function main() {
   // a DragBox interaction used to select features by drawing boxes
   var mapDragBox = new interaction.DragBox({})
 
-  mapDragBox.on('boxend', function (e) {
+  mapDragBox.on('boxend', () => {
     var extent = mapDragBox.getGeometry().getExtent()
 
     // Check which mapsheets were selected before and which are new
@@ -2170,7 +2159,7 @@ function main() {
 
     currentIndexMapLayer
       .getSource()
-      .forEachFeatureIntersectingExtent(extent, function (feature) {
+      .forEachFeatureIntersectingExtent(extent, (feature) => {
         existing = selectedFeatures.remove(feature)
         if (existing) {
           oldFeaturesInSelection.push(feature)
@@ -2185,9 +2174,6 @@ function main() {
     setInfoContent('download')
   })
   map.addInteraction(mapDragBox)
-
-  /* The current drawing */
-  var sketch
 
   /* Add drawing vector source */
   var drawingSource = new source.Vector({
@@ -2215,7 +2201,6 @@ function main() {
   map.addInteraction(draw)
 
   function updateDrawSelection(event) {
-    sketch = null
     var polygon = event.feature.getGeometry()
     var features = currentIndexMapLayer.getSource().getFeatures()
 

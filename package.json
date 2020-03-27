@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --open",
-    "build": "webpack"
+    "build": "webpack",
+    "lint": "eslint . --ext .js",
+    "lint:fix": "npm run lint -- --fix"
   },
   "author": "",
   "license": "",
@@ -21,6 +23,7 @@
   },
   "devDependencies": {
     "css-loader": "^3.4.2",
+    "eslint": "^6.8.0",
     "file-loader": "^6.0.0",
     "husky": "^4.2.3",
     "lint-staged": "^10.0.9",
@@ -36,6 +39,7 @@
     }
   },
   "lint-staged": {
-    "*.{js,css,md}": "prettier --write"
+    "*.js": "eslint",
+    "*.{js,css,md,html}": "prettier --write"
   }
 }
