@@ -25,16 +25,15 @@ import './index.css'
 
 const METADATA_API = '/api/datasets'
 const GENERATE_PACKAGE_API_URL = '/download'
+
 const FINNISH_LANGUAGE = 'fi_FI'
 const ENGLISH_LANGUAGE = 'en_US'
+let currentLocale = FINNISH_LANGUAGE
 
-var hakaUser = false
-// TODO localization
-var USED_LANGUAGE = 'fi_FI'
-var currentIndexMapLayer = null
-var metadata = null
-
-var selectedTool = ''
+let hakaUser = false
+let currentIndexMapLayer = null
+let metadata = null
+let selectedTool = ''
 
 proj4.defs([
   [
@@ -49,10 +48,10 @@ proj4.defs([
 register(proj4)
 
 function getUrlParameter(param) {
-  var pageURL = window.location.search.substring(1)
-  var urlVariables = pageURL.split('&')
-  for (var i = 0; i < urlVariables.length; i++) {
-    var parameterName = urlVariables[i].split('=')
+  const pageURL = window.location.search.substring(1)
+  const urlVariables = pageURL.split('&')
+  for (let i = 0; i < urlVariables.length; i++) {
+    const parameterName = urlVariables[i].split('=')
     if (parameterName[0] == param) {
       return parameterName[1]
     }
@@ -60,7 +59,7 @@ function getUrlParameter(param) {
   return null
 }
 
-var pageDataIdParam = getUrlParameter('data_id')
+let pageDataIdParam = getUrlParameter('data_id')
 
 /* TODO Haka login
 
@@ -107,7 +106,7 @@ function checkParameterDatasetAccess() {
       /*
       TODO Haka
 
-      var dataIdRow = alasql(
+      const dataIdRow = alasql(
         "SELECT * FROM ? WHERE data_id='" + pageDataIdParam + "'",
         [metadata]
       )
@@ -143,7 +142,7 @@ function main() {
 
   $(document).tooltip({ track: true })
 
-  var selected_style = new style.Style({
+  const selected_style = new style.Style({
     stroke: new style.Stroke({
       color: 'rgba(102, 178, 255, 1.0)',
       width: 3,
@@ -159,7 +158,7 @@ function main() {
     }),
   })
 
-  var highlighted_style = new style.Style({
+  const highlighted_style = new style.Style({
     stroke: new style.Stroke({
       color: 'rgba(255, 51, 204,1)',
       width: 8,
@@ -169,80 +168,82 @@ function main() {
     }),
   })
 
-  var translator = new Translator(USED_LANGUAGE)
+  const translator = new Translator(currentLocale)
 
-  var panSelectBtn = $('#panselection-button')
-  var selectSelectContainer = $('#selectselection-container')
-  var clearSelectContainer = $('#clearselection-container')
-  var infoSelectContainer = $('#infoselection-container')
-  var infoSelectBtn = $('#infoselection-button')
-  var drawSelectContainer = $('#drawselection-container')
+  const panSelectBtn = $('#panselection-button')
+  const selectSelectContainer = $('#selectselection-container')
+  const clearSelectContainer = $('#clearselection-container')
+  const infoSelectContainer = $('#infoselection-container')
+  const infoSelectBtn = $('#infoselection-button')
+  const drawSelectContainer = $('#drawselection-container')
   selectSelectContainer.hide()
   clearSelectContainer.hide()
   infoSelectContainer.hide()
   drawSelectContainer.hide()
 
-  var locationSearchInput = $('#location-search-input')
+  const locationSearchInput = $('#location-search-input')
 
-  var currentIndexMapLabelLayer = null
-  var currentDataLayerSrc = null
-  var currentDataLayer = null
-  var currentDataId = null
-  var currentDataUrl = null
-  var currentMaxResolution = null
+  let currentIndexMapLabelLayer = null
+  let currentDataLayerSrc = null
+  let currentDataLayer = null
+  let currentDataId = null
+  let currentDataUrl = null
+  let currentMaxResolution = null
 
-  var mapContainerId = 'map-container'
+  let mapContainerId = 'map-container'
 
   // Etsin
-  var ETSIN_BASE = '//metax.fairdata.fi' // "//metax-test.csc.fi" "//etsin.avointiede.fi" "//etsin-demo.avointiede.fi"
-  var ETSIN_BASE_URN = 'http://urn.fi/' //
-  var ETSIN_METADATA_JSON_BASE_URL =
+  const ETSIN_BASE = '//metax.fairdata.fi' // "//metax-test.csc.fi" "//etsin.avointiede.fi" "//etsin-demo.avointiede.fi"
+  const ETSIN_BASE_URN = 'http://urn.fi/' //
+  const ETSIN_METADATA_JSON_BASE_URL =
     ETSIN_BASE + '/rest/datasets?format=json&preferred_identifier='
 
   // GeoServer
-  var BASE_URL = '//avaa.tdata.fi/geoserver/' // "//avoin-test.csc.fi/geoserver/";
-  var INDEX_LAYER = 'paituli:index'
-  var LAYER_NAME_MUNICIPALITIES = 'paituli:mml_hallinto_2014_100k'
-  var LAYER_NAME_CATCHMENT_AREAS = 'paituli:syke_valuma_maa'
+  const BASE_URL = '//avaa.tdata.fi/geoserver/' // "//avoin-test.csc.fi/geoserver/";
+  const INDEX_LAYER = 'paituli:index'
+  const LAYER_NAME_MUNICIPALITIES = 'paituli:mml_hallinto_2014_100k'
+  const LAYER_NAME_CATCHMENT_AREAS = 'paituli:syke_valuma_maa'
 
-  var WFS_INDEX_MAP_LAYER_URL =
+  const WFS_INDEX_MAP_LAYER_URL =
     BASE_URL +
     'wfs?service=WFS&version=2.0.0&request=GetFeature&srsname=epsg:3857&typeNames=' +
     INDEX_LAYER +
     "&cql_filter= !key! = '!value!'"
-  var WMS_INDEX_MAP_LABEL_LAYER_URL =
+  const WMS_INDEX_MAP_LABEL_LAYER_URL =
     BASE_URL +
     'wms?service=WMS&LAYERS= ' +
     INDEX_LAYER +
     "&CQL_FILTER=data_id = '!value!'"
-  var WMS_PAITULI_BASE_URL = BASE_URL + 'wms?'
-  var WMS_PAITULI_BASE_URL_GWC = BASE_URL + 'gwc/service/wms?'
-  var WFS_INDEX_MAP_DOWNLOAD_SHAPE =
+  const WMS_PAITULI_BASE_URL = BASE_URL + 'wms?'
+  const WMS_PAITULI_BASE_URL_GWC = BASE_URL + 'gwc/service/wms?'
+  const WFS_INDEX_MAP_DOWNLOAD_SHAPE =
     BASE_URL +
     'wfs?service=WFS&version=2.0.0&request=GetFeature&srsname=epsg:4326&typeNames=' +
     INDEX_LAYER +
     "&outputFormat=shape-zip&propertyname=label,path,geom&cql_filter= !key! = '!value!'"
 
   // Location search
-  var NOMINATIM_API_URL =
+  const NOMINATIM_API_URL =
     '//nominatim.openstreetmap.org/search?format=json&q=!query!&addressdetails=0&limit=1'
-  var MAX_DOWNLOADABLE_SIZE = 3000
+  const MAX_DOWNLOADABLE_SIZE = 3000
 
-  var prevSelectedTab = null
+  let prevSelectedTab = null
 
-  var emailModal = null
-  var emailForm = null
-  var emailListModal = null
-  var emailListForm = null
-  var emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
-  var emailInput = $('#email-input')
-  var emailListInput = $('#email-list-input')
-  var licenceCheckbox = $('#licence-checkbox')
-  var licenceCheckboxList = $('#licence-list-checkbox')
-  var tips = $('#email-modal-tips')
-  var listTips = $('#email-list-modal-tips')
-  var fileList = []
-  var fileLabelList = []
+  let emailModal = null
+  let emailForm = null
+  let emailListModal = null
+  let emailListForm = null
+
+  const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+  const emailInput = $('#email-input')
+  const emailListInput = $('#email-list-input')
+  const licenceCheckbox = $('#licence-checkbox')
+  const licenceCheckboxList = $('#licence-list-checkbox')
+  const tips = $('#email-modal-tips')
+  const listTips = $('#email-list-modal-tips')
+
+  let fileList = []
+  let fileLabelList = []
 
   function updateModalTips(t, tipsOutput) {
     tipsOutput.text(t).addClass('ui-state-highlight')
@@ -286,7 +287,7 @@ function main() {
         data_id: currentDataId,
         downloadType: dlType.toUpperCase(),
         email: emailVal,
-        language: USED_LANGUAGE,
+        language: currentLocale,
         filePaths: fileList,
         filenames: fileLabelList,
         org: getCurrentLayerData('org'),
@@ -298,7 +299,7 @@ function main() {
       }
 
       // Validate input fields
-      var valid = true
+      let valid = true
       input.removeClass('ui-state-error')
       licence.removeClass('ui-state-error')
       valid =
@@ -479,16 +480,16 @@ function main() {
   }
 
   setHtmlElementTextValues()
-  var tabContainerId = 'info-container'
-  var tabContainer = $('#' + tabContainerId)
-  var downloadTabContentRootId = 'download-container'
-  var downloadTabContentRoot = $('#' + downloadTabContentRootId)
-  var featureInfoTabContentRootId = 'feature-info-container'
-  var featureInfoTabContentRoot = $('#' + featureInfoTabContentRootId)
-  var metadataTabContentRootId = 'metadata-container'
-  var metadataTabContentRoot = $('#' + metadataTabContentRootId)
-  var linksTabContentRootId = 'links-container'
-  var linksTabContentRoot = $('#' + linksTabContentRootId)
+  const tabContainerId = 'info-container'
+  const tabContainer = $('#' + tabContainerId)
+  const downloadTabContentRootId = 'download-container'
+  const downloadTabContentRoot = $('#' + downloadTabContentRootId)
+  const featureInfoTabContentRootId = 'feature-info-container'
+  const featureInfoTabContentRoot = $('#' + featureInfoTabContentRootId)
+  const metadataTabContentRootId = 'metadata-container'
+  const metadataTabContentRoot = $('#' + metadataTabContentRootId)
+  const linksTabContentRootId = 'links-container'
+  const linksTabContentRoot = $('#' + linksTabContentRootId)
   tabContainer.tabs({
     activate: (event, ui) => (prevSelectedTab = ui.newPanel.get(0).id),
   })
@@ -518,10 +519,10 @@ function main() {
     }
   }
 
-  var featureSearchContainer = $('#feature-search-container')
+  const featureSearchContainer = $('#feature-search-container')
 
   function createSearchField() {
-    var searchBtn = $('<a>', {
+    const searchBtn = $('<a>', {
       class: 'btn btn-default',
       id: 'search-button',
       href: '',
@@ -529,7 +530,7 @@ function main() {
     searchBtn.text(translator.getVal('data.search'))
     searchBtn.on('click', searchFeatures)
 
-    var searchField = $('<input>', {
+    const searchField = $('<input>', {
       id: 'feature-search-field',
       type: 'search',
     })
@@ -541,7 +542,7 @@ function main() {
     })
     searchField.focus(() => clearSearchResults())
 
-    var searchResults = $('<div>', {
+    const searchResults = $('<div>', {
       id: 'feature-search-results',
     })
 
@@ -551,11 +552,11 @@ function main() {
   }
 
   function searchFeatures() {
-    var searchStr = $('#feature-search-field').val()
+    const searchStr = $('#feature-search-field').val()
     if (searchStr !== null && searchStr.length > 0) {
       clearMapFeatureSelection()
       clearSearchResults()
-      var features = getSearchResultFeatures(searchStr)
+      const features = getSearchResultFeatures(searchStr)
       selectedFeatures.extend(features)
       $('#feature-search-results').text(
         translator
@@ -569,8 +570,8 @@ function main() {
   }
 
   function createFeatureInfoContent(rootElem, event) {
-    var viewResolution = view.getResolution()
-    var url = currentDataLayerSrc.getGetFeatureInfoUrl(
+    const viewResolution = view.getResolution()
+    const url = currentDataLayerSrc.getGetFeatureInfoUrl(
       event.coordinate,
       viewResolution,
       'EPSG:3857',
@@ -584,7 +585,7 @@ function main() {
   }
 
   function addLink(linkName, hrefValue, container) {
-    var anchor = $('#' + linkName + '-anchor')
+    let anchor = $('#' + linkName + '-anchor')
     if (!anchor.length) {
       anchor = $('<a>', {
         id: 'dataset-link-anchor',
@@ -599,7 +600,7 @@ function main() {
   }
 
   function createParagraph(id, text) {
-    var p = $(id)
+    let p = $(id)
     if (!p.length) {
       p = $('<p>', {
         id: id,
@@ -611,33 +612,34 @@ function main() {
 
   function createLinksContent(rootElem) {
     rootElem.empty()
-    var infoText = createParagraph(
+    const infoText = createParagraph(
       '#links-info',
       translator.getVal('info.linksIntro')
     )
     infoText.appendTo(rootElem)
 
-    var datasetPath = getCurrentLayerData('funet')
-    var rsyncPath =
+    const datasetPath = getCurrentLayerData('funet')
+    const rsyncPath =
       'rsync://rsync.nic.funet.fi/ftp/index/geodata/' + datasetPath
 
-    var linksContainer = $('<div>', {
+    const linksContainer = $('<div>', {
       id: 'links-container',
     })
 
-    var ftpPath = 'ftp://ftp.funet.fi/index/geodata/' + datasetPath
-    var httpPath = 'http://www.nic.funet.fi/index/geodata/' + datasetPath
+    const ftpPath = 'ftp://ftp.funet.fi/index/geodata/' + datasetPath
+    const httpPath = 'http://www.nic.funet.fi/index/geodata/' + datasetPath
 
     addLink('http', httpPath, linksContainer)
     addLink('ftp', ftpPath, linksContainer)
     linksContainer.append('<strong>rsync: </strong>' + rsyncPath)
     linksContainer.appendTo(rootElem)
 
-    var url = WFS_INDEX_MAP_DOWNLOAD_SHAPE.replace('!key!', 'data_id').replace(
-      '!value!',
-      currentDataId
-    )
-    var index_anchor = $('#index-anchor')
+    const url = WFS_INDEX_MAP_DOWNLOAD_SHAPE.replace(
+      '!key!',
+      'data_id'
+    ).replace('!value!', currentDataId)
+
+    let index_anchor = $('#index-anchor')
     if (!index_anchor.length) {
       index_anchor = $('<a>', {
         id: 'index-anchor',
@@ -646,6 +648,7 @@ function main() {
       })
     }
     index_anchor.text(translator.getVal('info.downloadindex') + ' ')
+
     $('<br>').appendTo(rootElem)
     rootElem.append(index_anchor)
     rootElem.append(translator.getVal('info.dlIndexMapInfo') + ' ')
@@ -660,14 +663,13 @@ function main() {
     // Download and download list buttons are inside wrappers so that
     // tooltips can be attached to wrappers instead of buttons. This way
     // tooltips retain constant style even when buttons are disabled.
-
     highlightOverlay.getSource().clear()
 
-    var dlButtonWrapper = $('#dl-button-wrapper')
+    let dlButtonWrapper = $('#dl-button-wrapper')
     if (!dlButtonWrapper.length) {
       dlButtonWrapper = $('<a>', { id: 'dl-button-wrapper' })
     }
-    var dlButton = $('#download-button')
+    let dlButton = $('#download-button')
     if (!dlButton.length) {
       dlButton = $('<button>', {
         class: 'btn btn-default',
@@ -682,14 +684,14 @@ function main() {
     )
     dlButton.appendTo(dlButtonWrapper)
 
-    var dlListWrapper = $('#dl-list-wrapper')
+    let dlListWrapper = $('#dl-list-wrapper')
     if (!dlListWrapper.length) {
       dlListWrapper = $('<a>', {
         id: 'dl-list-wrapper',
         title: translator.getVal('info.dlListTooltip'),
       })
     }
-    var dlListButton = $('#download-list-button')
+    let dlListButton = $('#download-list-button')
     if (!dlListButton.length) {
       dlListButton = $('<button>', {
         class: 'btn btn-default',
@@ -700,14 +702,14 @@ function main() {
     dlListButton.appendTo(dlListWrapper)
 
     // Hide files list download option, if HAKA-dataset, these are not in FTP.
-    var dataAccess = getCurrentLayerData('access')
+    const dataAccess = getCurrentLayerData('access')
     if (dataAccess == 1) {
       dlListButton.css('visibility', 'visible')
     } else {
       dlListButton.css('visibility', 'hidden')
     }
 
-    var licenceHeader = $('#download-licence-header')
+    let licenceHeader = $('#download-licence-header')
     if (!licenceHeader.length) {
       licenceHeader = $('<h5>', {
         id: 'download-licence-header',
@@ -717,11 +719,11 @@ function main() {
     licenceHeader.text(translator.getVal('info.documents'))
 
     //http://www.nic.funet.fi/index/geodata/mml/NLS_terms_of_use.pdf -> crop after geodata/
-    var licenceUrl = getCurrentLayerData('license_url')
-    var dlLicInputId = 'download-licence-input'
-    var dlLicContainer = $('#download-licence-container')
-    var dlLicInput = $('#' + dlLicInputId)
-    var dlLicLabelLink = $('#download-licence-link')
+    const licenceUrl = getCurrentLayerData('license_url')
+    const dlLicInputId = 'download-licence-input'
+    let dlLicContainer = $('#download-licence-container')
+    let dlLicInput = $('#' + dlLicInputId)
+    let dlLicLabelLink = $('#download-licence-link')
     if (!dlLicInput.length) {
       dlLicContainer = $('<div>', {
         id: 'download-licence-container',
@@ -745,14 +747,14 @@ function main() {
       dlLicLabelLink.appendTo(dlLicContainer)
     }
 
-    var downloadFilesHeader = $('<h5>', {
+    const downloadFilesHeader = $('<h5>', {
       id: 'download-file-header',
       class: 'download-tab-header',
     })
     downloadFilesHeader.text(translator.getVal('info.files'))
 
     if (selectedFeatures.getLength() > 0) {
-      var dataListContainerElem = $('#data-download-list')
+      let dataListContainerElem = $('#data-download-list')
       if (!dataListContainerElem.length) {
         clearDownloadTabContent()
         dlButtonWrapper.appendTo(rootElem)
@@ -772,28 +774,29 @@ function main() {
         dataListContainerElem.empty()
       }
 
-      var i = 0
+      let i = 0
       fileLabelList = []
-      var dlLabelList = []
+      const dlLabelList = []
 
       selectedFeatures.forEach((feature) => {
-        var label = feature.get('label')
+        const label = feature.get('label')
         fileLabelList.push(label)
-        var filePath = feature.get('path')
+        const filePath = feature.get('path')
         i += 1
-        var inputId = 'download-file-input-' + i.toString()
-        var dlLabel = $('<label>', {
+        const inputId = 'download-file-input-' + i.toString()
+        const dlLabel = $('<label>', {
           for: inputId,
           class: 'download-label',
           'data-value': label,
           ol_id: feature.getId(),
         })
-        var dlInput = $('<input>', {
+        const dlInput = $('<input>', {
           checked: 'checked',
           id: inputId,
           type: 'checkbox',
           value: filePath,
           class: 'download-checkbox',
+          ol_id: feature.getId(),
         })
         dlInput.on('change', () => {
           updateSelectedFeatures(feature, dlInput)
@@ -807,14 +810,14 @@ function main() {
         dlLabel.hover(
           (event) => {
             highlightOverlay.getSource().clear()
-            var feature = currentIndexMapLayer
+            const feature = currentIndexMapLayer
               .getSource()
               .getFeatureById($(event.target).attr('ol_id'))
             highlightOverlay.getSource().addFeature(feature)
             dlLabel.css('font-weight', 'Bold')
           },
           (event) => {
-            var feature = currentIndexMapLayer
+            const feature = currentIndexMapLayer
               .getSource()
               .getFeatureById($(event.target).attr('ol_id'))
             highlightOverlay.getSource().removeFeature(feature)
@@ -843,7 +846,7 @@ function main() {
       licenceHeader.appendTo(rootElem)
       dlLicContainer.appendTo(rootElem)
       downloadFilesHeader.appendTo(rootElem)
-      var downloadInfo = $('<div>', {
+      const downloadInfo = $('<div>', {
         id: 'download-info-container',
       })
       downloadInfo.text(translator.getVal('info.info'))
@@ -893,7 +896,7 @@ function main() {
   }
 
   function updateFileLabelListForLicence(dlLicInput, licenceUrl) {
-    var licenceIdx = fileLabelList.indexOf(licenceUrl)
+    const licenceIdx = fileLabelList.indexOf(licenceUrl)
     if (dlLicInput.prop('checked')) {
       if (licenceIdx == -1) {
         fileLabelList.push(licenceUrl)
@@ -912,7 +915,7 @@ function main() {
     dlLicInput
   ) {
     fileList = []
-    var markedForDownload = $('.download-checkbox:checked')
+    const markedForDownload = $('.download-checkbox:checked')
     markedForDownload.each((i, checkbox) => fileList.push(checkbox.value))
 
     updateDownloadButton(dlButton, dlButtonWrapper, dlLicInput)
@@ -957,13 +960,11 @@ function main() {
       selectedFeatures.push(clickedFeature)
     } else {
       selectedFeatures.remove(clickedFeature)
-      //This would remove the file from download list, now it stays unselected
-      //dlInput.parent().remove();
     }
   }
 
   function updateModal(dataDescription, licenceCheckboxLabel) {
-    var dataDescrContainer = $(dataDescription)
+    const dataDescrContainer = $(dataDescription)
     dataDescrContainer.empty()
 
     $(licenceCheckboxLabel).html(
@@ -971,7 +972,7 @@ function main() {
         .getVal('email.licencefield')
         .replace('!licence!', getCurrentLayerData('license_url'))
     )
-    var dataDescrContent = $('<div>')
+    const dataDescrContent = $('<div>')
     dataDescrContent.text(
       translator.getVal('email.datasetinfo') +
         ': ' +
@@ -1027,7 +1028,7 @@ function main() {
       prevSelectedTab = downloadTabContentRootId
     }
 
-    var newTabId = null
+    let newTabId = null
     if (prevSelectedTab == downloadTabContentRootId) {
       newTabId = downloadTabContentRootId
     } else if (prevSelectedTab == featureInfoTabContentRootId) {
@@ -1039,7 +1040,7 @@ function main() {
     } else if (prevSelectedTab == metadataTabContentRootId) {
       newTabId = metadataTabContentRootId
     }
-    var index = $('#' + tabContainerId + ' a[href="#' + newTabId + '"]')
+    const index = $('#' + tabContainerId + ' a[href="#' + newTabId + '"]')
       .parent()
       .index()
     $('#' + tabContainerId).tabs('option', 'active', index)
@@ -1051,106 +1052,106 @@ function main() {
   }
 
   function initFormInputs(formRootElemId) {
-    var producerInputId = 'producer-input'
-    var dataInputId = 'data-input'
-    var scaleInputId = 'scale-input'
-    var yearInputId = 'year-input'
-    var formatInputId = 'format-input'
-    var coordsysInputId = 'coordsys-input'
-    var rootElem = $('#' + formRootElemId)
+    const producerInputId = 'producer-input'
+    const dataInputId = 'data-input'
+    const scaleInputId = 'scale-input'
+    const yearInputId = 'year-input'
+    const formatInputId = 'format-input'
+    const coordsysInputId = 'coordsys-input'
+    const rootElem = $('#' + formRootElemId)
 
-    var producerInputRow = $('<article>', {
+    const producerInputRow = $('<article>', {
       class: 'form-input-row',
       id: 'producer-row',
     })
-    var producerLabel = $('<div>', {
+    const producerLabel = $('<div>', {
       class: 'form-input-label',
       id: 'producer-label',
     })
     producerLabel.append(translator.getVal('data.producer'))
 
-    var producerInput = $('<select>', {
+    const producerInput = $('<select>', {
       class: 'form-input',
       id: producerInputId,
     })
     producerLabel.appendTo(producerInputRow)
     producerInput.appendTo(producerInputRow)
 
-    var dataInputRow = $('<article>', {
+    const dataInputRow = $('<article>', {
       class: 'form-input-row',
       id: 'data-row',
     })
-    var dataLabel = $('<div>', {
+    const dataLabel = $('<div>', {
       class: 'form-input-label',
       id: 'data-label',
     })
     dataLabel.append(translator.getVal('data.data'))
 
-    var dataInput = $('<select>', {
+    const dataInput = $('<select>', {
       class: 'form-input',
       id: dataInputId,
     })
     dataLabel.appendTo(dataInputRow)
     dataInput.appendTo(dataInputRow)
 
-    var scaleInputRow = $('<article>', {
+    const scaleInputRow = $('<article>', {
       class: 'form-input-row',
       id: 'scale-row',
     })
-    var scaleLabel = $('<div>', {
+    const scaleLabel = $('<div>', {
       class: 'form-input-label',
       id: 'scale-label',
     })
     scaleLabel.append(translator.getVal('data.scale'))
-    var scaleInput = $('<select>', {
+    const scaleInput = $('<select>', {
       class: 'form-input',
       id: scaleInputId,
     })
     scaleLabel.appendTo(scaleInputRow)
     scaleInput.appendTo(scaleInputRow)
 
-    var yearInputRow = $('<article>', {
+    const yearInputRow = $('<article>', {
       class: 'form-input-row',
       id: 'year-row',
     })
-    var yearLabel = $('<div>', {
+    const yearLabel = $('<div>', {
       class: 'form-input-label',
       id: 'year-label',
     })
     yearLabel.append(translator.getVal('data.year'))
-    var yearInput = $('<select>', {
+    const yearInput = $('<select>', {
       class: 'form-input',
       id: yearInputId,
     })
     yearLabel.appendTo(yearInputRow)
     yearInput.appendTo(yearInputRow)
 
-    var formatInputRow = $('<article>', {
+    const formatInputRow = $('<article>', {
       class: 'form-input-row',
       id: 'format-row',
     })
-    var formatLabel = $('<div>', {
+    const formatLabel = $('<div>', {
       class: 'form-input-label',
       id: 'format-label',
     })
     formatLabel.append(translator.getVal('data.format'))
-    var formatInput = $('<select>', {
+    const formatInput = $('<select>', {
       class: 'form-input',
       id: formatInputId,
     })
     formatLabel.appendTo(formatInputRow)
     formatInput.appendTo(formatInputRow)
 
-    var coordsysInputRow = $('<article>', {
+    const coordsysInputRow = $('<article>', {
       class: 'form-input-row',
       id: 'coordsys-row',
     })
-    var coordsysLabel = $('<div>', {
+    const coordsysLabel = $('<div>', {
       class: 'form-input-label',
       id: 'coordsys-label',
     })
     coordsysLabel.append(translator.getVal('data.coordSys'))
-    var coordsysInput = $('<select>', {
+    const coordsysInput = $('<select>', {
       class: 'form-input',
       id: coordsysInputId,
     })
@@ -1193,13 +1194,13 @@ function main() {
       )
     )
     $('#' + coordsysInputId).on('change', () => {
-      var selectedProducer = producerInput.val()
-      var selectedData = dataInput.val()
-      var selectedScale = scaleInput.val()
-      var selectedYear = yearInput.val()
-      var selectedFormat = formatInput.val()
-      var selectedCoordsys = coordsysInput.val()
-      var dataIdResult = alasql(
+      const selectedProducer = producerInput.val()
+      const selectedData = dataInput.val()
+      const selectedScale = scaleInput.val()
+      const selectedYear = yearInput.val()
+      const selectedFormat = formatInput.val()
+      const selectedCoordsys = coordsysInput.val()
+      const dataIdResult = alasql(
         "SELECT data_id FROM ? WHERE org='" +
           selectedProducer +
           "' AND name='" +
@@ -1217,7 +1218,7 @@ function main() {
       ).map((item) => item.data_id)
       if (typeof dataIdResult[0] !== 'undefined') {
         currentDataId = dataIdResult[0]
-        var dataUrl = getCurrentLayerData('data_url')
+        const dataUrl = getCurrentLayerData('data_url')
 
         if (dataUrl !== null) {
           currentDataUrl = dataUrl
@@ -1255,17 +1256,17 @@ function main() {
     formatInput,
     coordsysInput
   ) {
-    var dataIdRow = alasql(
+    const dataIdRow = alasql(
       "SELECT * FROM ? WHERE data_id='" + pageDataIdParam + "'",
       [metadata]
     )
     if (typeof dataIdRow[0] !== 'undefined') {
-      var producer = dataIdRow[0].org
-      var dataName = dataIdRow[0].name
-      var scale = dataIdRow[0].scale
-      var year = dataIdRow[0].year
-      var format = dataIdRow[0].format
-      var coordsys = dataIdRow[0].coord_sys
+      const producer = dataIdRow[0].org
+      const dataName = dataIdRow[0].name
+      const scale = dataIdRow[0].scale
+      const year = dataIdRow[0].year
+      const format = dataIdRow[0].format
+      const coordsys = dataIdRow[0].coord_sys
       producerInput.val(producer)
       producerInput.trigger('change')
       dataInput.val(dataName)
@@ -1284,41 +1285,30 @@ function main() {
 
   function updateProducerList(producerInput) {
     // hakaUser = Liferay.ThemeDisplay.isSignedIn();
-    var producers
-    if (hakaUser) {
-      producers = alasql('SELECT DISTINCT org FROM ? ', [metadata]).map(
-        (item) => item.org
-      )
-    } else {
-      producers = alasql('SELECT DISTINCT org FROM ? WHERE access=1', [
-        metadata,
-      ]).map((item) => item.org)
-    }
-
+    const query = hakaUser
+      ? 'SELECT DISTINCT org FROM ? '
+      : 'SELECT DISTINCT org FROM ? WHERE access=1'
+    const producers = alasql(query, [metadata]).map((item) => item.org)
     updateOptions(producerInput, sortDropdownData('ascending', producers), true)
   }
 
   function updateDataList(producerInput, dataInput) {
-    var selectedProducerId = producerInput.val()
+    const selectedProducerId = producerInput.val()
     if (!strStartsWith(selectedProducerId, '--')) {
-      var data
-      if (hakaUser) {
-        data = alasql(
-          "SELECT name FROM ? WHERE org='" +
-            selectedProducerId +
-            "' GROUP BY name",
-          [metadata]
-        )
-      } else {
-        data = alasql(
-          "SELECT name FROM ? WHERE org='" +
-            selectedProducerId +
-            "' AND access=1 GROUP BY name",
-          [metadata]
-        )
-      }
-
-      var dataNames = sortDropdownData(
+      const data = hakaUser
+        ? alasql(
+            "SELECT name FROM ? WHERE org='" +
+              selectedProducerId +
+              "' GROUP BY name",
+            [metadata]
+          )
+        : alasql(
+            "SELECT name FROM ? WHERE org='" +
+              selectedProducerId +
+              "' AND access=1 GROUP BY name",
+            [metadata]
+          )
+      const dataNames = sortDropdownData(
         'ascending',
         $.map(data, (item) => item.name)
       )
@@ -1329,10 +1319,10 @@ function main() {
   }
 
   function updateScaleList(producerInput, dataInput, scaleInput) {
-    var selectedProducerId = producerInput.val()
-    var selectedDataId = dataInput.val()
+    const selectedProducerId = producerInput.val()
+    const selectedDataId = dataInput.val()
     if (!strStartsWith(selectedDataId, '--')) {
-      var scales = alasql(
+      const scales = alasql(
         "SELECT DISTINCT scale FROM ? WHERE org='" +
           selectedProducerId +
           "' AND name='" +
@@ -1347,11 +1337,11 @@ function main() {
   }
 
   function updateYearList(producerInput, dataInput, scaleInput, yearInput) {
-    var selectedProducerId = producerInput.val()
-    var selectedDataId = dataInput.val()
-    var selectedScaleId = scaleInput.val()
+    const selectedProducerId = producerInput.val()
+    const selectedDataId = dataInput.val()
+    const selectedScaleId = scaleInput.val()
     if (!strStartsWith(selectedScaleId, '--')) {
-      var years = alasql(
+      const years = alasql(
         "SELECT DISTINCT year FROM ? WHERE org='" +
           selectedProducerId +
           "' AND name='" +
@@ -1374,12 +1364,12 @@ function main() {
     yearInput,
     formatInput
   ) {
-    var selectedProducerId = producerInput.val()
-    var selectedDataId = dataInput.val()
-    var selectedScaleId = scaleInput.val()
-    var selectedYearId = yearInput.val()
+    const selectedProducerId = producerInput.val()
+    const selectedDataId = dataInput.val()
+    const selectedScaleId = scaleInput.val()
+    const selectedYearId = yearInput.val()
     if (!strStartsWith(selectedYearId, '--')) {
-      var formats = alasql(
+      const formats = alasql(
         "SELECT DISTINCT format FROM ? WHERE org='" +
           selectedProducerId +
           "' AND name='" +
@@ -1405,13 +1395,13 @@ function main() {
     formatInput,
     coordsysInput
   ) {
-    var selectedProducerId = producerInput.val()
-    var selectedDataId = dataInput.val()
-    var selectedScaleId = scaleInput.val()
-    var selectedYearId = yearInput.val()
-    var selectedFormatId = formatInput.val()
+    const selectedProducerId = producerInput.val()
+    const selectedDataId = dataInput.val()
+    const selectedScaleId = scaleInput.val()
+    const selectedYearId = yearInput.val()
+    const selectedFormatId = formatInput.val()
     if (!strStartsWith(selectedFormatId, '--')) {
-      var coordsyses = alasql(
+      const coordsyses = alasql(
         "SELECT DISTINCT coord_sys FROM ? WHERE org='" +
           selectedProducerId +
           "' AND name='" +
@@ -1437,8 +1427,8 @@ function main() {
 
   function addEmptyOption(inputElem) {
     inputElem.empty()
-    var title = '--'
-    var optionElem = $('<option>', {
+    const title = '--'
+    const optionElem = $('<option>', {
       value: title,
     })
     optionElem.text(title)
@@ -1456,20 +1446,20 @@ function main() {
     inputElem.empty()
     inputElem.prop('disabled', false)
     if (isProducerInput) {
-      var title = null
-      if (USED_LANGUAGE == FINNISH_LANGUAGE) {
+      let title = null
+      if (currentLocale == FINNISH_LANGUAGE) {
         title = '--Valitse aineistotuottaja--'
-      } else if (USED_LANGUAGE == ENGLISH_LANGUAGE) {
+      } else if (currentLocale == ENGLISH_LANGUAGE) {
         title = '--Select data producer--'
       }
-      var optionElem = $('<option>', {
+      const optionElem = $('<option>', {
         value: title,
       })
       optionElem.text(title)
       inputElem.append(optionElem)
     }
     $.each(optionNames, (idx, value) => {
-      var optionElem = $('<option>', {
+      const optionElem = $('<option>', {
         value: value,
       })
       optionElem.text(value)
@@ -1495,8 +1485,8 @@ function main() {
         break
       case 'newest': // Used for dates
         data.sort((a, b) => {
-          var c = fixDropDownItemForOrdering(a)
-          var d = fixDropDownItemForOrdering(b)
+          const c = fixDropDownItemForOrdering(a)
+          const d = fixDropDownItemForOrdering(b)
           return d - c
         })
         break
@@ -1507,8 +1497,8 @@ function main() {
         // to bigger.
 
         data.sort((a, b) => {
-          var c = fixDropDownItemForOrdering(a)
-          var d = fixDropDownItemForOrdering(b)
+          const c = fixDropDownItemForOrdering(a)
+          const d = fixDropDownItemForOrdering(b)
           return c - d
         })
         break
@@ -1535,12 +1525,12 @@ function main() {
   }
 
   function createMetadataTabContent() {
-    var metadataURN = getCurrentLayerData('meta')
-    var metadataInfoLabel = $('<div>', {
+    const metadataURN = getCurrentLayerData('meta')
+    const metadataInfoLabel = $('<div>', {
       id: 'metadata-info-label',
     })
     if (metadataURN !== null) {
-      var metadataBaseUrl = ETSIN_BASE_URN
+      const metadataBaseUrl = ETSIN_BASE_URN
       metadataInfoLabel.append(
         translator
           .getVal('info.metadatainfo')
@@ -1549,18 +1539,18 @@ function main() {
       metadataTabContentRoot.append(metadataInfoLabel)
     }
 
-    var metadataNotes = $('<div>', {
+    const metadataNotes = $('<div>', {
       id: 'metadata-notes',
     })
 
-    var errorFunction = (metadataNotes) => {
+    const errorFunction = (metadataNotes) => {
       metadataNotes.html(translator.getVal('info.nometadataavailable'))
       metadataTabContentRoot.append(metadataNotes)
     }
 
-    var successFunction = (rawEtsinMetadata, metadataNotes) => {
-      var notesHtml = getNotesAsHtmlFromEtsinMetadata(rawEtsinMetadata)
-      var linksHtml = getLinksAsHtmlFromEtsinMetadata(rawEtsinMetadata)
+    const successFunction = (rawEtsinMetadata, metadataNotes) => {
+      const notesHtml = getNotesAsHtmlFromEtsinMetadata(rawEtsinMetadata)
+      const linksHtml = getLinksAsHtmlFromEtsinMetadata(rawEtsinMetadata)
       if (rawEtsinMetadata == null || notesHtml == null) {
         metadataNotes.html(translator.getVal('info.nometadataavailable'))
       } else {
@@ -1587,7 +1577,7 @@ function main() {
   // Get dataset's metadata file links from Metax
   function getLinksAsHtmlFromEtsinMetadata(rawEtsinMetadata) {
     if (rawEtsinMetadata != null) {
-      var etsinLinks =
+      let etsinLinks =
         '<br>' + translator.getVal('info.metadatalinksheader') + '<ul>'
       $.each(
         rawEtsinMetadata.research_dataset.remote_resources,
@@ -1622,9 +1612,9 @@ function main() {
   function getNotesAsHtmlFromEtsinMetadata(rawEtsinMetadata) {
     if (rawEtsinMetadata != null) {
       let notes = rawEtsinMetadata.research_dataset.description
-      if (USED_LANGUAGE == FINNISH_LANGUAGE) {
+      if (currentLocale == FINNISH_LANGUAGE) {
         notes = notes.fi
-      } else if (USED_LANGUAGE == ENGLISH_LANGUAGE) {
+      } else if (currentLocale == ENGLISH_LANGUAGE) {
         notes = notes.en
       }
 
@@ -1632,9 +1622,9 @@ function main() {
         return null
       }
       // Fix links from MarkDown to HTML
-      var regexp = /\[.*?\]\(http.*?\)/g
-      var match,
-        matches = []
+      const regexp = /\[.*?\]\(http.*?\)/g
+      const matches = []
+      let match
 
       while ((match = regexp.exec(notes)) != null) {
         matches.push(match.index)
@@ -1670,17 +1660,17 @@ function main() {
 
   function cutLicenseURL(urn) {
     if (urn != null) {
-      var arr = urn.split('geodata/')
+      const arr = urn.split('geodata/')
       urn = arr[1]
     }
     return urn
   }
 
   function flipURN(urn) {
-    var colon = ':'
-    var dash = '-'
+    const colon = ':'
+    const dash = '-'
     if (urn.indexOf(colon) == -1) {
-      var arr = urn.split(dash)
+      const arr = urn.split(dash)
       urn =
         arr[0] +
         colon +
@@ -1709,15 +1699,15 @@ function main() {
   }
 
   function setFeatureInfoTabDefaultContent() {
-    var featureInfoDefaultLabel = $('<div>', {
+    const featureInfoDefaultLabel = $('<div>', {
       id: 'feature-info-default-label',
     })
     featureInfoDefaultLabel.append(translator.getVal('info.featureinfodefault'))
     featureInfoTabContentRoot.append(featureInfoDefaultLabel)
   }
 
-  var isFirstTimeLoaded = true
-  var mapsheets = 0
+  let isFirstTimeLoaded = true
+  let mapsheets = 0
 
   function updateMap() {
     map.removeLayer(currentIndexMapLayer)
@@ -1736,8 +1726,9 @@ function main() {
 
       if (currentIndexMapLayer !== null) {
         currentIndexMapLayer.getSource().once('change', (event) => {
+          let hasInfoTab = false
           if (event.target.getState() == 'ready' && isFirstTimeLoaded) {
-            var hasInfoTab = layerHasFeatureInfo()
+            hasInfoTab = layerHasFeatureInfo()
             mapsheets = getCurrentLayerData('map_sheets')
             if (mapsheets > 1) {
               featureSearchContainer.css('visibility', 'visible')
@@ -1765,7 +1756,7 @@ function main() {
           })
         }
 
-        var maxScaleResult = getCurrentLayerData('data_max_scale')
+        const maxScaleResult = getCurrentLayerData('data_max_scale')
         if (maxScaleResult !== null) {
           currentMaxResolution = getMapResolutionFromScale(
             parseInt(maxScaleResult)
@@ -1828,7 +1819,7 @@ function main() {
   }
 
   function getCurrentLayerData(field) {
-    var value = alasql(
+    const value = alasql(
       'SELECT ' + field + " FROM ? WHERE data_id='" + currentDataId + "'",
       [metadata]
     ).map((item) => item[field])
@@ -1846,8 +1837,11 @@ function main() {
 
   function loadIndexMapLabelLayer() {
     if (currentDataId !== null) {
-      var url = WMS_INDEX_MAP_LABEL_LAYER_URL.replace('!value!', currentDataId)
-      var src = new source.ImageWMS({
+      const url = WMS_INDEX_MAP_LABEL_LAYER_URL.replace(
+        '!value!',
+        currentDataId
+      )
+      const src = new source.ImageWMS({
         url: url,
         params: { VERSION: '1.1.1' },
         serverType: 'geoserver',
@@ -1864,11 +1858,11 @@ function main() {
 
   function loadIndexLayer() {
     if (currentDataId !== null) {
-      var url = WFS_INDEX_MAP_LAYER_URL.replace('!key!', 'data_id').replace(
+      const url = WFS_INDEX_MAP_LAYER_URL.replace('!key!', 'data_id').replace(
         '!value!',
         currentDataId
       )
-      var indexSource = new source.Vector({
+      const indexSource = new source.Vector({
         format: new format.GeoJSON(),
         loader: () => {
           $.ajax({
@@ -1878,7 +1872,7 @@ function main() {
               url +
               '&outputFormat=text/javascript&format_options=callback:loadIndexMapFeatures',
             success: (response) => {
-              var features = indexSource.getFormat().readFeatures(response)
+              const features = indexSource.getFormat().readFeatures(response)
               indexSource.addFeatures(features)
             },
           })
@@ -1904,13 +1898,9 @@ function main() {
 
   function loadDataLayer() {
     if (currentDataId !== null && currentDataUrl !== null) {
-      // Set baseurl correctly for password protected datasets.
-      var url = WMS_PAITULI_BASE_URL_GWC
       if (currentDataUrl.indexOf('protected') > -1) {
-        url = WMS_PAITULI_BASE_URL
-
         currentDataLayerSrc = new source.ImageWMS({
-          url: url,
+          url: WMS_PAITULI_BASE_URL,
           params: { LAYERS: currentDataUrl, VERSION: '1.1.1' },
           serverType: 'geoserver',
         })
@@ -1922,7 +1912,7 @@ function main() {
         })
       } else {
         currentDataLayerSrc = new source.TileWMS({
-          url: url,
+          url: WMS_PAITULI_BASE_URL_GWC,
           params: { LAYERS: currentDataUrl, VERSION: '1.1.1' },
           serverType: 'geoserver',
         })
@@ -1947,7 +1937,7 @@ function main() {
   }
 
   function getSearchResultFeatures(searchStr) {
-    var hits = []
+    const hits = []
     currentIndexMapLayer.getSource().forEachFeature((feature) => {
       if (
         feature.get('label').toLowerCase().indexOf(searchStr.toLowerCase()) !=
@@ -1974,7 +1964,7 @@ function main() {
     visible: true,
   }
 
-  var municipalitiesLayer = new layer.Tile({
+  const municipalitiesLayer = new layer.Tile({
     title: translator.getVal('map.municipalitiesmap'),
     source: new source.TileWMS({
       url: WMS_PAITULI_BASE_URL,
@@ -1988,7 +1978,7 @@ function main() {
     visible: false,
   })
 
-  var catchmentLayer = new layer.Tile({
+  const catchmentLayer = new layer.Tile({
     title: translator.getVal('map.catchment'),
     source: new source.TileWMS({
       url: WMS_PAITULI_BASE_URL,
@@ -2002,12 +1992,12 @@ function main() {
     visible: false,
   })
 
-  var overviewMap = new control.OverviewMap({
+  const overviewMap = new control.OverviewMap({
     collapsed: false,
     layers: [new layer.Tile(osmLayerOptions)],
   })
 
-  var map = new Map({
+  const map = new Map({
     layers: [
       new layer.Tile(osmLayerOptions),
       catchmentLayer,
@@ -2020,13 +2010,13 @@ function main() {
     }),
   })
 
-  var view = map.getView()
+  const view = map.getView()
 
   map.on('moveend', () => setMaxResolutionWarning())
 
   function setMaxResolutionWarning() {
     if (currentMaxResolution !== null) {
-      var currRes = view.getResolution()
+      const currRes = view.getResolution()
       if (currRes > currentMaxResolution) {
         createMaxResolutionWarning()
       } else {
@@ -2061,7 +2051,7 @@ function main() {
   }
 
   // a normal select interaction to handle click
-  var featureSelectInteraction = new interaction.Select({
+  const featureSelectInteraction = new interaction.Select({
     toggleCondition: condition.always,
     style: selected_style,
     multi: true, //Select several, if overlapping
@@ -2069,14 +2059,14 @@ function main() {
 
   featureSelectInteraction.on('select', () => setInfoContent('download'))
 
-  var selectedFeatures = featureSelectInteraction.getFeatures()
+  const selectedFeatures = featureSelectInteraction.getFeatures()
 
   selectedFeatures.on('add', (event) => {
     fileLabelList.push(event.element.get('label'))
   })
 
   selectedFeatures.on('remove', (event) => {
-    var deleteIdx = fileLabelList.indexOf(event.element.get('label'))
+    const deleteIdx = fileLabelList.indexOf(event.element.get('label'))
     if (deleteIdx > -1) {
       fileLabelList.splice(deleteIdx, 1)
     }
@@ -2090,7 +2080,7 @@ function main() {
   }
 
   function getTotalDownloadSize() {
-    var fileSize = getCurrentLayerData('file_size')
+    const fileSize = getCurrentLayerData('file_size')
     return fileSize !== null
       ? Math.ceil(fileSize * selectedFeatures.getLength())
       : 0
@@ -2099,15 +2089,15 @@ function main() {
   map.addInteraction(featureSelectInteraction)
 
   // a DragBox interaction used to select features by drawing boxes
-  var mapDragBox = new interaction.DragBox({})
+  const mapDragBox = new interaction.DragBox({})
 
   mapDragBox.on('boxend', () => {
-    var extent = mapDragBox.getGeometry().getExtent()
+    const extent = mapDragBox.getGeometry().getExtent()
 
     // Check which mapsheets were selected before and which are new
-    var newFeatures = []
-    var oldFeaturesInSelection = []
-    var existing
+    const newFeatures = []
+    const oldFeaturesInSelection = []
+    let existing
 
     currentIndexMapLayer
       .getSource()
@@ -2128,12 +2118,12 @@ function main() {
   map.addInteraction(mapDragBox)
 
   /* Add drawing vector source */
-  var drawingSource = new source.Vector({
+  const drawingSource = new source.Vector({
     useSpatialIndex: false,
   })
 
   /* Add drawing layer */
-  var drawingLayer = new layer.Vector({
+  const drawingLayer = new layer.Vector({
     source: drawingSource,
   })
   map.addLayer(drawingLayer)
@@ -2142,7 +2132,7 @@ function main() {
    * Declare interactions and listener globally so we can attach listeners to
    * them later.
    */
-  var draw
+  let draw
 
   // Drawing interaction
   draw = new interaction.Draw({
@@ -2153,14 +2143,14 @@ function main() {
   map.addInteraction(draw)
 
   function updateDrawSelection(event) {
-    var polygon = event.feature.getGeometry()
-    var features = currentIndexMapLayer.getSource().getFeatures()
+    const polygon = event.feature.getGeometry()
+    const features = currentIndexMapLayer.getSource().getFeatures()
 
-    var newFeatures = []
-    var oldFeaturesInSelection = []
-    var existing
+    const newFeatures = []
+    const oldFeaturesInSelection = []
+    let existing
 
-    for (var i = 0; i < features.length; i++) {
+    for (let i = 0; i < features.length; i++) {
       if (polygon.intersectsExtent(features[i].getGeometry().getExtent())) {
         existing = selectedFeatures.remove(features[i])
         if (existing) {
@@ -2185,8 +2175,8 @@ function main() {
 
   draw.on('drawend', (event) => updateDrawSelection(event))
 
-  var highlightCollection = new Collection()
-  var highlightOverlay = new layer.Vector({
+  const highlightCollection = new Collection()
+  const highlightOverlay = new layer.Vector({
     map: map,
     source: new source.Vector({
       features: highlightCollection,
@@ -2201,11 +2191,12 @@ function main() {
     setInfoContent('featureinfo', evt)
   }
 
-  var getFeatureInfoToolKey = null
+  // TODO ???
+  let getFeatureInfoToolKey = null
 
   // Select right tool
   // Set default
-  var dragPan
+  let dragPan
   map.getInteractions().forEach((i) => {
     if (i instanceof interaction.DragPan) {
       dragPan = i
@@ -2256,7 +2247,9 @@ function main() {
     if (selectedTool != 'drag') {
       dragPan.setActive(true)
     }
-    getFeatureInfoToolKey = map.on('singleclick', (event) => getFeatureInfo(event))
+    getFeatureInfoToolKey = map.on('singleclick', (event) =>
+      getFeatureInfo(event)
+    )
   }
 
   function selectDrawTool() {
@@ -2275,19 +2268,19 @@ function main() {
     unByKey(getFeatureInfoToolKey)
   }
 
-  var layerSwitcher = new LayerSwitcher({
+  const layerSwitcher = new LayerSwitcher({
     tipLabel: 'Toggle layers', // Optional label for button
   })
 
-  var scaleLineControl = new control.ScaleLine()
+  const scaleLineControl = new control.ScaleLine()
 
   function initLocationSearch() {
     locationSearchInput.keypress((event) => {
-      var keyCode = event.keyCode || event.charCode
+      const keyCode = event.keyCode || event.charCode
       if (keyCode == 13) {
-        var searchStr = locationSearchInput.val()
+        const searchStr = locationSearchInput.val()
         if (searchStr.length > 0) {
-          var queryUrl = NOMINATIM_API_URL.replace('!query!', searchStr)
+          const queryUrl = NOMINATIM_API_URL.replace('!query!', searchStr)
           $.getJSON(queryUrl, (data) => {
             if (data.length > 0) {
               map
