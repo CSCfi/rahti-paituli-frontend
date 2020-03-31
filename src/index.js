@@ -4,7 +4,7 @@ import 'jquery-ui-bundle/jquery-ui'
 import { Collection, Map, View } from 'ol'
 import * as control from 'ol/control'
 import * as condition from 'ol/events/condition'
-import * as format from 'ol/format'
+import * as ol_format from 'ol/format'
 import * as interaction from 'ol/interaction'
 import * as layer from 'ol/layer'
 import { unByKey } from 'ol/Observable'
@@ -802,17 +802,17 @@ function main() {
         dlLabel.hover(
           (event) => {
             highlightOverlay.getSource().clear()
-            const feature = currentIndexMapLayer
+            const olId = currentIndexMapLayer
               .getSource()
               .getFeatureById($(event.target).attr('ol_id'))
-            highlightOverlay.getSource().addFeature(feature)
+            highlightOverlay.getSource().addFeature(olId)
             dlLabel.css('font-weight', 'Bold')
           },
           (event) => {
-            const feature = currentIndexMapLayer
+            const olId = currentIndexMapLayer
               .getSource()
               .getFeatureById($(event.target).attr('ol_id'))
-            highlightOverlay.getSource().removeFeature(feature)
+            highlightOverlay.getSource().removeFeature(olId)
             dlLabel.css('font-weight', 'normal')
           }
         )
@@ -1526,10 +1526,6 @@ function main() {
       metadataTabContentRoot.append(metadataInfoLabel)
     }
 
-    const metadataNotes = $('<div>', {
-      id: 'metadata-notes',
-    })
-
     const errorFunction = (metadataNotes) => {
       metadataNotes.html(translator.getVal('info.nometadataavailable'))
       metadataTabContentRoot.append(metadataNotes)
@@ -1552,6 +1548,10 @@ function main() {
       }
       metadataTabContentRoot.append(metadataNotes)
     }
+
+    const metadataNotes = $('<div>', {
+      id: 'metadata-notes',
+    })
 
     fetchMetadataDescription(
       metadataURN,
@@ -1856,7 +1856,7 @@ function main() {
         currentDataId
       )
       const indexSource = new source.Vector({
-        format: new format.GeoJSON(),
+        format: new ol_format.GeoJSON(),
         loader: () => {
           $.ajax({
             jsonpCallback: 'loadIndexMapFeatures',
