@@ -132,14 +132,6 @@ function loadMetadata(afterMetadataLoadCallback) {
 }
 
 function main() {
-  String.prototype.insert = function (index, string) {
-    if (index > 0)
-      return (
-        this.substring(0, index) + string + this.substring(index, this.length)
-      )
-    else return string + this
-  }
-
   $(document).tooltip({ track: true })
 
   const selected_style = new style.Style({
@@ -1621,19 +1613,28 @@ function main() {
       while ((match = regexp.exec(notes)) != null) {
         matches.push(match.index)
       }
-
       matches.reverse()
+
+      const insert = (string, index, value) => {
+        return index > 0
+          ? string.substring(0, index) +
+              value +
+              string.substring(index, string.length)
+          : value + string
+      }
+
       $.each(matches, (loopIdx, matchIdx) => {
-        notes = notes.insert(
+        notes = insert(
+          notes,
           matchIdx + 1,
-          '<a href="' +
+          '<b><a href="' +
             notes.substring(
               notes.indexOf('(', matchIdx) + 1,
               notes.indexOf(')', matchIdx)
             ) +
             '" target="_blank">'
         )
-        notes = notes.insert(notes.indexOf(']', matchIdx), '</a>')
+        notes = insert(notes, notes.indexOf(']', matchIdx), '</a></b>')
         notes = notes.replace(
           notes.substring(
             notes.indexOf('(', matchIdx),
