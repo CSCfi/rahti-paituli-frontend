@@ -1564,34 +1564,31 @@ function main() {
   // Get dataset's metadata file links from Metax
   function getLinksAsHtmlFromEtsinMetadata(rawEtsinMetadata) {
     if (rawEtsinMetadata != null) {
-      let etsinLinks =
-        '<br>' + translator.getVal('info.metadatalinksheader') + '<ul>'
-      $.each(
-        rawEtsinMetadata.research_dataset.remote_resources,
-        (key, data) => {
-          if (data.title != null) {
-            if (
-              data.download_url.identifier
-                .toLowerCase()
-                .indexOf('latauspalvelu') === -1
-            ) {
-              etsinLinks =
-                etsinLinks +
-                '<li><a href="' +
-                data.download_url.identifier +
-                '" target="_blank">' +
-                data.title +
-                '</a></li>'
-            }
-          }
-        }
-      )
-      etsinLinks = etsinLinks + '</ul>'
-      if (etsinLinks.indexOf('href') > 0) {
-        return etsinLinks
+      const hasFileLink = (metadata) =>
+        metadata.title != null &&
+        metadata.download_url.identifier
+          .toLowerCase()
+          .includes('latauspalvelu') === false
+      const toHtmlLink = (metadata) =>
+        '<li><a href="' +
+        metadata.download_url.identifier +
+        '" target="_blank">' +
+        metadata.title +
+        '</a></li>'
+      const htmlLinks = rawEtsinMetadata.research_dataset.remote_resources
+        .filter(hasFileLink)
+        .map(toHtmlLink)
+
+      if (htmlLinks.length > 0) {
+        return (
+          '<br>' +
+          translator.getVal('info.metadatalinksheader') +
+          '<ul>' +
+          htmlLinks +
+          '</ul>'
+        )
       }
     }
-
     return null
   }
 
