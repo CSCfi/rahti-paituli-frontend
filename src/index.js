@@ -27,7 +27,7 @@ const METADATA_API = '/api/datasets'
 const GENERATE_PACKAGE_API_URL = '/download'
 
 const FINNISH_LANGUAGE = 'fi_FI'
-const ENGLISH_LANGUAGE = 'en_US'
+// const ENGLISH_LANGUAGE = 'en_US'
 let currentLocale = FINNISH_LANGUAGE
 
 let hakaUser = false
@@ -1446,12 +1446,7 @@ function main() {
     inputElem.empty()
     inputElem.prop('disabled', false)
     if (isProducerInput) {
-      let title = null
-      if (currentLocale == FINNISH_LANGUAGE) {
-        title = '--Valitse aineistotuottaja--'
-      } else if (currentLocale == ENGLISH_LANGUAGE) {
-        title = '--Select data producer--'
-      }
+      let title = translator.getVal('data.selectProducer')
       const optionElem = $('<option>', {
         value: title,
       })
@@ -1611,21 +1606,18 @@ function main() {
   // Get dataset's metadata description from Metax
   function getNotesAsHtmlFromEtsinMetadata(rawEtsinMetadata) {
     if (rawEtsinMetadata != null) {
-      let notes = rawEtsinMetadata.research_dataset.description
-      if (currentLocale == FINNISH_LANGUAGE) {
-        notes = notes.fi
-      } else if (currentLocale == ENGLISH_LANGUAGE) {
-        notes = notes.en
-      }
-
+      let notes =
+        currentLocale == FINNISH_LANGUAGE
+          ? rawEtsinMetadata.research_dataset.description.fi
+          : rawEtsinMetadata.research_dataset.description.en
       if (notes == null) {
         return null
       }
       // Fix links from MarkDown to HTML
       const regexp = /\[.*?\]\(http.*?\)/g
       const matches = []
-      let match
 
+      let match
       while ((match = regexp.exec(notes)) != null) {
         matches.push(match.index)
       }
