@@ -3,6 +3,8 @@ import 'jquery-ui-bundle/jquery-ui'
 import 'bootstrap-table/dist/bootstrap-table'
 import 'bootstrap-table/dist/bootstrap-table-locale-all'
 
+import Translator from './translator'
+
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-table/dist/bootstrap-table.min.css'
 import 'jquery-ui-bundle/jquery-ui.css'
@@ -12,13 +14,14 @@ import './metadata.css'
 
 const METADATA_API_URL = '/api/datasets'
 
-var translations = translator('fi_FI')
+const currentLocale = 'fi_FI'
+const translator = new Translator(currentLocale)
 
 function flipURN(urn) {
-  var colon = ':'
+  const colon = ':'
+  const dash = '-'
   if (urn.indexOf(colon) == -1) {
-    var dash = '-'
-    var arr = urn.split(dash)
+    const arr = urn.split(dash)
     urn =
       arr[0] + colon + arr[1] + colon + arr[2] + colon + arr[3] + dash + arr[4]
   }
@@ -26,42 +29,7 @@ function flipURN(urn) {
   return urn
 }
 
-function translator(lang) {
-  var translations = []
-
-  if (lang === 'en-US') {
-    translations = [
-      'Tuottaja',
-      'Ainesto',
-      'Mittakaava',
-      'Vuosi',
-      'Formaatti',
-      'CRS',
-      'Kuvaus',
-      'Lisenssi',
-      'Lataus',
-      'Avoin',
-      'Rajaa tuloksia',
-    ]
-  } else {
-    translations = [
-      'Producer',
-      'Dataset',
-      'Scale',
-      'Year',
-      'Format',
-      'CRS',
-      'Description',
-      'License',
-      'Download',
-      'Open',
-      'Filter results',
-    ]
-  }
-
-  return translations
-}
-
+const filterControlPlaceholder = translator.getVal('metadataTable.filter')
 $('#table').bootstrapTable({
   url: METADATA_API_URL,
   filterControl: true,
@@ -83,87 +51,76 @@ $('#table').bootstrapTable({
   columns: [
     {
       field: 'org',
-      title: translations[0],
+      title: translator.getVal('metadataTable.producer'),
       sortable: true,
       filterControl: 'input',
-      filterControlPlaceholder: translations[10],
+      filterControlPlaceholder: filterControlPlaceholder,
     },
     {
       field: 'name',
-      title: translations[1],
+      title: translator.getVal('metadataTable.name'),
       sortable: true,
       filterControl: 'input',
-      filterControlPlaceholder: translations[10],
+      filterControlPlaceholder: filterControlPlaceholder,
     },
     {
       field: 'scale',
-      title: translations[2],
+      title: translator.getVal('metadataTable.scale'),
       sortable: true,
       filterControl: 'input',
-      filterControlPlaceholder: translations[10],
+      filterControlPlaceholder: filterControlPlaceholder,
     },
     {
       field: 'year',
-      title: translations[3],
+      title: translator.getVal('metadataTable.year'),
       sortable: true,
       filterControl: 'input',
-      filterControlPlaceholder: translations[10],
+      filterControlPlaceholder: filterControlPlaceholder,
     },
     {
       field: 'format',
-      title: translations[4],
+      title: translator.getVal('metadataTable.format'),
       sortable: true,
       filterControl: 'input',
-      filterControlPlaceholder: translations[10],
+      filterControlPlaceholder: filterControlPlaceholder,
     },
     {
       field: 'coord_sys',
-      title: translations[5],
+      title: translator.getVal('metadataTable.coordSys'),
       sortable: true,
       filterControl: 'input',
-      filterControlPlaceholder: translations[10],
+      filterControlPlaceholder: filterControlPlaceholder,
     },
     {
       field: 'access',
-      title: translations[8],
+      title: translator.getVal('metadataTable.download'),
       sortable: true,
       filterControl: 'input',
-      filterControlPlaceholder: translations[10],
+      filterControlPlaceholder: filterControlPlaceholder,
       formatter: function (value, row) {
-        var link = ''
-
-        if (value == 1) {
-          link =
-            "<a href='/web/paituli/latauspalvelu?data_id=" +
-            row.data_id +
-            "'>" +
-            translations[9] +
-            '</a>'
-        } else {
-          link =
-            "<a href='/web/paituli/latauspalvelu?data_id=" +
-            row.data_id +
-            "'>HAKA</a>"
-        }
-
-        return link
+        return value === 1
+          ? '<a href="/index.html?data_id=' +
+              row.data_id +
+              '">' +
+              translator.getVal('metadataTable.access') +
+              '</a>'
+          : '<a href="/index.html?data_id="' + row.data_id + '">HAKA</a>'
       },
     },
     {
       field: 'meta',
-      title: translations[6],
+      title: translator.getVal('metadataTable.description'),
       sortable: true,
       filterControl: 'input',
-      filterControlPlaceholder: translations[10],
-      formatter: function (value) {
-        return value != null
+      filterControlPlaceholder: filterControlPlaceholder,
+      formatter: (value) =>
+        value != null
           ? '<a href="http://urn.fi/' +
-              flipURN(value) +
-              '">' +
-              translations[6] +
-              '</a>'
-          : '-'
-      },
+            flipURN(value) +
+            '">' +
+            translator.getVal('metadataTable.description') +
+            '</a>'
+          : '-',
     },
   ],
 })

@@ -297,6 +297,52 @@ export default function Translator(language) {
         en_US: 'Accepting the licence terms is mandatory',
       },
     },
+    metadataTable: {
+      producer: {
+        fi_FI: 'Tuottaja',
+        en_US: 'Producer',
+      },
+      name: {
+        fi_FI: 'Aineisto',
+        en_US: 'Dataset',
+      },
+      scale: {
+        fi_FI: 'Mittakaava',
+        en_US: 'Scale',
+      },
+      year: {
+        fi_FI: 'Vuosi',
+        en_US: 'Year',
+      },
+      format: {
+        fi_FI: 'Formaatti',
+        en_US: 'Format',
+      },
+      coordSys: {
+        fi_FI: 'CRS',
+        en_US: 'CRS',
+      },
+      description: {
+        fi_FI: 'Kuvaus',
+        en_US: 'Description',
+      },
+      license: {
+        fi_FI: 'Lisenssi',
+        en_US: 'License',
+      },
+      download: {
+        fi_FI: 'Lataus',
+        en_US: 'Download',
+      },
+      access: {
+        fi_FI: 'Avoin',
+        en_US: 'Open',
+      },
+      filter: {
+        fi_FI: 'Rajaa tuloksia',
+        en_US: 'Filter results',
+      },
+    },
   }
 
   var byString = function (o, s) {
