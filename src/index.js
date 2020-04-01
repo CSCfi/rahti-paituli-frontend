@@ -24,7 +24,7 @@ import 'ol-layerswitcher/src/ol-layerswitcher.css'
 import './index.css'
 
 const METADATA_API = '/api/datasets'
-const GENERATE_PACKAGE_API_URL = '/download'
+const DOWNLOAD_API_URL = '/download'
 
 const FINNISH_LANGUAGE = 'fi_FI'
 // const ENGLISH_LANGUAGE = 'en_US'
@@ -103,23 +103,16 @@ function checkParameterDatasetAccess() {
     if (pageDataIdParam === null || pageDataIdParam.length == 0) {
       main()
     } else {
-      /*
-      TODO Haka
-
       const dataIdRow = alasql(
         "SELECT * FROM ? WHERE data_id='" + pageDataIdParam + "'",
         [metadata]
       )
-      if (typeof dataIdRow[0] !== 'undefined') {
-           if (dataIdRow[0].access == 2 && !hakaUser) {
-               window.location.replace('https://' + window.location.host + '/c/portal/login?p_l_id= ' + Liferay.ThemeDisplay.getPlid());
-           } else {
-               main();
-           }
+      if (dataIdRow[0] != null && dataIdRow[0].access == 2 && !hakaUser) {
+        // TODO: redirect user to login page
+        window.location.replace('/')
       } else {
-           main();
+        main()
       }
-      */
     }
   })
 }
@@ -191,25 +184,25 @@ function main() {
     ETSIN_BASE + '/rest/datasets?format=json&preferred_identifier='
 
   // GeoServer
-  const BASE_URL = '//avaa.tdata.fi/geoserver/' // "//avoin-test.csc.fi/geoserver/";
+  const GEOSERVER_BASE_URL = '//avaa.tdata.fi/geoserver/' // "//avoin-test.csc.fi/geoserver/";
   const INDEX_LAYER = 'paituli:index'
   const LAYER_NAME_MUNICIPALITIES = 'paituli:mml_hallinto_2014_100k'
   const LAYER_NAME_CATCHMENT_AREAS = 'paituli:syke_valuma_maa'
 
   const WFS_INDEX_MAP_LAYER_URL =
-    BASE_URL +
+    GEOSERVER_BASE_URL +
     'wfs?service=WFS&version=2.0.0&request=GetFeature&srsname=epsg:3857&typeNames=' +
     INDEX_LAYER +
     "&cql_filter= !key! = '!value!'"
   const WMS_INDEX_MAP_LABEL_LAYER_URL =
-    BASE_URL +
+    GEOSERVER_BASE_URL +
     'wms?service=WMS&LAYERS= ' +
     INDEX_LAYER +
     "&CQL_FILTER=data_id = '!value!'"
-  const WMS_PAITULI_BASE_URL = BASE_URL + 'wms?'
-  const WMS_PAITULI_BASE_URL_GWC = BASE_URL + 'gwc/service/wms?'
+  const WMS_PAITULI_BASE_URL = GEOSERVER_BASE_URL + 'wms?'
+  const WMS_PAITULI_BASE_URL_GWC = GEOSERVER_BASE_URL + 'gwc/service/wms?'
   const WFS_INDEX_MAP_DOWNLOAD_SHAPE =
-    BASE_URL +
+    GEOSERVER_BASE_URL +
     'wfs?service=WFS&version=2.0.0&request=GetFeature&srsname=epsg:4326&typeNames=' +
     INDEX_LAYER +
     "&outputFormat=shape-zip&propertyname=label,path,geom&cql_filter= !key! = '!value!'"
@@ -322,7 +315,7 @@ function main() {
       if (valid) {
         modal.data('email', input.val())
         $.post({
-          url: GENERATE_PACKAGE_API_URL,
+          url: DOWNLOAD_API_URL,
           data: JSON.stringify(downloadRequest),
           contentType: 'application/json; charset=utf-8',
           dataType: 'json',
