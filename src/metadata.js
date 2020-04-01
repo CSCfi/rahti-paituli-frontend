@@ -2,6 +2,8 @@ import $ from 'jquery'
 import 'jquery-ui-bundle/jquery-ui'
 import 'bootstrap-table/dist/bootstrap-table'
 import 'bootstrap-table/dist/bootstrap-table-locale-all'
+import 'bootstrap-table/dist/extensions/multiple-sort/bootstrap-table-multiple-sort'
+import 'bootstrap-table/dist/extensions/filter-control/bootstrap-table-filter-control'
 
 import Translator from './translator'
 
