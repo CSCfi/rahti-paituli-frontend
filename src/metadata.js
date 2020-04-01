@@ -1,0 +1,5 @@
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'jquery-ui-bundle/jquery-ui.css'
+import 'ol/ol.css'
+import 'ol-layerswitcher/src/ol-layerswitcher.css'
+import './index.css'

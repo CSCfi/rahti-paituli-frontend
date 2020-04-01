@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --open",
     "build": "webpack",
+    "clean": "rm -rf dist/*.js && rm -rf dist/*.png",
     "lint": "eslint . --ext .js",
     "lint:fix": "npm run lint -- --fix"
   },
