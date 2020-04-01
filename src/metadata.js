@@ -20,12 +20,14 @@ const translator = new Translator(currentLocale)
 function flipURN(urn) {
   const colon = ':'
   const dash = '-'
-  if (urn.indexOf(colon) == -1) {
-    const arr = urn.split(dash)
-    urn =
-      arr[0] + colon + arr[1] + colon + arr[2] + colon + arr[3] + dash + arr[4]
+  if (!urn.includes(colon)) {
+    return urn
+      .split(dash)
+      .reduce(
+        (acc, value, i, arr) =>
+          acc + (i < arr.length - 1 ? colon : dash) + value
+      )
   }
-
   return urn
 }
 
@@ -97,7 +99,7 @@ $('#table').bootstrapTable({
       sortable: true,
       filterControl: 'input',
       filterControlPlaceholder: filterControlPlaceholder,
-      formatter: function (value, row) {
+      formatter: (value, row) => {
         return value === 1
           ? '<a href="/index.html?data_id=' +
               row.data_id +
