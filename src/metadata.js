@@ -128,3 +128,7 @@ $('#table').bootstrapTable({
     },
   ],
 })
+
+$(function () {
+  $('#header').load('header.html')
+})

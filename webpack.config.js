@@ -5,6 +5,7 @@ module.exports = {
   entry: {
     download: './src/download.js',
     metadata: './src/metadata.js',
+    header: './src/header.js',
   },
   output: {
     filename: '[name].js',

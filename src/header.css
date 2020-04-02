@@ -1,0 +1,31 @@
+.navbar {
+  height: 160px;
+  margin-bottom: 20px;
+  border-bottom: 4px solid #dfe1e3;
+}
+
+.navbar-wrapper {
+  position: relative;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.top-links {
+  list-style: none;
+}
+
+.search-wrapper {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+.nav-link {
+  font-size: 16px;
+  color: #7e888d;
+}
+
+.navbar-brand {
+  color: #00b5ec;
+  font-size: 48px;
+}
