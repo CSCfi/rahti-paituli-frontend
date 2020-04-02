@@ -1,4 +1,3 @@
-import alasql from 'alasql'
 import $ from 'jquery'
 import 'jquery-ui-bundle/jquery-ui'
 import { Collection, Map, View } from 'ol'
@@ -103,11 +102,10 @@ function checkParameterDatasetAccess() {
     if (pageDataIdParam === null || pageDataIdParam.length == 0) {
       main()
     } else {
-      const dataIdRow = alasql(
-        "SELECT * FROM ? WHERE data_id='" + pageDataIdParam + "'",
-        [metadata]
+      const selectedData = metadata.find(
+        (data) => data.data_id === pageDataIdParam
       )
-      if (dataIdRow[0] != null && dataIdRow[0].access == 2 && !hakaUser) {
+      if (selectedData != null && selectedData.access == 2 && !hakaUser) {
         // TODO: redirect user to login page
         window.location.replace('/')
       } else {
@@ -1178,30 +1176,18 @@ function main() {
       )
     )
     $('#' + coordsysInputId).on('change', () => {
-      const selectedProducer = producerInput.val()
-      const selectedData = dataInput.val()
-      const selectedScale = scaleInput.val()
-      const selectedYear = yearInput.val()
-      const selectedFormat = formatInput.val()
-      const selectedCoordsys = coordsysInput.val()
-      const dataIdResult = alasql(
-        "SELECT data_id FROM ? WHERE org='" +
-          selectedProducer +
-          "' AND name='" +
-          selectedData +
-          "' AND scale='" +
-          selectedScale +
-          "' AND year='" +
-          selectedYear +
-          "' AND format='" +
-          selectedFormat +
-          "' AND coord_sys='" +
-          selectedCoordsys +
-          "'",
-        [metadata]
-      ).map((item) => item.data_id)
-      if (typeof dataIdResult[0] !== 'undefined') {
-        currentDataId = dataIdResult[0]
+      const selectedData = metadata.find(
+        (data) =>
+          data.org === producerInput.val() &&
+          data.name === dataInput.val() &&
+          data.scale === scaleInput.val() &&
+          data.year === yearInput.val() &&
+          data.format === formatInput.val() &&
+          data.coord_sys === coordsysInput.val()
+      )
+
+      if (typeof selectedData !== 'undefined') {
+        currentDataId = selectedData.data_id
         const dataUrl = getCurrentLayerData('data_url')
 
         if (dataUrl !== null) {
@@ -1240,80 +1226,62 @@ function main() {
     formatInput,
     coordsysInput
   ) {
-    const dataIdRow = alasql(
-      "SELECT * FROM ? WHERE data_id='" + pageDataIdParam + "'",
-      [metadata]
+    const selectedData = metadata.find(
+      (data) => data.data_id === pageDataIdParam
     )
-    if (typeof dataIdRow[0] !== 'undefined') {
-      const producer = dataIdRow[0].org
-      const dataName = dataIdRow[0].name
-      const scale = dataIdRow[0].scale
-      const year = dataIdRow[0].year
-      const format = dataIdRow[0].format
-      const coordsys = dataIdRow[0].coord_sys
-      producerInput.val(producer)
+    if (typeof selectedData !== 'undefined') {
+      producerInput.val(selectedData.org)
       producerInput.trigger('change')
-      dataInput.val(dataName)
+      dataInput.val(selectedData.name)
       dataInput.trigger('change')
-      scaleInput.val(scale)
+      scaleInput.val(selectedData.scale)
       scaleInput.trigger('change')
-      yearInput.val(year)
+      yearInput.val(selectedData.year)
       yearInput.trigger('change')
-      formatInput.val(format)
+      formatInput.val(selectedData.format)
       formatInput.trigger('change')
-      coordsysInput.val(coordsys)
+      coordsysInput.val(selectedData.coord_sys)
       coordsysInput.trigger('change')
     }
     pageDataIdParam = null
   }
 
+  function onlyDistinct(value, index, self) {
+    return self.indexOf(value) === index
+  }
+
+  function onlyAuthorized(data) {
+    return hakaUser || data.access === 1
+  }
+
   function updateProducerList(producerInput) {
-    // hakaUser = Liferay.ThemeDisplay.isSignedIn();
-    const query = hakaUser
-      ? 'SELECT DISTINCT org FROM ? '
-      : 'SELECT DISTINCT org FROM ? WHERE access=1'
-    const producers = alasql(query, [metadata]).map((item) => item.org)
+    const producers = metadata
+      .filter(onlyAuthorized)
+      .map((data) => data.org)
+      .filter(onlyDistinct)
     updateOptions(producerInput, sortDropdownData('ascending', producers), true)
   }
 
   function updateDataList(producerInput, dataInput) {
-    const selectedProducerId = producerInput.val()
-    if (!strStartsWith(selectedProducerId, '--')) {
-      const data = hakaUser
-        ? alasql(
-            "SELECT name FROM ? WHERE org='" +
-              selectedProducerId +
-              "' GROUP BY name",
-            [metadata]
-          )
-        : alasql(
-            "SELECT name FROM ? WHERE org='" +
-              selectedProducerId +
-              "' AND access=1 GROUP BY name",
-            [metadata]
-          )
-      const dataNames = sortDropdownData(
-        'ascending',
-        $.map(data, (item) => item.name)
-      )
-      updateOptions(dataInput, dataNames, false)
+    if (!strStartsWith(producerInput.val(), '--')) {
+      const names = metadata
+        .filter((data) => data.org === producerInput.val())
+        .filter(onlyAuthorized)
+        .map((data) => data.name)
+        .filter(onlyDistinct)
+      updateOptions(dataInput, sortDropdownData('ascending', names), false)
     } else {
       addEmptyOption(dataInput)
     }
   }
 
   function updateScaleList(producerInput, dataInput, scaleInput) {
-    const selectedProducerId = producerInput.val()
-    const selectedDataId = dataInput.val()
-    if (!strStartsWith(selectedDataId, '--')) {
-      const scales = alasql(
-        "SELECT DISTINCT scale FROM ? WHERE org='" +
-          selectedProducerId +
-          "' AND name='" +
-          selectedDataId +
-          "'",
-        [metadata]
-      ).map((item) => item.scale)
+    if (!strStartsWith(dataInput.val(), '--')) {
+      const scales = metadata
+        .filter((data) => data.org === producerInput.val())
+        .filter((data) => data.name === dataInput.val())
+        .map((data) => data.scale)
+        .filter(onlyDistinct)
       updateOptions(scaleInput, sortDropdownData('shortest', scales), false)
     } else {
       addEmptyOption(scaleInput)
@@ -1321,20 +1289,13 @@ function main() {
   }
 
   function updateYearList(producerInput, dataInput, scaleInput, yearInput) {
-    const selectedProducerId = producerInput.val()
-    const selectedDataId = dataInput.val()
-    const selectedScaleId = scaleInput.val()
-    if (!strStartsWith(selectedScaleId, '--')) {
-      const years = alasql(
-        "SELECT DISTINCT year FROM ? WHERE org='" +
-          selectedProducerId +
-          "' AND name='" +
-          selectedDataId +
-          "' AND scale='" +
-          selectedScaleId +
-          "'",
-        [metadata]
-      ).map((item) => item.year)
+    if (!strStartsWith(scaleInput.val(), '--')) {
+      const years = metadata
+        .filter((data) => data.org === producerInput.val())
+        .filter((data) => data.name === dataInput.val())
+        .filter((data) => data.scale === scaleInput.val())
+        .map((data) => data.year)
+        .filter(onlyDistinct)
       updateOptions(yearInput, sortDropdownData('newest', years), false)
     } else {
       addEmptyOption(yearInput)
@@ -1348,23 +1309,14 @@ function main() {
     yearInput,
     formatInput
   ) {
-    const selectedProducerId = producerInput.val()
-    const selectedDataId = dataInput.val()
-    const selectedScaleId = scaleInput.val()
-    const selectedYearId = yearInput.val()
-    if (!strStartsWith(selectedYearId, '--')) {
-      const formats = alasql(
-        "SELECT DISTINCT format FROM ? WHERE org='" +
-          selectedProducerId +
-          "' AND name='" +
-          selectedDataId +
-          "' AND scale='" +
-          selectedScaleId +
-          "' AND year='" +
-          selectedYearId +
-          "'",
-        [metadata]
-      ).map((item) => item.format)
+    if (!strStartsWith(yearInput.val(), '--')) {
+      const formats = metadata
+        .filter((data) => data.org === producerInput.val())
+        .filter((data) => data.name === dataInput.val())
+        .filter((data) => data.scale === scaleInput.val())
+        .filter((data) => data.year === yearInput.val())
+        .map((data) => data.format)
+        .filter(onlyDistinct)
       updateOptions(formatInput, sortDropdownData('ascending', formats), false)
     } else {
       addEmptyOption(formatInput)
@@ -1379,26 +1331,15 @@ function main() {
     formatInput,
     coordsysInput
   ) {
-    const selectedProducerId = producerInput.val()
-    const selectedDataId = dataInput.val()
-    const selectedScaleId = scaleInput.val()
-    const selectedYearId = yearInput.val()
-    const selectedFormatId = formatInput.val()
-    if (!strStartsWith(selectedFormatId, '--')) {
-      const coordsyses = alasql(
-        "SELECT DISTINCT coord_sys FROM ? WHERE org='" +
-          selectedProducerId +
-          "' AND name='" +
-          selectedDataId +
-          "' AND scale='" +
-          selectedScaleId +
-          "' AND year='" +
-          selectedYearId +
-          "' AND format='" +
-          selectedFormatId +
-          "'",
-        [metadata]
-      ).map((item) => item.coord_sys)
+    if (!strStartsWith(formatInput.val(), '--')) {
+      const coordsyses = metadata
+        .filter((data) => data.org === producerInput.val())
+        .filter((data) => data.name === dataInput.val())
+        .filter((data) => data.scale === scaleInput.val())
+        .filter((data) => data.year === yearInput.val())
+        .filter((data) => data.format === formatInput.val())
+        .map((data) => data.coord_sys)
+        .filter(onlyDistinct)
       updateOptions(
         coordsysInput,
         sortDropdownData('ascending', coordsyses),
@@ -1801,10 +1742,9 @@ function main() {
   }
 
   function getCurrentLayerData(field) {
-    const value = alasql(
-      'SELECT ' + field + " FROM ? WHERE data_id='" + currentDataId + "'",
-      [metadata]
-    ).map((item) => item[field])
+    const value = metadata
+      .filter((data) => data.data_id === currentDataId)
+      .map((data) => data[field])
     if (
       typeof value !== 'undefined' &&
       value !== null &&
