@@ -103,12 +103,12 @@ $('#table').bootstrapTable({
       filterControlPlaceholder: filterControlPlaceholder,
       formatter: (value, row) => {
         return value === 1
-          ? '<a href="/index.html?data_id=' +
+          ? '<a href="/download.html?data_id=' +
               row.data_id +
               '">' +
               translator.getVal('metadataTable.access') +
               '</a>'
-          : '<a href="/index.html?data_id="' + row.data_id + '">HAKA</a>'
+          : '<a href="/download.html?data_id="' + row.data_id + '">HAKA</a>'
       },
     },
     {

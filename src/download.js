@@ -21,10 +21,10 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'jquery-ui-bundle/jquery-ui.css'
 import 'ol/ol.css'
 import 'ol-layerswitcher/src/ol-layerswitcher.css'
-import './index.css'
+import './download.css'
 
 const METADATA_API = '/api/datasets'
-const DOWNLOAD_API_URL = '/download'
+const DOWNLOAD_API_URL = '/api/download'
 
 const FINNISH_LANGUAGE = 'fi_FI'
 // const ENGLISH_LANGUAGE = 'en_US'

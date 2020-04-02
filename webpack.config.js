@@ -3,7 +3,7 @@ const path = require('path')
 module.exports = {
   mode: 'development',
   entry: {
-    download: './src/index.js',
+    download: './src/download.js',
     metadata: './src/metadata.js',
   },
   output: {
@@ -13,14 +13,10 @@ module.exports = {
   devtool: 'inline-source-map',
   devServer: {
     contentBase: './dist',
-    openPage: 'index.html',
+    openPage: 'download.html',
     port: 9000,
     proxy: {
       '/api': {
-        target: 'http://localhost:8080',
-        pathRewrite: { '^/api': '' },
-      },
-      '/download': {
         target: 'http://localhost:8080',
         pathRewrite: { '^/api': '' },
       },
