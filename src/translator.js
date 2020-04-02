@@ -1,6 +1,5 @@
 export default function Translator(language) {
-  this.language = language
-  var translations = {
+  const translations = {
     appHeader: {
       fi_FI: 'PaITuli - Paikkatietoja tutkimukseen ja opetukseen',
       en_US: 'PaITuli - Spatial data for research and teaching',
@@ -345,12 +344,12 @@ export default function Translator(language) {
     },
   }
 
-  var byString = function (o, s) {
+  const byString = (o, s) => {
     s = s.replace(/\[(\w+)\]/g, '.$1') // convert indexes to properties
     s = s.replace(/^\./, '') // strip a leading dot
-    var a = s.split('.')
-    for (var i = 0, n = a.length; i < n; ++i) {
-      var k = a[i]
+    const a = s.split('.')
+    for (let i = 0, n = a.length; i < n; ++i) {
+      const k = a[i]
       if (k in o) {
         o = o[k]
       } else {
@@ -360,7 +359,5 @@ export default function Translator(language) {
     return o
   }
 
-  this.getVal = function (field) {
-    return byString(translations, field + '.' + this.language)
-  }
+  this.getVal = (field) => byString(translations, field + '.' + language)
 }
