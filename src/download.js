@@ -169,7 +169,6 @@ function main() {
   const locationSearchInput = $('#location-search-input')
 
   let currentIndexMapLabelLayer = null
-  let currentDataLayerSrc = null
   let currentDataLayer = null
   let currentDataId = null
   let currentDataUrl = null
@@ -556,12 +555,12 @@ function main() {
 
   function createFeatureInfoContent(rootElem, event) {
     const viewResolution = view.getResolution()
-    const url = currentDataLayerSrc.getGetFeatureInfoUrl(
-      event.coordinate,
-      viewResolution,
-      'EPSG:3857',
-      { INFO_FORMAT: 'text/plain', outputFormat: 'text/javascript' }
-    )
+    const url = currentDataLayer
+      .getSource()
+      .getFeatureInfoUrl(event.coordinate, viewResolution, 'EPSG:3857', {
+        INFO_FORMAT: 'text/plain',
+        outputFormat: 'text/javascript',
+      })
     if (url) {
       rootElem.html(
         '<iframe id="feature-info-iframe" seamless src="' + url + '"></iframe>'
@@ -1882,27 +1881,23 @@ function main() {
   function loadDataLayer() {
     if (currentDataId !== null && currentDataUrl !== null) {
       if (currentDataUrl.indexOf('protected') > -1) {
-        currentDataLayerSrc = new source.ImageWMS({
-          url: WMS_PAITULI_BASE_URL,
-          params: { LAYERS: currentDataUrl, VERSION: '1.1.1' },
-          serverType: 'geoserver',
-        })
-
         currentDataLayer = new layer.Image({
           title: translator.getVal('map.datamap'),
-          source: currentDataLayerSrc,
+          source: new source.ImageWMS({
+            url: WMS_PAITULI_BASE_URL,
+            params: { LAYERS: currentDataUrl, VERSION: '1.1.1' },
+            serverType: 'geoserver',
+          }),
           visible: true,
         })
       } else {
-        currentDataLayerSrc = new source.TileWMS({
-          url: WMS_PAITULI_BASE_URL_GWC,
-          params: { LAYERS: currentDataUrl, VERSION: '1.1.1' },
-          serverType: 'geoserver',
-        })
-
         currentDataLayer = new layer.Tile({
           title: translator.getVal('map.datamap'),
-          source: currentDataLayerSrc,
+          source: new source.TileWMS({
+            url: WMS_PAITULI_BASE_URL_GWC,
+            params: { LAYERS: currentDataUrl, VERSION: '1.1.1' },
+            serverType: 'geoserver',
+          }),
           visible: true,
         })
       }
