@@ -2309,3 +2309,7 @@ function main() {
 
 // checkAccessRights();
 checkParameterDatasetAccess()
+
+$(function () {
+  $('#header').load('header.html')
+})
