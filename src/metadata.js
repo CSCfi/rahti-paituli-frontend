@@ -12,7 +12,7 @@ import 'bootstrap-table/dist/bootstrap-table.min.css'
 import 'jquery-ui-bundle/jquery-ui.css'
 import 'ol/ol.css'
 import 'ol-layerswitcher/src/ol-layerswitcher.css'
-import './metadata.css'
+import './css/metadata.css'
 
 const METADATA_API_URL = '/api/datasets'
 
