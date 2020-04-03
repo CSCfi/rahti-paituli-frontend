@@ -26,6 +26,11 @@ import './css/download.css'
 const METADATA_API = '/api/datasets'
 const DOWNLOAD_API_URL = '/api/download'
 
+// Links tab
+const FTP_LINKS_BASE_URL = 'ftp://ftp.funet.fi/index/geodata/'
+const HTTP_LINKS_BASE_URL = 'http://www.nic.funet.fi/index/geodata/'
+const INFO_LINK_URL = 'https://avaa.tdata.fi/web/paituli/ftp-/-rsync'
+
 // Etsin
 const ETSIN_BASE = '//metax.fairdata.fi' // "//metax-test.csc.fi" "//etsin.avointiede.fi" "//etsin-demo.avointiede.fi"
 const ETSIN_BASE_URN = 'http://urn.fi/' //
@@ -214,8 +219,8 @@ function main() {
   const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
   const emailInput = $('#email-input')
   const emailListInput = $('#email-list-input')
-  const licenceCheckbox = $('#licence-checkbox')
-  const licenceCheckboxList = $('#licence-list-checkbox')
+  const licenseCheckbox = $('#license-checkbox')
+  const licenseCheckboxList = $('#license-list-checkbox')
   const tips = $('#email-modal-tips')
   const listTips = $('#email-list-modal-tips')
 
@@ -248,7 +253,7 @@ function main() {
     close: () => {
       emailForm[0].reset()
       emailInput.removeClass('ui-state-error')
-      licenceCheckbox.removeClass('ui-state-error')
+      licenseCheckbox.removeClass('ui-state-error')
     },
   })
 
@@ -287,7 +292,7 @@ function main() {
     close: () => {
       emailListForm[0].reset()
       emailListInput.removeClass('ui-state-error')
-      licenceCheckboxList.removeClass('ui-state-error')
+      licenseCheckboxList.removeClass('ui-state-error')
     },
   })
 
@@ -335,7 +340,7 @@ function main() {
     }
   }
 
-  function emailDataOrList(input, dlType, licence, modal, tipsOutput) {
+  function emailDataOrList(input, dlType, license, modal, tipsOutput) {
     const emailVal = input.val()
     if (fileList && fileList.length > 0 && emailVal) {
       const downloadRequest = {
@@ -356,7 +361,7 @@ function main() {
       // Validate input fields
       let valid = true
       input.removeClass('ui-state-error')
-      licence.removeClass('ui-state-error')
+      license.removeClass('ui-state-error')
       valid =
         valid &&
         checkLength(
@@ -377,7 +382,7 @@ function main() {
       valid =
         valid &&
         checkIsChecked(
-          licence,
+          license,
           translator.getVal('email.errorCheckboxChecked'),
           tipsOutput
         )
@@ -400,14 +405,14 @@ function main() {
   }
 
   function emailData() {
-    return emailDataOrList(emailInput, 'zip', licenceCheckbox, emailModal, tips)
+    return emailDataOrList(emailInput, 'zip', licenseCheckbox, emailModal, tips)
   }
 
   function emailList() {
     return emailDataOrList(
       emailListInput,
       'list',
-      licenceCheckboxList,
+      licenseCheckboxList,
       emailListModal,
       listTips
     )
@@ -598,8 +603,8 @@ function main() {
       id: 'links-container',
     })
 
-    const ftpPath = 'ftp://ftp.funet.fi/index/geodata/' + datasetPath
-    const httpPath = 'http://www.nic.funet.fi/index/geodata/' + datasetPath
+    const ftpPath = FTP_LINKS_BASE_URL + datasetPath
+    const httpPath = HTTP_LINKS_BASE_URL + datasetPath
 
     addLink('http', httpPath, linksContainer)
     addLink('ftp', ftpPath, linksContainer)
@@ -625,9 +630,7 @@ function main() {
     rootElem.append(index_anchor)
     rootElem.append(translator.getVal('info.dlIndexMapInfo') + ' ')
     rootElem.append(
-      translator
-        .getVal('info.linksInfo')
-        .replace('!infolink!', 'https://avaa.tdata.fi/web/paituli/ftp-/-rsync')
+      translator.getVal('info.linksInfo').replace('!infolink!', INFO_LINK_URL)
     )
   }
 
@@ -681,38 +684,38 @@ function main() {
       dlListButton.css('visibility', 'hidden')
     }
 
-    let licenceHeader = $('#download-licence-header')
-    if (!licenceHeader.length) {
-      licenceHeader = $('<h5>', {
-        id: 'download-licence-header',
+    let licenseHeader = $('#download-license-header')
+    if (!licenseHeader.length) {
+      licenseHeader = $('<h5>', {
+        id: 'download-license-header',
         class: 'download-tab-header',
       })
     }
-    licenceHeader.text(translator.getVal('info.documents'))
+    licenseHeader.text(translator.getVal('info.documents'))
 
     //http://www.nic.funet.fi/index/geodata/mml/NLS_terms_of_use.pdf -> crop after geodata/
-    const licenceUrl = getCurrentLayerData('license_url')
-    const dlLicInputId = 'download-licence-input'
-    let dlLicContainer = $('#download-licence-container')
+    const licenseUrl = getCurrentLayerData('license_url')
+    const dlLicInputId = 'download-license-input'
+    let dlLicContainer = $('#download-license-container')
     let dlLicInput = $('#' + dlLicInputId)
-    let dlLicLabelLink = $('#download-licence-link')
+    let dlLicLabelLink = $('#download-license-link')
     if (!dlLicInput.length) {
       dlLicContainer = $('<div>', {
-        id: 'download-licence-container',
+        id: 'download-license-container',
       })
       dlLicLabelLink = $('<a>', {
-        id: 'download-licence-link',
-        href: licenceUrl,
+        id: 'download-license-link',
+        href: licenseUrl,
         target: '_blank',
-        class: 'download-licence-link',
-        'data-value': translator.getVal('info.licence'),
+        class: 'download-license-link',
+        'data-value': translator.getVal('info.license'),
       })
-      dlLicLabelLink.text(translator.getVal('info.licence'))
+      dlLicLabelLink.text(translator.getVal('info.license'))
       dlLicInput = $('<input>', {
         checked: 'checked',
         id: dlLicInputId,
         type: 'checkbox',
-        value: cutLicenseURL(licenceUrl),
+        value: cutLicenseURL(licenseUrl),
         class: 'download-checkbox',
       })
       dlLicInput.appendTo(dlLicContainer)
@@ -731,7 +734,7 @@ function main() {
         clearDownloadTabContent()
         dlButtonWrapper.appendTo(rootElem)
         dlListWrapper.appendTo(rootElem)
-        licenceHeader.appendTo(rootElem)
+        licenseHeader.appendTo(rootElem)
 
         dlLicContainer.appendTo(rootElem)
 
@@ -815,7 +818,7 @@ function main() {
       clearDownloadTabContent()
       dlButtonWrapper.appendTo(rootElem)
       dlListWrapper.appendTo(rootElem)
-      licenceHeader.appendTo(rootElem)
+      licenseHeader.appendTo(rootElem)
       dlLicContainer.appendTo(rootElem)
       downloadFilesHeader.appendTo(rootElem)
       const downloadInfo = $('<div>', {
@@ -831,7 +834,7 @@ function main() {
         dlListButton,
         dlLicInput
       )
-      updateFileLabelListForLicence(dlLicInput, licenceUrl)
+      updateFileLabelListForLicence(dlLicInput, licenseUrl)
     })
     dlButton.on('click', (event) => {
       event.preventDefault()
@@ -864,18 +867,18 @@ function main() {
       }
     })
     updateDownloadFileList(dlButton, dlButtonWrapper, dlListButton, dlLicInput)
-    updateFileLabelListForLicence(dlLicInput, licenceUrl)
+    updateFileLabelListForLicence(dlLicInput, licenseUrl)
   }
 
-  function updateFileLabelListForLicence(dlLicInput, licenceUrl) {
-    const licenceIdx = fileLabelList.indexOf(licenceUrl)
+  function updateFileLabelListForLicence(dlLicInput, licenseUrl) {
+    const licenseIdx = fileLabelList.indexOf(licenseUrl)
     if (dlLicInput.prop('checked')) {
-      if (licenceIdx == -1) {
-        fileLabelList.push(licenceUrl)
+      if (licenseIdx == -1) {
+        fileLabelList.push(licenseUrl)
       }
     } else {
-      if (licenceIdx > -1) {
-        fileLabelList.splice(licenceIdx, 1)
+      if (licenseIdx > -1) {
+        fileLabelList.splice(licenseIdx, 1)
       }
     }
   }
@@ -935,14 +938,14 @@ function main() {
     }
   }
 
-  function updateModal(dataDescription, licenceCheckboxLabel) {
+  function updateModal(dataDescription, licenseCheckboxLabel) {
     const dataDescrContainer = $(dataDescription)
     dataDescrContainer.empty()
 
-    $(licenceCheckboxLabel).html(
+    $(licenseCheckboxLabel).html(
       translator
-        .getVal('email.licencefield')
-        .replace('!licence!', getCurrentLayerData('license_url'))
+        .getVal('email.licensefield')
+        .replace('!license!', getCurrentLayerData('license_url'))
     )
     const dataDescrContent = $('<div>')
     dataDescrContent.text(
@@ -967,11 +970,11 @@ function main() {
   }
 
   function updateEmailModal() {
-    updateModal('#data-description', '#licence-checkbox-label')
+    updateModal('#data-description', '#license-checkbox-label')
   }
 
   function updateEmailListModal() {
-    updateModal('#data-description-list', '#licence-list-checkbox-label')
+    updateModal('#data-description-list', '#license-list-checkbox-label')
   }
 
   function clearFeatureInfoTabContent() {

@@ -314,11 +314,11 @@
   margin-left: 5px;
 }
 
-#download-licence-container {
+#download-license-container {
   display: inline;
   padding-left: 10px;
 }
-.download-licence-link {
+.download-license-link {
   display: inline;
 }
 
@@ -335,10 +335,10 @@
   margin-top: 10px;
 }
 
-#licence-checkbox,
-#licence-checkbox-label,
-#licence-list-checkbox,
-#licence-list-checkbox-label {
+#license-checkbox,
+#license-checkbox-label,
+#license-list-checkbox,
+#license-list-checkbox-label {
   display: inline-block;
 }
 
@@ -347,8 +347,8 @@
   margin-top: 10px;
 }
 
-#licence-checkbox-label a,
-#licence-list-checkbox-label a {
+#license-checkbox-label a,
+#license-list-checkbox-label a {
   color: #36b645 !important;
 }
 

@@ -88,7 +88,7 @@ export default function Translator(language) {
         fi_FI: 'Dokumentit',
         en_US: 'Documents',
       },
-      licence: {
+      license: {
         fi_FI: 'Käyttöehdot',
         en_US: 'Licence terms',
       },
@@ -253,11 +253,11 @@ export default function Translator(language) {
         fi_FI: 'esim@toinen.fi',
         en_US: 'example@other.com',
       },
-      licencefield: {
+      licensefield: {
         fi_FI:
-          "Hyväksyn aineiston <a href='!licence!' target='_blank'>käyttöehdot</a>",
+          "Hyväksyn aineiston <a href='!license!' target='_blank'>käyttöehdot</a>",
         en_US:
-          "I accept the <a href='!licence!' target='_blank'>licence terms</a>",
+          "I accept the <a href='!license!' target='_blank'>license terms</a>",
       },
       info: {
         fi_FI:
@@ -293,7 +293,7 @@ export default function Translator(language) {
       },
       errorCheckboxChecked: {
         fi_FI: 'Käyttöehtojen hyväksyminen on pakollista',
-        en_US: 'Accepting the licence terms is mandatory',
+        en_US: 'Accepting the license terms is mandatory',
       },
     },
     metadataTable: {
