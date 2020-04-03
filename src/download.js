@@ -489,8 +489,6 @@ function main() {
       case 'metadata':
         clearMetadataTabContent()
         createMetadataTabContent()
-        break
-      case 'links':
         createLinksContent(linksTabContentRoot)
         break
       default:
