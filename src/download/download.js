@@ -14,6 +14,7 @@ import * as style from 'ol/style'
 import LayerSwitcher from 'ol-layerswitcher'
 import proj4 from 'proj4'
 
+import datasets from './datasets'
 import { translate } from '../shared/translations'
 import { LANGUAGE } from '../shared/constants'
 import { LAYER, URL } from '../shared/urls'
@@ -31,7 +32,6 @@ let pageDataIdParam = getUrlParameter('data_id')
 let currentLocale = LANGUAGE.FINNISH
 let hakaUser = false
 let currentIndexMapLayer = null
-let metadata = null
 let selectedTool = ''
 
 proj4.defs([
@@ -96,13 +96,11 @@ function checkAccessRights() {
 */
 
 function checkParameterDatasetAccess() {
-  loadMetadata(() => {
+  datasets.fetch(() => {
     if (pageDataIdParam === null || pageDataIdParam.length == 0) {
       main()
     } else {
-      const selectedData = metadata.find(
-        (data) => data.data_id === pageDataIdParam
-      )
+      const selectedData = datasets.getById(pageDataIdParam)
       if (selectedData != null && selectedData.access == 2 && !hakaUser) {
         // TODO: redirect user to login page
         window.location.replace('/')
@@ -110,13 +108,6 @@ function checkParameterDatasetAccess() {
         main()
       }
     }
-  })
-}
-
-function loadMetadata(afterMetadataLoadCallback) {
-  $.getJSON(URL.METADATA_API, (data) => {
-    metadata = data
-    afterMetadataLoadCallback()
   })
 }
 
@@ -163,7 +154,6 @@ function main() {
   const locationSearchInput = $('#location-search-input')
   let currentIndexMapLabelLayer = null
   let currentDataLayer = null
-  let currentDataId = null
   let currentDataUrl = null
   let currentMaxResolution = null
 
@@ -298,19 +288,20 @@ function main() {
   function emailDataOrList(input, dlType, license, modal, tipsOutput) {
     const emailVal = input.val()
     if (fileList && fileList.length > 0 && emailVal) {
+      const current = datasets.getCurrent()
       const downloadRequest = {
-        data_id: currentDataId,
+        data_id: current.data_id,
         downloadType: dlType.toUpperCase(),
         email: emailVal,
         language: currentLocale,
         filePaths: fileList,
         filenames: fileLabelList,
-        org: getCurrentLayerData('org'),
-        data: getCurrentLayerData('name'),
-        scale: getCurrentLayerData('scale'),
-        year: getCurrentLayerData('year'),
-        coord_sys: getCurrentLayerData('coord_sys'),
-        format: getCurrentLayerData('format'),
+        org: current.org,
+        data: current.name,
+        scale: current.scale,
+        year: current.year,
+        coord_sys: current.coord_sys,
+        format: current.format,
       }
 
       // Validate input fields
@@ -536,7 +527,7 @@ function main() {
     )
     infoText.appendTo(rootElem)
 
-    const datasetPath = getCurrentLayerData('funet')
+    const datasetPath = datasets.getCurrent().funet
     const rsyncPath =
       'rsync://rsync.nic.funet.fi/ftp/index/geodata/' + datasetPath
 
@@ -555,7 +546,7 @@ function main() {
     const url = URL.WFS_INDEX_MAP_DOWNLOAD_SHAPE.replace(
       '!key!',
       'data_id'
-    ).replace('!value!', currentDataId)
+    ).replace('!value!', datasets.getCurrent().data_id)
 
     let index_anchor = $('#index-anchor')
     if (!index_anchor.length) {
@@ -615,7 +606,7 @@ function main() {
     dlListButton.appendTo(dlListWrapper)
 
     // Hide files list download option, if HAKA-dataset, these are not in FTP.
-    const dataAccess = getCurrentLayerData('access')
+    const dataAccess = datasets.getCurrent().access
     if (dataAccess == 1) {
       dlListButton.css('visibility', 'visible')
     } else {
@@ -632,7 +623,7 @@ function main() {
     licenseHeader.text(translate('info.documents'))
 
     //http://www.nic.funet.fi/index/geodata/mml/NLS_terms_of_use.pdf -> crop after geodata/
-    const licenseUrl = getCurrentLayerData('license_url')
+    const licenseUrl = datasets.getCurrent().license_url
     const dlLicInputId = 'download-license-input'
     let dlLicContainer = $('#download-license-container')
     let dlLicInput = $('#' + dlLicInputId)
@@ -877,27 +868,26 @@ function main() {
     const dataDescrContainer = $(dataDescription)
     dataDescrContainer.empty()
 
+    const current = datasets.getCurrent()
+
     $(licenseCheckboxLabel).html(
-      translate('email.licensefield').replace(
-        '!license!',
-        getCurrentLayerData('license_url')
-      )
+      translate('email.licensefield').replace('!license!', current.license_url)
     )
     const dataDescrContent = $('<div>')
     dataDescrContent.text(
       translate('email.datasetinfo') +
         ': ' +
-        getCurrentLayerData('org') +
+        current.org +
         ', ' +
-        getCurrentLayerData('name') +
+        current.name +
         ', ' +
-        getCurrentLayerData('scale') +
+        current.scale +
         ', ' +
-        getCurrentLayerData('year') +
+        current.year +
         ', ' +
-        getCurrentLayerData('coord_sys') +
+        current.coord_sys +
         ', ' +
-        getCurrentLayerData('format') +
+        current.format +
         ': ' +
         getTotalDownloadSize() +
         ' Mb'
@@ -1105,27 +1095,28 @@ function main() {
       )
     )
     $('#' + coordsysInputId).on('change', () => {
-      const selectedData = metadata.find(
-        (data) =>
-          data.org === producerInput.val() &&
-          data.name === dataInput.val() &&
-          data.scale === scaleInput.val() &&
-          data.year === yearInput.val() &&
-          data.format === formatInput.val() &&
-          data.coord_sys === coordsysInput.val()
-      )
+      const selectedData = datasets
+        .getAll()
+        .find(
+          (data) =>
+            data.org === producerInput.val() &&
+            data.name === dataInput.val() &&
+            data.scale === scaleInput.val() &&
+            data.year === yearInput.val() &&
+            data.format === formatInput.val() &&
+            data.coord_sys === coordsysInput.val()
+        )
 
       if (typeof selectedData !== 'undefined') {
-        currentDataId = selectedData.data_id
-        const dataUrl = getCurrentLayerData('data_url')
-
+        datasets.setCurrent(selectedData.data_id)
+        const dataUrl = datasets.getCurrent().data_url
         if (dataUrl !== null) {
           currentDataUrl = dataUrl
         } else {
           currentDataUrl = null
         }
       } else {
-        currentDataId = null
+        datasets.clearCurrent()
       }
       updateMap()
     })
@@ -1152,9 +1143,7 @@ function main() {
     formatInput,
     coordsysInput
   ) {
-    const selectedData = metadata.find(
-      (data) => data.data_id === pageDataIdParam
-    )
+    const selectedData = datasets.getById(pageDataIdParam)
     if (typeof selectedData !== 'undefined') {
       producerInput.val(selectedData.org)
       producerInput.trigger('change')
@@ -1181,7 +1170,8 @@ function main() {
   }
 
   function updateProducerList(producerInput) {
-    const producers = metadata
+    const producers = datasets
+      .getAll()
       .filter(onlyAuthorized)
       .map((data) => data.org)
       .filter(onlyDistinct)
@@ -1190,7 +1180,8 @@ function main() {
 
   function updateDataList(producerInput, dataInput) {
     if (!producerInput.val().startsWith('--')) {
-      const names = metadata
+      const names = datasets
+        .getAll()
         .filter((data) => data.org === producerInput.val())
         .filter(onlyAuthorized)
         .map((data) => data.name)
@@ -1203,7 +1194,8 @@ function main() {
 
   function updateScaleList(producerInput, dataInput, scaleInput) {
     if (!dataInput.val().startsWith('--')) {
-      const scales = metadata
+      const scales = datasets
+        .getAll()
         .filter((data) => data.org === producerInput.val())
         .filter((data) => data.name === dataInput.val())
         .map((data) => data.scale)
@@ -1216,7 +1208,8 @@ function main() {
 
   function updateYearList(producerInput, dataInput, scaleInput, yearInput) {
     if (!scaleInput.val().startsWith('--')) {
-      const years = metadata
+      const years = datasets
+        .getAll()
         .filter((data) => data.org === producerInput.val())
         .filter((data) => data.name === dataInput.val())
         .filter((data) => data.scale === scaleInput.val())
@@ -1236,7 +1229,8 @@ function main() {
     formatInput
   ) {
     if (!yearInput.val().startsWith('--')) {
-      const formats = metadata
+      const formats = datasets
+        .getAll()
         .filter((data) => data.org === producerInput.val())
         .filter((data) => data.name === dataInput.val())
         .filter((data) => data.scale === scaleInput.val())
@@ -1258,7 +1252,8 @@ function main() {
     coordsysInput
   ) {
     if (!formatInput.val().startsWith('--')) {
-      const coordsyses = metadata
+      const coordsyses = datasets
+        .getAll()
         .filter((data) => data.org === producerInput.val())
         .filter((data) => data.name === dataInput.val())
         .filter((data) => data.scale === scaleInput.val())
@@ -1371,7 +1366,7 @@ function main() {
   }
 
   function createMetadataTabContent() {
-    const metadataURN = getCurrentLayerData('meta')
+    const metadataURN = datasets.getCurrent().meta
     const metadataInfoLabel = $('<div>', {
       id: 'metadata-info-label',
     })
@@ -1565,7 +1560,7 @@ function main() {
     clearInfoBoxTabs()
     clearSearchResults()
     $('#feature-search-field').value = ''
-    if (currentDataId != null) {
+    if (datasets.hasCurrent()) {
       setInfoContent('metadata')
       setFeatureInfoTabDefaultContent()
       loadIndexLayer()
@@ -1575,8 +1570,8 @@ function main() {
         currentIndexMapLayer.getSource().once('change', (event) => {
           let hasInfoTab = false
           if (event.target.getState() == 'ready' && isFirstTimeLoaded) {
-            hasInfoTab = layerHasFeatureInfo()
-            mapsheets = getCurrentLayerData('map_sheets')
+            hasInfoTab = datasets.hasFeatureInfo()
+            mapsheets = datasets.getCurrent().map_sheets
             if (mapsheets > 1) {
               featureSearchContainer.css('visibility', 'visible')
             } else if (mapsheets === 1) {
@@ -1603,7 +1598,7 @@ function main() {
           })
         }
 
-        const maxScaleResult = getCurrentLayerData('data_max_scale')
+        const maxScaleResult = datasets.getCurrent().data_max_scale
         if (maxScaleResult !== null) {
           currentMaxResolution = getMapResolutionFromScale(
             parseInt(maxScaleResult)
@@ -1636,10 +1631,6 @@ function main() {
     }
   }
 
-  function layerHasFeatureInfo() {
-    return getCurrentLayerData('data_url') !== null
-  }
-
   //Show map related tools
   function toggleMapControlButtonsVisibility() {
     // If more than 1 mapsheet, show mapsheet selection tools
@@ -1653,7 +1644,7 @@ function main() {
       drawSelectContainer.hide()
     }
     // If layers has feature info, show info tool and container for results
-    if (layerHasFeatureInfo()) {
+    if (datasets.hasFeatureInfo()) {
       infoSelectContainer.show()
       $('#feature-info-container-tab').show()
     } else {
@@ -1665,27 +1656,11 @@ function main() {
     }
   }
 
-  function getCurrentLayerData(field) {
-    const value = metadata
-      .filter((data) => data.data_id === currentDataId)
-      .map((data) => data[field])
-    if (
-      typeof value !== 'undefined' &&
-      value !== null &&
-      typeof value[0] !== 'undefined' &&
-      value[0] !== null
-    ) {
-      return value[0]
-    } else {
-      return null
-    }
-  }
-
   function loadIndexMapLabelLayer() {
-    if (currentDataId !== null) {
+    if (datasets.hasCurrent()) {
       const url = URL.WMS_INDEX_MAP_LABEL_LAYER.replace(
         '!value!',
-        currentDataId
+        datasets.getCurrent().data_id
       )
       const src = new source.ImageWMS({
         url: url,
@@ -1703,10 +1678,10 @@ function main() {
   }
 
   function loadIndexLayer() {
-    if (currentDataId !== null) {
+    if (datasets.hasCurrent()) {
       const url = URL.WFS_INDEX_MAP_LAYER.replace('!key!', 'data_id').replace(
         '!value!',
-        currentDataId
+        datasets.getCurrent().data_id
       )
       const indexSource = new source.Vector({
         format: new ol_format.GeoJSON(),
@@ -1743,7 +1718,7 @@ function main() {
   }
 
   function loadDataLayer() {
-    if (currentDataId !== null && currentDataUrl !== null) {
+    if (datasets.hasCurrent() && currentDataUrl !== null) {
       if (currentDataUrl.indexOf('protected') > -1) {
         currentDataLayer = new layer.Image({
           title: translate('map.datamap'),
@@ -1918,7 +1893,7 @@ function main() {
   }
 
   function getTotalDownloadSize() {
-    const fileSize = getCurrentLayerData('file_size')
+    const fileSize = datasets.getCurrent().file_size
     return fileSize !== null
       ? Math.ceil(fileSize * selectedFeatures.getLength())
       : 0
