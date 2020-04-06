@@ -6,6 +6,7 @@ import 'bootstrap-table/dist/extensions/multiple-sort/bootstrap-table-multiple-s
 import 'bootstrap-table/dist/extensions/filter-control/bootstrap-table-filter-control'
 
 import { translate } from './shared/translations'
+import { URL } from './shared/urls'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-table/dist/bootstrap-table.min.css'
@@ -13,8 +14,6 @@ import 'jquery-ui-bundle/jquery-ui.css'
 import 'ol/ol.css'
 import 'ol-layerswitcher/src/ol-layerswitcher.css'
 import './css/metadata.css'
-
-const METADATA_API_URL = '/api/datasets'
 
 function flipURN(urn) {
   const colon = ':'
@@ -32,7 +31,7 @@ function flipURN(urn) {
 
 const filterControlPlaceholder = translate('metadataTable.filter')
 $('#table').bootstrapTable({
-  url: METADATA_API_URL,
+  url: URL.METADATA_API,
   filterControl: true,
   showMultiSort: true,
   sortPriority: [

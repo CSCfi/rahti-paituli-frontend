@@ -16,6 +16,7 @@ import proj4 from 'proj4'
 
 import { translate } from './shared/translations'
 import { LANGUAGE } from './shared/constants'
+import { LAYER, URL } from './shared/urls'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'jquery-ui-bundle/jquery-ui.css'
@@ -23,48 +24,6 @@ import 'ol/ol.css'
 import 'ol-layerswitcher/src/ol-layerswitcher.css'
 import './css/download.css'
 
-// PaiTuli backend endpoints
-const METADATA_API = '/api/datasets'
-const DOWNLOAD_API_URL = '/api/download'
-
-// Links tab
-const FTP_LINKS_BASE_URL = 'ftp://ftp.funet.fi/index/geodata/'
-const HTTP_LINKS_BASE_URL = 'http://www.nic.funet.fi/index/geodata/'
-const INFO_LINK_URL = 'https://avaa.tdata.fi/web/paituli/ftp-/-rsync'
-
-// Etsin
-const ETSIN_BASE = '//metax.fairdata.fi' // "//metax-test.csc.fi" "//etsin.avointiede.fi" "//etsin-demo.avointiede.fi"
-const ETSIN_BASE_URN = 'http://urn.fi/' //
-const ETSIN_METADATA_JSON_BASE_URL =
-  ETSIN_BASE + '/rest/datasets?format=json&preferred_identifier='
-
-// GeoServer
-const GEOSERVER_BASE_URL = '//avaa.tdata.fi/geoserver/' // "//avoin-test.csc.fi/geoserver/";
-const INDEX_LAYER = 'paituli:index'
-const LAYER_NAME_MUNICIPALITIES = 'paituli:mml_hallinto_2014_100k'
-const LAYER_NAME_CATCHMENT_AREAS = 'paituli:syke_valuma_maa'
-
-const WFS_INDEX_MAP_LAYER_URL =
-  GEOSERVER_BASE_URL +
-  'wfs?service=WFS&version=2.0.0&request=GetFeature&srsname=epsg:3857&typeNames=' +
-  INDEX_LAYER +
-  "&cql_filter= !key! = '!value!'"
-const WMS_INDEX_MAP_LABEL_LAYER_URL =
-  GEOSERVER_BASE_URL +
-  'wms?service=WMS&LAYERS= ' +
-  INDEX_LAYER +
-  "&CQL_FILTER=data_id = '!value!'"
-const WMS_PAITULI_BASE_URL = GEOSERVER_BASE_URL + 'wms?'
-const WMS_PAITULI_BASE_URL_GWC = GEOSERVER_BASE_URL + 'gwc/service/wms?'
-const WFS_INDEX_MAP_DOWNLOAD_SHAPE =
-  GEOSERVER_BASE_URL +
-  'wfs?service=WFS&version=2.0.0&request=GetFeature&srsname=epsg:4326&typeNames=' +
-  INDEX_LAYER +
-  "&outputFormat=shape-zip&propertyname=label,path,geom&cql_filter= !key! = '!value!'"
-
-// Location search
-const NOMINATIM_API_URL =
-  '//nominatim.openstreetmap.org/search?format=json&q=!query!&addressdetails=0&limit=1'
 const MAX_DOWNLOADABLE_SIZE = 3000
 
 // mutable global variables
@@ -155,7 +114,7 @@ function checkParameterDatasetAccess() {
 }
 
 function loadMetadata(afterMetadataLoadCallback) {
-  $.getJSON(METADATA_API, (data) => {
+  $.getJSON(URL.METADATA_API, (data) => {
     metadata = data
     afterMetadataLoadCallback()
   })
@@ -386,7 +345,7 @@ function main() {
       if (valid) {
         modal.data('email', input.val())
         $.post({
-          url: DOWNLOAD_API_URL,
+          url: URL.DOWNLOAD_API,
           data: JSON.stringify(downloadRequest),
           contentType: 'application/json; charset=utf-8',
           dataType: 'json',
@@ -585,15 +544,15 @@ function main() {
       id: 'links-container',
     })
 
-    const ftpPath = FTP_LINKS_BASE_URL + datasetPath
-    const httpPath = HTTP_LINKS_BASE_URL + datasetPath
+    const ftpPath = URL.FTP_LINKS_BASE + datasetPath
+    const httpPath = URL.HTTP_LINKS_BASE + datasetPath
 
     addLink('http', httpPath, linksContainer)
     addLink('ftp', ftpPath, linksContainer)
     linksContainer.append('<strong>rsync: </strong>' + rsyncPath)
     linksContainer.appendTo(rootElem)
 
-    const url = WFS_INDEX_MAP_DOWNLOAD_SHAPE.replace(
+    const url = URL.WFS_INDEX_MAP_DOWNLOAD_SHAPE.replace(
       '!key!',
       'data_id'
     ).replace('!value!', currentDataId)
@@ -612,7 +571,7 @@ function main() {
     rootElem.append(index_anchor)
     rootElem.append(translate('info.dlIndexMapInfo') + ' ')
     rootElem.append(
-      translate('info.linksInfo').replace('!infolink!', INFO_LINK_URL)
+      translate('info.linksInfo').replace('!infolink!', URL.INFO_LINK)
     )
   }
 
@@ -1417,11 +1376,10 @@ function main() {
       id: 'metadata-info-label',
     })
     if (metadataURN !== null) {
-      const metadataBaseUrl = ETSIN_BASE_URN
       metadataInfoLabel.append(
         translate('info.metadatainfo').replace(
           '!metadata_url!',
-          metadataBaseUrl + flipURN(metadataURN)
+          URL.ETSIN_METADATA_BASE + flipURN(metadataURN)
         )
       )
       metadataTabContentRoot.append(metadataInfoLabel)
@@ -1581,7 +1539,7 @@ function main() {
     errorFn
   ) {
     $.ajax({
-      url: ETSIN_METADATA_JSON_BASE_URL + flipURN(metadataURN),
+      url: URL.ETSIN_METADATA_JSON_BASE + flipURN(metadataURN),
       success: (data) => successFn(data, metadataNotes),
       error: () => errorFn(metadataNotes),
     })
@@ -1725,7 +1683,7 @@ function main() {
 
   function loadIndexMapLabelLayer() {
     if (currentDataId !== null) {
-      const url = WMS_INDEX_MAP_LABEL_LAYER_URL.replace(
+      const url = URL.WMS_INDEX_MAP_LABEL_LAYER.replace(
         '!value!',
         currentDataId
       )
@@ -1746,7 +1704,7 @@ function main() {
 
   function loadIndexLayer() {
     if (currentDataId !== null) {
-      const url = WFS_INDEX_MAP_LAYER_URL.replace('!key!', 'data_id').replace(
+      const url = URL.WFS_INDEX_MAP_LAYER.replace('!key!', 'data_id').replace(
         '!value!',
         currentDataId
       )
@@ -1790,7 +1748,7 @@ function main() {
         currentDataLayer = new layer.Image({
           title: translate('map.datamap'),
           source: new source.ImageWMS({
-            url: WMS_PAITULI_BASE_URL,
+            url: URL.WMS_PAITULI_BASE,
             params: { LAYERS: currentDataUrl, VERSION: '1.1.1' },
             serverType: 'geoserver',
           }),
@@ -1800,7 +1758,7 @@ function main() {
         currentDataLayer = new layer.Tile({
           title: translate('map.datamap'),
           source: new source.TileWMS({
-            url: WMS_PAITULI_BASE_URL_GWC,
+            url: URL.WMS_PAITULI_BASE_GWC,
             params: { LAYERS: currentDataUrl, VERSION: '1.1.1' },
             serverType: 'geoserver',
           }),
@@ -1851,9 +1809,9 @@ function main() {
   const municipalitiesLayer = new layer.Tile({
     title: translate('map.municipalitiesmap'),
     source: new source.TileWMS({
-      url: WMS_PAITULI_BASE_URL,
+      url: URL.WMS_PAITULI_BASE,
       params: {
-        LAYERS: LAYER_NAME_MUNICIPALITIES,
+        LAYERS: LAYER.MUNICIPALITIES_LAYER,
         SRS: 'EPSG:3067',
         VERSION: '1.1.0',
       },
@@ -1865,9 +1823,9 @@ function main() {
   const catchmentLayer = new layer.Tile({
     title: translate('map.catchment'),
     source: new source.TileWMS({
-      url: WMS_PAITULI_BASE_URL,
+      url: URL.WMS_PAITULI_BASE,
       params: {
-        LAYERS: LAYER_NAME_CATCHMENT_AREAS,
+        LAYERS: LAYER.CATCHMENT_AREAS_LAYER,
         SRS: 'EPSG:2393',
         VERSION: '1.1.0',
       },
@@ -2160,7 +2118,7 @@ function main() {
       if (keyCode == 13) {
         const searchStr = locationSearchInput.val()
         if (searchStr.length > 0) {
-          const queryUrl = NOMINATIM_API_URL.replace('!query!', searchStr)
+          const queryUrl = URL.NOMINATIM_API.replace('!query!', searchStr)
           $.getJSON(queryUrl, (data) => {
             if (data.length > 0) {
               map
