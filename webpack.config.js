@@ -3,9 +3,9 @@ const path = require('path')
 module.exports = {
   mode: 'development',
   entry: {
-    download: './src/download.js',
-    metadata: './src/metadata.js',
-    header: './src/header.js',
+    download: './src/download/download.js',
+    metadata: './src/metadata/metadata.js',
+    header: './src/shared/header.js',
   },
   output: {
     filename: '[name].js',

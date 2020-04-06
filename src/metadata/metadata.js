@@ -5,15 +5,15 @@ import 'bootstrap-table/dist/bootstrap-table-locale-all'
 import 'bootstrap-table/dist/extensions/multiple-sort/bootstrap-table-multiple-sort'
 import 'bootstrap-table/dist/extensions/filter-control/bootstrap-table-filter-control'
 
-import { translate } from './shared/translations'
-import { URL } from './shared/urls'
+import { translate } from '../shared/translations'
+import { URL } from '../shared/urls'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-table/dist/bootstrap-table.min.css'
 import 'jquery-ui-bundle/jquery-ui.css'
 import 'ol/ol.css'
 import 'ol-layerswitcher/src/ol-layerswitcher.css'
-import './css/metadata.css'
+import '../css/metadata.css'
 
 function flipURN(urn) {
   const colon = ':'

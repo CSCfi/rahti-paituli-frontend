@@ -3,7 +3,7 @@ import 'jquery-ui-bundle/jquery-ui'
 
 // import Translator from './translator'
 
-import './css/header.css'
+import '../css/header.css'
 
 const languageSelector = $('#language-selector')
 // const contactInitiator = $('#contact-initiator')

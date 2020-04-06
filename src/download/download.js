@@ -14,15 +14,15 @@ import * as style from 'ol/style'
 import LayerSwitcher from 'ol-layerswitcher'
 import proj4 from 'proj4'
 
-import { translate } from './shared/translations'
-import { LANGUAGE } from './shared/constants'
-import { LAYER, URL } from './shared/urls'
+import { translate } from '../shared/translations'
+import { LANGUAGE } from '../shared/constants'
+import { LAYER, URL } from '../shared/urls'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'jquery-ui-bundle/jquery-ui.css'
 import 'ol/ol.css'
 import 'ol-layerswitcher/src/ol-layerswitcher.css'
-import './css/download.css'
+import '../css/download.css'
 
 const MAX_DOWNLOADABLE_SIZE = 3000
 
