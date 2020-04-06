@@ -5,7 +5,7 @@ import 'bootstrap-table/dist/bootstrap-table-locale-all'
 import 'bootstrap-table/dist/extensions/multiple-sort/bootstrap-table-multiple-sort'
 import 'bootstrap-table/dist/extensions/filter-control/bootstrap-table-filter-control'
 
-import Translator from './translator'
+import { translate } from './shared/translator'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-table/dist/bootstrap-table.min.css'
@@ -15,9 +15,6 @@ import 'ol-layerswitcher/src/ol-layerswitcher.css'
 import './css/metadata.css'
 
 const METADATA_API_URL = '/api/datasets'
-
-const currentLocale = 'fi_FI'
-const translator = new Translator(currentLocale)
 
 function flipURN(urn) {
   const colon = ':'
@@ -33,7 +30,7 @@ function flipURN(urn) {
   return urn
 }
 
-const filterControlPlaceholder = translator.getVal('metadataTable.filter')
+const filterControlPlaceholder = translate('metadataTable.filter')
 $('#table').bootstrapTable({
   url: METADATA_API_URL,
   filterControl: true,
@@ -55,49 +52,49 @@ $('#table').bootstrapTable({
   columns: [
     {
       field: 'org',
-      title: translator.getVal('metadataTable.producer'),
+      title: translate('metadataTable.producer'),
       sortable: true,
       filterControl: 'input',
       filterControlPlaceholder: filterControlPlaceholder,
     },
     {
       field: 'name',
-      title: translator.getVal('metadataTable.name'),
+      title: translate('metadataTable.name'),
       sortable: true,
       filterControl: 'input',
       filterControlPlaceholder: filterControlPlaceholder,
     },
     {
       field: 'scale',
-      title: translator.getVal('metadataTable.scale'),
+      title: translate('metadataTable.scale'),
       sortable: true,
       filterControl: 'input',
       filterControlPlaceholder: filterControlPlaceholder,
     },
     {
       field: 'year',
-      title: translator.getVal('metadataTable.year'),
+      title: translate('metadataTable.year'),
       sortable: true,
       filterControl: 'input',
       filterControlPlaceholder: filterControlPlaceholder,
     },
     {
       field: 'format',
-      title: translator.getVal('metadataTable.format'),
+      title: translate('metadataTable.format'),
       sortable: true,
       filterControl: 'input',
       filterControlPlaceholder: filterControlPlaceholder,
     },
     {
       field: 'coord_sys',
-      title: translator.getVal('metadataTable.coordSys'),
+      title: translate('metadataTable.coordSys'),
       sortable: true,
       filterControl: 'input',
       filterControlPlaceholder: filterControlPlaceholder,
     },
     {
       field: 'access',
-      title: translator.getVal('metadataTable.download'),
+      title: translate('metadataTable.download'),
       sortable: true,
       filterControl: 'input',
       filterControlPlaceholder: filterControlPlaceholder,
@@ -106,14 +103,14 @@ $('#table').bootstrapTable({
           ? '<a href="/download.html?data_id=' +
               row.data_id +
               '">' +
-              translator.getVal('metadataTable.access') +
+              translate('metadataTable.access') +
               '</a>'
           : '<a href="/download.html?data_id="' + row.data_id + '">HAKA</a>'
       },
     },
     {
       field: 'meta',
-      title: translator.getVal('metadataTable.description'),
+      title: translate('metadataTable.description'),
       sortable: true,
       filterControl: 'input',
       filterControlPlaceholder: filterControlPlaceholder,
@@ -122,7 +119,7 @@ $('#table').bootstrapTable({
           ? '<a href="http://urn.fi/' +
             flipURN(value) +
             '">' +
-            translator.getVal('metadataTable.description') +
+            translate('metadataTable.description') +
             '</a>'
           : '-',
     },
