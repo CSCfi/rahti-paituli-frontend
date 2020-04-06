@@ -5,7 +5,7 @@ import 'bootstrap-table/dist/bootstrap-table-locale-all'
 import 'bootstrap-table/dist/extensions/multiple-sort/bootstrap-table-multiple-sort'
 import 'bootstrap-table/dist/extensions/filter-control/bootstrap-table-filter-control'
 
-import { translate } from './shared/translator'
+import { translate } from './shared/translations'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-table/dist/bootstrap-table.min.css'

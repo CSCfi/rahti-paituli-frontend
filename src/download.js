@@ -14,7 +14,7 @@ import * as style from 'ol/style'
 import LayerSwitcher from 'ol-layerswitcher'
 import proj4 from 'proj4'
 
-import { translate } from './shared/translator'
+import { translate } from './shared/translations'
 import { LANGUAGE } from './shared/constants'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
