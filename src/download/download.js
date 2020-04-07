@@ -16,7 +16,6 @@ import proj4 from 'proj4'
 
 import datasets from './datasets'
 import emailModal from './emailModal'
-import emailListModal from './emailListModal'
 import { translate } from '../shared/translations'
 import { LANGUAGE } from '../shared/constants'
 import { LAYER, URL } from '../shared/urls'
@@ -181,23 +180,6 @@ function main() {
     $('#metadata-container-anchor').text(translate('info.metadatatab'))
     $('#links-container-anchor').text(translate('info.linkstab'))
     locationSearchInput.attr('placeholder', translate('map.locationsearch'))
-    $('#email-input-label').text(translate('email.emailfield'))
-    $('#email-input').attr(
-      'placeholder',
-      translate('email.emailfieldPlaceholder')
-    )
-    $('#email-modal-form fieldset legend').text(translate('email.inputsheader'))
-    $('#email-instructions').text(translate('email.info'))
-
-    $('#email-list-input-label').text(translate('email.emailfield'))
-    $('#email-list-input').attr(
-      'placeholder',
-      translate('email.emailfieldPlaceholder')
-    )
-    $('#email-list-modal-form fieldset legend').text(
-      translate('email.inputsheader')
-    )
-    $('#email-list-instructions').text(translate('email.info'))
   }
 
   setHtmlElementTextValues()
@@ -565,41 +547,31 @@ function main() {
         dlListButton,
         dlLicInput
       )
-      updateFileLabelListForLicence(dlLicInput, licenseUrl)
+      updateFileLabelListForLicense(dlLicInput, licenseUrl)
     })
     dlButton.on('click', (event) => {
       event.preventDefault()
       event.stopImmediatePropagation()
-      updateEmailModal()
-      $('#email-modal-tips').empty()
-      $('#email-input').val(
-        emailModal.getEmail() === null ? '' : emailModal.getEmail()
-      )
       if (
         dlLicInput.prop('checked') ? filePaths.length > 1 : filePaths.length > 0
       ) {
-        emailModal.open(filePaths, fileLabels)
+        emailModal.openDataModal(filePaths, fileLabels, getTotalDownloadSize())
       }
     })
     dlListButton.on('click', (event) => {
       event.preventDefault()
       event.stopImmediatePropagation()
-      updateEmailListModal()
-      $('#email-list-modal-tips').empty()
-      $('#email-list-input').val(
-        emailListModal.getEmail() === null ? '' : emailListModal.getEmail()
-      )
       if (
         dlLicInput.prop('checked') ? filePaths.length > 1 : filePaths.length > 0
       ) {
-        emailListModal.open(filePaths, fileLabels)
+        emailModal.openListModal(filePaths, fileLabels, getTotalDownloadSize())
       }
     })
     updateDownloadFileList(dlButton, dlButtonWrapper, dlListButton, dlLicInput)
-    updateFileLabelListForLicence(dlLicInput, licenseUrl)
+    updateFileLabelListForLicense(dlLicInput, licenseUrl)
   }
 
-  function updateFileLabelListForLicence(dlLicInput, licenseUrl) {
+  function updateFileLabelListForLicense(dlLicInput, licenseUrl) {
     const licenseIdx = fileLabels.indexOf(licenseUrl)
     if (dlLicInput.prop('checked')) {
       if (licenseIdx == -1) {
@@ -662,45 +634,6 @@ function main() {
     } else {
       selectedFeatures.remove(clickedFeature)
     }
-  }
-
-  function updateModal(dataDescription, licenseCheckboxLabel) {
-    const dataDescrContainer = $(dataDescription)
-    dataDescrContainer.empty()
-
-    const current = datasets.getCurrent()
-
-    $(licenseCheckboxLabel).html(
-      translate('email.licensefield').replace('!license!', current.license_url)
-    )
-    const dataDescrContent = $('<div>')
-    dataDescrContent.text(
-      translate('email.datasetinfo') +
-        ': ' +
-        current.org +
-        ', ' +
-        current.name +
-        ', ' +
-        current.scale +
-        ', ' +
-        current.year +
-        ', ' +
-        current.coord_sys +
-        ', ' +
-        current.format +
-        ': ' +
-        getTotalDownloadSize() +
-        ' Mb'
-    )
-    dataDescrContent.appendTo(dataDescrContainer)
-  }
-
-  function updateEmailModal() {
-    updateModal('#data-description', '#license-checkbox-label')
-  }
-
-  function updateEmailListModal() {
-    updateModal('#data-description-list', '#license-list-checkbox-label')
   }
 
   function clearFeatureInfoTabContent() {

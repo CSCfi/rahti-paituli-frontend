@@ -2,16 +2,17 @@ import $ from 'jquery'
 
 import datasets from './datasets'
 import { translate, getCurrentLocale } from '../shared/translations'
+import { DOWNLOAD_TYPE } from '../shared/constants'
 import { URL } from '../shared/urls'
 
 let filePaths = []
 let fileLabels = []
+let downloadType = ''
 
 const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
 const emailInput = $('#email-input')
 const licenseCheckbox = $('#license-checkbox')
 const tips = $('#email-modal-tips')
-
 const modal = $('#email-modal').dialog({
   autoOpen: false,
   height: 'auto',
@@ -20,24 +21,6 @@ const modal = $('#email-modal').dialog({
   closeOnEscape: true,
   draggable: true,
   resizable: false,
-  title: translate('email.modalheader'),
-  buttons: [
-    {
-      text: translate('email.sendButton'),
-      icons: {
-        primary: 'ui-icon-mail-closed',
-      },
-      click: emailData,
-      type: 'submit',
-    },
-    {
-      text: translate('email.cancelButton'),
-      icons: {
-        primary: 'ui-icon-close',
-      },
-      click: () => $(this).dialog('close'),
-    },
-  ],
   close: () => {
     emailForm[0].reset()
     emailInput.removeClass('ui-state-error')
@@ -48,20 +31,21 @@ const modal = $('#email-modal').dialog({
 const emailForm = modal.find('form')
 emailForm.on('submit', (event) => {
   event.preventDefault()
-  emailData()
+  sendEmail()
 })
 
-function emailData() {
-  return emailDataOrList(emailInput, 'zip', licenseCheckbox, modal, tips)
-}
+$('#email-input-label').text(translate('email.emailfield'))
+$('#email-input').attr('placeholder', translate('email.emailfieldPlaceholder'))
+$('#email-modal-form fieldset legend').text(translate('email.inputsheader'))
+$('#email-instructions').text(translate('email.info'))
 
-function emailDataOrList(input, dlType, license, modal, tipsOutput) {
-  const emailVal = input.val()
+function sendEmail() {
+  const emailVal = emailInput.val()
   if (filePaths.length > 0 && emailVal) {
     const current = datasets.getCurrent()
     const downloadRequest = {
       data_id: current.data_id,
-      downloadType: dlType.toUpperCase(),
+      downloadType,
       email: emailVal,
       language: getCurrentLocale(),
       filePaths: filePaths,
@@ -76,29 +60,28 @@ function emailDataOrList(input, dlType, license, modal, tipsOutput) {
 
     // Validate input fields
     let valid = true
-    input.removeClass('ui-state-error')
-    license.removeClass('ui-state-error')
+    emailInput.removeClass('ui-state-error')
+    licenseCheckbox.removeClass('ui-state-error')
     valid =
       valid &&
-      checkLength(input, 1, 80, translate('email.errorEmailLength'), tipsOutput)
+      checkLength(emailInput, 1, 80, translate('email.errorEmailLength'), tips)
     valid =
       valid &&
       checkRegexp(
-        input,
+        emailInput,
         emailRegex,
         translate('email.errorEmailFormat'),
-        tipsOutput
+        tips
       )
     valid =
       valid &&
       checkIsChecked(
-        license,
+        licenseCheckbox,
         translate('email.errorCheckboxChecked'),
-        tipsOutput
+        tips
       )
-
     if (valid) {
-      modal.data('email', input.val())
+      modal.data('email', emailInput.val())
       $.post({
         url: URL.DOWNLOAD_API,
         data: JSON.stringify(downloadRequest),
@@ -109,7 +92,6 @@ function emailDataOrList(input, dlType, license, modal, tipsOutput) {
     }
     return valid
   } else {
-    console.error('No email or file paths defined!')
     return false
   }
 }
@@ -144,20 +126,98 @@ function checkIsChecked(obj, errMsg, tipsOutput) {
   }
 }
 
+function initModal(downloadSize) {
+  const currentDataset = datasets.getCurrent()
+  const dataDescrContainer = $('#data-description')
+  dataDescrContainer.empty()
+  $('#license-checkbox-label').html(
+    translate('email.licensefield').replace(
+      '!license!',
+      currentDataset.license_url
+    )
+  )
+  const dataDescrContent = $('<div>')
+  dataDescrContent.text(
+    translate('email.datasetinfo') +
+      ': ' +
+      currentDataset.org +
+      ', ' +
+      currentDataset.name +
+      ', ' +
+      currentDataset.scale +
+      ', ' +
+      currentDataset.year +
+      ', ' +
+      currentDataset.coord_sys +
+      ', ' +
+      currentDataset.format +
+      ': ' +
+      downloadSize +
+      ' Mb'
+  )
+  dataDescrContent.appendTo(dataDescrContainer)
+
+  $('#email-modal-tips').empty()
+  const email = modal.data('email')
+  $('#email-input').val(email === null ? '' : email)
+
+  modal.dialog('option', 'title', translate('email.modalheader'))
+  modal.dialog('option', 'buttons', getModalButtons('email.sendButton'))
+}
+
 function updateModalTips(t, tipsOutput) {
   tipsOutput.text(t).addClass('ui-state-highlight')
   setTimeout(() => tipsOutput.removeClass('ui-state-highlight', 1500), 500)
 }
 
-function open(paths, labels) {
+function getModalButtons(submitLabel) {
+  return [
+    {
+      text: translate(submitLabel),
+      icons: {
+        primary: 'ui-icon-mail-closed',
+      },
+      click: sendEmail,
+      type: 'submit',
+    },
+    {
+      text: translate('email.cancelButton'),
+      icons: {
+        primary: 'ui-icon-close',
+      },
+      click: () => modal.dialog('close'),
+    },
+  ]
+}
+
+function openDataModal(paths, labels, downloadSize) {
   filePaths = paths
   fileLabels = labels
+  downloadType = DOWNLOAD_TYPE.ZIP
+  initModal(
+    downloadSize,
+    translate('email.modalheader'),
+    getModalButtons('email.sendButton')
+  )
+  modal.dialog('open')
+}
+
+function openListModal(paths, labels, downloadSize) {
+  filePaths = paths
+  fileLabels = labels
+  downloadType = DOWNLOAD_TYPE.LIST
+  initModal(
+    downloadSize,
+    translate('email.modalheaderList'),
+    getModalButtons('email.sendButtonList')
+  )
   modal.dialog('open')
 }
 
 const getEmail = () => modal.data('email')
 
 export default {
-  open,
+  openDataModal,
+  openListModal,
   getEmail,
 }
