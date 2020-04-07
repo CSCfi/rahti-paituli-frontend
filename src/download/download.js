@@ -15,6 +15,8 @@ import LayerSwitcher from 'ol-layerswitcher'
 import proj4 from 'proj4'
 
 import datasets from './datasets'
+import emailModal from './emailModal'
+import emailListModal from './emailListModal'
 import { translate } from '../shared/translations'
 import { LANGUAGE } from '../shared/constants'
 import { LAYER, URL } from '../shared/urls'
@@ -33,6 +35,10 @@ let currentLocale = LANGUAGE.FINNISH
 let hakaUser = false
 let currentIndexMapLayer = null
 let selectedTool = ''
+
+// files selected for download
+let filePaths = []
+let fileLabels = []
 
 proj4.defs([
   [
@@ -158,211 +164,7 @@ function main() {
   let currentMaxResolution = null
 
   let mapContainerId = 'map-container'
-
   let prevSelectedTab = null
-
-  const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
-  const emailInput = $('#email-input')
-  const emailListInput = $('#email-list-input')
-  const licenseCheckbox = $('#license-checkbox')
-  const licenseCheckboxList = $('#license-list-checkbox')
-  const tips = $('#email-modal-tips')
-  const listTips = $('#email-list-modal-tips')
-
-  const emailModal = $('#email-modal').dialog({
-    autoOpen: false,
-    height: 'auto',
-    width: 600,
-    modal: true,
-    closeOnEscape: true,
-    draggable: true,
-    resizable: false,
-    title: translate('email.modalheader'),
-    buttons: [
-      {
-        text: translate('email.sendButton'),
-        icons: {
-          primary: 'ui-icon-mail-closed',
-        },
-        click: emailData,
-        type: 'submit',
-      },
-      {
-        text: translate('email.cancelButton'),
-        icons: {
-          primary: 'ui-icon-close',
-        },
-        click: () => $(this).dialog('close'),
-      },
-    ],
-    close: () => {
-      emailForm[0].reset()
-      emailInput.removeClass('ui-state-error')
-      licenseCheckbox.removeClass('ui-state-error')
-    },
-  })
-
-  const emailForm = emailModal.find('form')
-  emailForm.on('submit', (event) => {
-    event.preventDefault()
-    emailData()
-  })
-
-  const emailListModal = $('#email-list-modal').dialog({
-    autoOpen: false,
-    height: 'auto',
-    width: 600,
-    modal: true,
-    closeOnEscape: true,
-    draggable: true,
-    resizable: false,
-    title: translate('email.modalheaderList'),
-    buttons: [
-      {
-        text: translate('email.sendButtonList'),
-        icons: {
-          primary: 'ui-icon-mail-closed',
-        },
-        click: emailList,
-        type: 'submit',
-      },
-      {
-        text: translate('email.cancelButton'),
-        icons: {
-          primary: 'ui-icon-close',
-        },
-        click: () => emailListModal.dialog('close'),
-      },
-    ],
-    close: () => {
-      emailListForm[0].reset()
-      emailListInput.removeClass('ui-state-error')
-      licenseCheckboxList.removeClass('ui-state-error')
-    },
-  })
-
-  const emailListForm = emailListModal.find('form')
-  emailListForm.on('submit', (event) => {
-    event.preventDefault()
-    emailList()
-  })
-
-  let fileList = []
-  let fileLabelList = []
-
-  function updateModalTips(t, tipsOutput) {
-    tipsOutput.text(t).addClass('ui-state-highlight')
-    setTimeout(() => tipsOutput.removeClass('ui-state-highlight', 1500), 500)
-  }
-
-  function checkLength(obj, min, max, errMsg, tipsOutput) {
-    if (obj.val().length > max || obj.val().length < min) {
-      obj.addClass('ui-state-error')
-      updateModalTips(errMsg, tipsOutput)
-      return false
-    } else {
-      return true
-    }
-  }
-
-  function checkRegexp(obj, regexp, errMsg, tipsOutput) {
-    if (!regexp.test(obj.val())) {
-      obj.addClass('ui-state-error')
-      updateModalTips(errMsg, tipsOutput)
-      return false
-    } else {
-      return true
-    }
-  }
-
-  function checkIsChecked(obj, errMsg, tipsOutput) {
-    if (!obj.prop('checked')) {
-      obj.addClass('ui-state-error')
-      updateModalTips(errMsg, tipsOutput)
-      return false
-    } else {
-      return true
-    }
-  }
-
-  function emailDataOrList(input, dlType, license, modal, tipsOutput) {
-    const emailVal = input.val()
-    if (fileList && fileList.length > 0 && emailVal) {
-      const current = datasets.getCurrent()
-      const downloadRequest = {
-        data_id: current.data_id,
-        downloadType: dlType.toUpperCase(),
-        email: emailVal,
-        language: currentLocale,
-        filePaths: fileList,
-        filenames: fileLabelList,
-        org: current.org,
-        data: current.name,
-        scale: current.scale,
-        year: current.year,
-        coord_sys: current.coord_sys,
-        format: current.format,
-      }
-
-      // Validate input fields
-      let valid = true
-      input.removeClass('ui-state-error')
-      license.removeClass('ui-state-error')
-      valid =
-        valid &&
-        checkLength(
-          input,
-          1,
-          80,
-          translate('email.errorEmailLength'),
-          tipsOutput
-        )
-      valid =
-        valid &&
-        checkRegexp(
-          input,
-          emailRegex,
-          translate('email.errorEmailFormat'),
-          tipsOutput
-        )
-      valid =
-        valid &&
-        checkIsChecked(
-          license,
-          translate('email.errorCheckboxChecked'),
-          tipsOutput
-        )
-
-      if (valid) {
-        modal.data('email', input.val())
-        $.post({
-          url: URL.DOWNLOAD_API,
-          data: JSON.stringify(downloadRequest),
-          contentType: 'application/json; charset=utf-8',
-          dataType: 'json',
-          success: () => modal.dialog('close'),
-        })
-      }
-      return valid
-    } else {
-      console.error('No email or file paths defined!')
-      return false
-    }
-  }
-
-  function emailData() {
-    return emailDataOrList(emailInput, 'zip', licenseCheckbox, emailModal, tips)
-  }
-
-  function emailList() {
-    return emailDataOrList(
-      emailListInput,
-      'list',
-      licenseCheckboxList,
-      emailListModal,
-      listTips
-    )
-  }
 
   function setHtmlElementTextValues() {
     $('#dl-service-header h1').text(translate('appHeader'))
@@ -679,12 +481,12 @@ function main() {
       }
 
       let i = 0
-      fileLabelList = []
+      fileLabels = []
       const dlLabelList = []
 
       selectedFeatures.forEach((feature) => {
         const label = feature.get('label')
-        fileLabelList.push(label)
+        fileLabels.push(label)
         const filePath = feature.get('path')
         i += 1
         const inputId = 'download-file-input-' + i.toString()
@@ -771,12 +573,12 @@ function main() {
       updateEmailModal()
       $('#email-modal-tips').empty()
       $('#email-input').val(
-        emailModal.data('email') === null ? '' : emailModal.data('email')
+        emailModal.getEmail() === null ? '' : emailModal.getEmail()
       )
       if (
-        dlLicInput.prop('checked') ? fileList.length > 1 : fileList.length > 0
+        dlLicInput.prop('checked') ? filePaths.length > 1 : filePaths.length > 0
       ) {
-        emailModal.dialog('open')
+        emailModal.open(filePaths, fileLabels)
       }
     })
     dlListButton.on('click', (event) => {
@@ -785,14 +587,12 @@ function main() {
       updateEmailListModal()
       $('#email-list-modal-tips').empty()
       $('#email-list-input').val(
-        emailListModal.data('email') === null
-          ? ''
-          : emailListModal.data('email')
+        emailListModal.getEmail() === null ? '' : emailListModal.getEmail()
       )
       if (
-        dlLicInput.prop('checked') ? fileList.length > 1 : fileList.length > 0
+        dlLicInput.prop('checked') ? filePaths.length > 1 : filePaths.length > 0
       ) {
-        emailListModal.dialog('open')
+        emailListModal.open(filePaths, fileLabels)
       }
     })
     updateDownloadFileList(dlButton, dlButtonWrapper, dlListButton, dlLicInput)
@@ -800,14 +600,14 @@ function main() {
   }
 
   function updateFileLabelListForLicence(dlLicInput, licenseUrl) {
-    const licenseIdx = fileLabelList.indexOf(licenseUrl)
+    const licenseIdx = fileLabels.indexOf(licenseUrl)
     if (dlLicInput.prop('checked')) {
       if (licenseIdx == -1) {
-        fileLabelList.push(licenseUrl)
+        fileLabels.push(licenseUrl)
       }
     } else {
       if (licenseIdx > -1) {
-        fileLabelList.splice(licenseIdx, 1)
+        fileLabels.splice(licenseIdx, 1)
       }
     }
   }
@@ -818,9 +618,9 @@ function main() {
     dlListButton,
     dlLicInput
   ) {
-    fileList = []
+    filePaths = []
     const markedForDownload = $('.download-checkbox:checked')
-    markedForDownload.each((i, checkbox) => fileList.push(checkbox.value))
+    markedForDownload.each((i, checkbox) => filePaths.push(checkbox.value))
 
     updateDownloadButton(dlButton, dlButtonWrapper, dlLicInput)
     updateDownloadListButton(dlListButton, dlLicInput)
@@ -832,8 +632,8 @@ function main() {
     )
     if (
       (dlLicInput.prop('checked')
-        ? fileList.length > 1
-        : fileList.length > 0) &&
+        ? filePaths.length > 1
+        : filePaths.length > 0) &&
       getTotalDownloadSize() <= MAX_DOWNLOADABLE_SIZE
     ) {
       dlButton.prop('disabled', false)
@@ -848,7 +648,7 @@ function main() {
 
   function updateDownloadListButton(dlListButton, dlLicInput) {
     if (
-      dlLicInput.prop('checked') ? fileList.length > 1 : fileList.length > 0
+      dlLicInput.prop('checked') ? filePaths.length > 1 : filePaths.length > 0
     ) {
       dlListButton.prop('disabled', false)
     } else {
@@ -1875,13 +1675,13 @@ function main() {
   const selectedFeatures = featureSelectInteraction.getFeatures()
 
   selectedFeatures.on('add', (event) => {
-    fileLabelList.push(event.element.get('label'))
+    fileLabels.push(event.element.get('label'))
   })
 
   selectedFeatures.on('remove', (event) => {
-    const deleteIdx = fileLabelList.indexOf(event.element.get('label'))
+    const deleteIdx = fileLabels.indexOf(event.element.get('label'))
     if (deleteIdx > -1) {
-      fileLabelList.splice(deleteIdx, 1)
+      fileLabels.splice(deleteIdx, 1)
     }
   })
 

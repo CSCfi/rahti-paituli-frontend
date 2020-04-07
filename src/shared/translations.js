@@ -1,6 +1,6 @@
 import { LANGUAGE } from './constants'
 
-let language = LANGUAGE.FINNISH
+let locale = LANGUAGE.FINNISH
 
 const translations = {
   appHeader: {
@@ -362,7 +362,8 @@ const byString = (o, s) => {
   return o
 }
 
-const translate = (field) => byString(translations, field + '.' + language)
-const changeLanguage = (l) => (language = l)
+const translate = (field) => byString(translations, field + '.' + locale)
+const getCurrentLocale = () => locale
+const changeLocale = (l) => (locale = l)
 
-export { translate, changeLanguage }
+export { translate, getCurrentLocale, changeLocale }
