@@ -15,7 +15,7 @@ import LayerSwitcher from 'ol-layerswitcher'
 import proj4 from 'proj4'
 
 import auth from '../shared/auth'
-import datasetMenu from './datasetMenu'
+import datasetSelect from './datasetSelect'
 import datasets from './datasets'
 import emailModal from './emailModal'
 import { translate } from '../shared/translations'
@@ -1457,7 +1457,7 @@ function main() {
   map.addControl(layerSwitcher)
   map.addControl(scaleLineControl)
 
-  datasetMenu.init(updateMap, pageDataIdParam)
+  datasetSelect.init(updateMap, pageDataIdParam)
   initLocationSearch()
   createSearchField()
 

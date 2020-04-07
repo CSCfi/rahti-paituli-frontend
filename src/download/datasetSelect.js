@@ -4,186 +4,50 @@ import auth from '../shared/auth'
 import datasets from './datasets'
 import { translate } from '../shared/translations'
 
+const rootElem = $('#form-input-container')
+const producerInput = initInput(rootElem, 'producer', 'data.producer')
+const dataInput = initInput(rootElem, 'data', 'data.data')
+const scaleInput = initInput(rootElem, 'scale', 'data.scale')
+const yearInput = initInput(rootElem, 'year', 'data.year')
+const formatInput = initInput(rootElem, 'format', 'data.format')
+const coordsysInput = initInput(rootElem, 'coordsys', 'data.coordSys')
+
 function init(updateMapCallback, datasetId) {
-  const rootElem = $('#form-input-container')
-  const producerInputId = 'producer-input'
-  const dataInputId = 'data-input'
-  const scaleInputId = 'scale-input'
-  const yearInputId = 'year-input'
-  const formatInputId = 'format-input'
-  const coordsysInputId = 'coordsys-input'
+  producerInput.on('change', producerSelected)
+  dataInput.on('change', datasetSelected)
+  scaleInput.on('change', scaleSelected)
+  yearInput.on('change', yearSelected)
+  formatInput.on('change', formatSelected)
+  coordsysInput.on('change', () => coordsysSelected(updateMapCallback))
 
-  const producerInputRow = $('<article>', {
-    class: 'form-input-row',
-    id: 'producer-row',
-  })
-  const producerLabel = $('<div>', {
-    class: 'form-input-label',
-    id: 'producer-label',
-  })
-  producerLabel.append(translate('data.producer'))
-
-  const producerInput = $('<select>', {
-    class: 'form-input',
-    id: producerInputId,
-  })
-  producerLabel.appendTo(producerInputRow)
-  producerInput.appendTo(producerInputRow)
-
-  const dataInputRow = $('<article>', {
-    class: 'form-input-row',
-    id: 'data-row',
-  })
-  const dataLabel = $('<div>', {
-    class: 'form-input-label',
-    id: 'data-label',
-  })
-  dataLabel.append(translate('data.data'))
-
-  const dataInput = $('<select>', {
-    class: 'form-input',
-    id: dataInputId,
-  })
-  dataLabel.appendTo(dataInputRow)
-  dataInput.appendTo(dataInputRow)
-
-  const scaleInputRow = $('<article>', {
-    class: 'form-input-row',
-    id: 'scale-row',
-  })
-  const scaleLabel = $('<div>', {
-    class: 'form-input-label',
-    id: 'scale-label',
-  })
-  scaleLabel.append(translate('data.scale'))
-  const scaleInput = $('<select>', {
-    class: 'form-input',
-    id: scaleInputId,
-  })
-  scaleLabel.appendTo(scaleInputRow)
-  scaleInput.appendTo(scaleInputRow)
-
-  const yearInputRow = $('<article>', {
-    class: 'form-input-row',
-    id: 'year-row',
-  })
-  const yearLabel = $('<div>', {
-    class: 'form-input-label',
-    id: 'year-label',
-  })
-  yearLabel.append(translate('data.year'))
-  const yearInput = $('<select>', {
-    class: 'form-input',
-    id: yearInputId,
-  })
-  yearLabel.appendTo(yearInputRow)
-  yearInput.appendTo(yearInputRow)
-
-  const formatInputRow = $('<article>', {
-    class: 'form-input-row',
-    id: 'format-row',
-  })
-  const formatLabel = $('<div>', {
-    class: 'form-input-label',
-    id: 'format-label',
-  })
-  formatLabel.append(translate('data.format'))
-  const formatInput = $('<select>', {
-    class: 'form-input',
-    id: formatInputId,
-  })
-  formatLabel.appendTo(formatInputRow)
-  formatInput.appendTo(formatInputRow)
-
-  const coordsysInputRow = $('<article>', {
-    class: 'form-input-row',
-    id: 'coordsys-row',
-  })
-  const coordsysLabel = $('<div>', {
-    class: 'form-input-label',
-    id: 'coordsys-label',
-  })
-  coordsysLabel.append(translate('data.coordSys'))
-  const coordsysInput = $('<select>', {
-    class: 'form-input',
-    id: coordsysInputId,
-  })
-  coordsysLabel.appendTo(coordsysInputRow)
-  coordsysInput.appendTo(coordsysInputRow)
-
-  producerInputRow.appendTo(rootElem)
-  dataInputRow.appendTo(rootElem)
-  scaleInputRow.appendTo(rootElem)
-  yearInputRow.appendTo(rootElem)
-  formatInputRow.appendTo(rootElem)
-  coordsysInputRow.appendTo(rootElem)
-
-  $('#' + producerInputId).on('change', () =>
-    updateDatasets(producerInput, dataInput)
-  )
-  $('#' + dataInputId).on('change', () =>
-    updateScales(producerInput, dataInput, scaleInput)
-  )
-  $('#' + scaleInputId).on('change', () =>
-    updateYears(producerInput, dataInput, scaleInput, yearInput)
-  )
-  $('#' + yearInputId).on('change', () =>
-    updateFormats(producerInput, dataInput, scaleInput, yearInput, formatInput)
-  )
-  $('#' + formatInputId).on('change', () =>
-    updateCoordsyses(
-      producerInput,
-      dataInput,
-      scaleInput,
-      yearInput,
-      formatInput,
-      coordsysInput
-    )
-  )
-  $('#' + coordsysInputId).on('change', () => {
-    const selectedData = datasets
-      .getAll()
-      .find(
-        (data) =>
-          data.org === producerInput.val() &&
-          data.name === dataInput.val() &&
-          data.scale === scaleInput.val() &&
-          data.year === yearInput.val() &&
-          data.format === formatInput.val() &&
-          data.coord_sys === coordsysInput.val()
-      )
-    if (typeof selectedData !== 'undefined') {
-      datasets.setCurrent(selectedData.data_id)
-    } else {
-      datasets.clearCurrent()
-    }
-    updateMapCallback()
-  })
-
-  updateProducers(producerInput)
+  filterProducers()
 
   if (datasetId !== null) {
-    selectDataset(
-      datasetId,
-      producerInput,
-      dataInput,
-      scaleInput,
-      yearInput,
-      formatInput,
-      coordsysInput
-    )
+    selectDataset(datasetId)
   }
 }
 
-function selectDataset(
-  datasetId,
-  producerInput,
-  dataInput,
-  scaleInput,
-  yearInput,
-  formatInput,
-  coordsysInput
-) {
+function initInput(rootElem, name, translationPath) {
+  const row = $('<article>', {
+    class: 'form-input-row',
+    id: name + '-row',
+  })
+  const label = $('<div>', {
+    class: 'form-input-label',
+    id: name + '-label',
+  })
+  const input = $('<select>', {
+    class: 'form-input',
+    id: name + '-input',
+  })
+  label.append(translate(translationPath))
+  label.appendTo(row)
+  input.appendTo(row)
+  row.appendTo(rootElem)
+  return input
+}
+
+function selectDataset(datasetId) {
   const selectedData = datasets.getById(datasetId)
   if (typeof selectedData !== 'undefined') {
     producerInput.val(selectedData.org)
@@ -201,7 +65,10 @@ function selectDataset(
   }
 }
 
-function updateProducers(producerInput) {
+const onlyDistinct = (value, index, self) => self.indexOf(value) === index
+const onlyAuthorized = (data) => auth.loggedIn() || data.access === 1
+
+function filterProducers() {
   const producers = datasets
     .getAll()
     .filter(onlyAuthorized)
@@ -210,7 +77,7 @@ function updateProducers(producerInput) {
   updateOptions(producerInput, sortDropdownData('ascending', producers), true)
 }
 
-function updateDatasets(producerInput, dataInput) {
+function producerSelected() {
   if (!producerInput.val().startsWith('--')) {
     const names = datasets
       .getAll()
@@ -224,7 +91,7 @@ function updateDatasets(producerInput, dataInput) {
   }
 }
 
-function updateScales(producerInput, dataInput, scaleInput) {
+function datasetSelected() {
   if (!dataInput.val().startsWith('--')) {
     const scales = datasets
       .getAll()
@@ -238,7 +105,7 @@ function updateScales(producerInput, dataInput, scaleInput) {
   }
 }
 
-function updateYears(producerInput, dataInput, scaleInput, yearInput) {
+function scaleSelected() {
   if (!scaleInput.val().startsWith('--')) {
     const years = datasets
       .getAll()
@@ -253,13 +120,7 @@ function updateYears(producerInput, dataInput, scaleInput, yearInput) {
   }
 }
 
-function updateFormats(
-  producerInput,
-  dataInput,
-  scaleInput,
-  yearInput,
-  formatInput
-) {
+function yearSelected() {
   if (!yearInput.val().startsWith('--')) {
     const formats = datasets
       .getAll()
@@ -275,14 +136,7 @@ function updateFormats(
   }
 }
 
-function updateCoordsyses(
-  producerInput,
-  dataInput,
-  scaleInput,
-  yearInput,
-  formatInput,
-  coordsysInput
-) {
+function formatSelected() {
   if (!formatInput.val().startsWith('--')) {
     const coordsyses = datasets
       .getAll()
@@ -303,12 +157,24 @@ function updateCoordsyses(
   }
 }
 
-function onlyDistinct(value, index, self) {
-  return self.indexOf(value) === index
-}
-
-function onlyAuthorized(data) {
-  return auth.loggedIn() || data.access === 1
+function coordsysSelected(updateMapCallback) {
+  const selectedData = datasets
+    .getAll()
+    .find(
+      (data) =>
+        data.org === producerInput.val() &&
+        data.name === dataInput.val() &&
+        data.scale === scaleInput.val() &&
+        data.year === yearInput.val() &&
+        data.format === formatInput.val() &&
+        data.coord_sys === coordsysInput.val()
+    )
+  if (typeof selectedData !== 'undefined') {
+    datasets.setCurrent(selectedData.data_id)
+  } else {
+    datasets.clearCurrent()
+  }
+  updateMapCallback()
 }
 
 function addEmptyOption(inputElem) {
