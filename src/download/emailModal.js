@@ -9,7 +9,7 @@ let filePaths = []
 let fileLabels = []
 let downloadType = ''
 
-const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+const emailRegexp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
 const emailInput = $('#email-input')
 const licenseCheckbox = $('#license-checkbox')
 const tips = $('#email-modal-tips')
@@ -40,13 +40,13 @@ $('#email-modal-form fieldset legend').text(translate('email.inputsheader'))
 $('#email-instructions').text(translate('email.info'))
 
 function sendEmail() {
-  const emailVal = emailInput.val()
-  if (filePaths.length > 0 && emailVal) {
+  const valid = validate()
+  if (valid && filePaths.length > 0) {
     const current = datasets.getCurrent()
     const downloadRequest = {
       data_id: current.data_id,
       downloadType,
-      email: emailVal,
+      email: emailInput.val(),
       language: getCurrentLocale(),
       filePaths: filePaths,
       filenames: fileLabels,
@@ -57,73 +57,61 @@ function sendEmail() {
       coord_sys: current.coord_sys,
       format: current.format,
     }
-
-    // Validate input fields
-    let valid = true
-    emailInput.removeClass('ui-state-error')
-    licenseCheckbox.removeClass('ui-state-error')
-    valid =
-      valid &&
-      checkLength(emailInput, 1, 80, translate('email.errorEmailLength'), tips)
-    valid =
-      valid &&
-      checkRegexp(
-        emailInput,
-        emailRegex,
-        translate('email.errorEmailFormat'),
-        tips
-      )
-    valid =
-      valid &&
-      checkIsChecked(
-        licenseCheckbox,
-        translate('email.errorCheckboxChecked'),
-        tips
-      )
-    if (valid) {
-      modal.data('email', emailInput.val())
-      $.post({
-        url: URL.DOWNLOAD_API,
-        data: JSON.stringify(downloadRequest),
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-        success: () => modal.dialog('close'),
-      })
-    }
-    return valid
+    modal.data('email', emailInput.val())
+    $.post({
+      url: URL.DOWNLOAD_API,
+      data: JSON.stringify(downloadRequest),
+      contentType: 'application/json; charset=utf-8',
+      dataType: 'json',
+      success: () => modal.dialog('close'),
+    })
+    return true
   } else {
     return false
   }
 }
 
-function checkLength(obj, min, max, errMsg, tipsOutput) {
-  if (obj.val().length > max || obj.val().length < min) {
-    obj.addClass('ui-state-error')
-    updateModalTips(errMsg, tipsOutput)
+function validate() {
+  emailInput.removeClass('ui-state-error')
+  licenseCheckbox.removeClass('ui-state-error')
+  return checkLength() && checkRegexp() && checkLicenseIsChecked()
+}
+
+function checkLength() {
+  const email = emailInput.val()
+  if (!email || email.length > 80 || email.length < 1) {
+    displayValidationError(emailInput, translate('email.errorEmailLength'))
     return false
   } else {
     return true
   }
 }
 
-function checkRegexp(obj, regexp, errMsg, tipsOutput) {
-  if (!regexp.test(obj.val())) {
-    obj.addClass('ui-state-error')
-    updateModalTips(errMsg, tipsOutput)
+function checkRegexp() {
+  if (!emailRegexp.test(emailInput.val())) {
+    displayValidationError(emailInput, translate('email.errorEmailFormat'))
     return false
   } else {
     return true
   }
 }
 
-function checkIsChecked(obj, errMsg, tipsOutput) {
-  if (!obj.prop('checked')) {
-    obj.addClass('ui-state-error')
-    updateModalTips(errMsg, tipsOutput)
+function checkLicenseIsChecked() {
+  if (!licenseCheckbox.prop('checked')) {
+    displayValidationError(
+      licenseCheckbox,
+      translate('email.errorCheckboxChecked')
+    )
     return false
   } else {
     return true
   }
+}
+
+function displayValidationError(input, errorMessage) {
+  input.addClass('ui-state-error')
+  tips.text(errorMessage).addClass('ui-state-highlight')
+  setTimeout(() => tips.removeClass('ui-state-highlight', 1500), 500)
 }
 
 function initModal(downloadSize) {
@@ -163,11 +151,6 @@ function initModal(downloadSize) {
 
   modal.dialog('option', 'title', translate('email.modalheader'))
   modal.dialog('option', 'buttons', getModalButtons('email.sendButton'))
-}
-
-function updateModalTips(t, tipsOutput) {
-  tipsOutput.text(t).addClass('ui-state-highlight')
-  setTimeout(() => tipsOutput.removeClass('ui-state-highlight', 1500), 500)
 }
 
 function getModalButtons(submitLabel) {
