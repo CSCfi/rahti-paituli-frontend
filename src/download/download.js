@@ -18,6 +18,7 @@ import auth from '../shared/auth'
 import datasetSelect from './components/datasetSelect'
 import datasets from './datasets'
 import emailModal from './components/emailModal'
+import linksTab from './components/linksTab'
 import { translate } from '../shared/translations'
 import { LANGUAGE } from '../shared/constants'
 import { LAYER, URL } from '../shared/urls'
@@ -213,7 +214,7 @@ function main() {
       case 'metadata':
         clearMetadataTabContent()
         createMetadataTabContent()
-        createLinksContent(linksTabContentRoot)
+        linksTab.init(linksTabContentRoot)
         break
       default:
         break
@@ -283,79 +284,6 @@ function main() {
         rootElem.html(iframe)
       }
     }
-  }
-
-  function addLink(linkName, hrefValue, container) {
-    let anchor = $('#' + linkName + '-anchor')
-    if (!anchor.length) {
-      anchor = $('<a>', {
-        id: 'dataset-link-anchor',
-        href: hrefValue,
-        target: '_blank',
-      })
-    }
-    container.append('<strong>' + linkName + ': </strong>')
-    anchor.text(hrefValue)
-    anchor.appendTo(container)
-    container.append('<br>')
-  }
-
-  function createParagraph(id, text) {
-    let p = $(id)
-    if (!p.length) {
-      p = $('<p>', {
-        id: id,
-      })
-    }
-    p.text(text)
-    return p
-  }
-
-  function createLinksContent(rootElem) {
-    rootElem.empty()
-    const infoText = createParagraph(
-      '#links-info',
-      translate('info.linksIntro')
-    )
-    infoText.appendTo(rootElem)
-
-    const datasetPath = datasets.getCurrent().funet
-    const rsyncPath =
-      'rsync://rsync.nic.funet.fi/ftp/index/geodata/' + datasetPath
-
-    const linksContainer = $('<div>', {
-      id: 'links-container',
-    })
-
-    const ftpPath = URL.FTP_LINKS_BASE + datasetPath
-    const httpPath = URL.HTTP_LINKS_BASE + datasetPath
-
-    addLink('http', httpPath, linksContainer)
-    addLink('ftp', ftpPath, linksContainer)
-    linksContainer.append('<strong>rsync: </strong>' + rsyncPath)
-    linksContainer.appendTo(rootElem)
-
-    const url = URL.WFS_INDEX_MAP_DOWNLOAD_SHAPE.replace(
-      '!key!',
-      'data_id'
-    ).replace('!value!', datasets.getCurrent().data_id)
-
-    let index_anchor = $('#index-anchor')
-    if (!index_anchor.length) {
-      index_anchor = $('<a>', {
-        id: 'index-anchor',
-        href: url,
-        target: '_blank',
-      })
-    }
-    index_anchor.text(translate('info.downloadindex') + ' ')
-
-    $('<br>').appendTo(rootElem)
-    rootElem.append(index_anchor)
-    rootElem.append(translate('info.dlIndexMapInfo') + ' ')
-    rootElem.append(
-      translate('info.linksInfo').replace('!infolink!', URL.INFO_LINK)
-    )
   }
 
   function createDownloadContent(rootElem) {
