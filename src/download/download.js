@@ -35,7 +35,6 @@ import '../css/download.css'
 
 // mutable global variables
 let pageDataIdParam = getUrlParameter('data_id')
-let currentIndexMapLayer = null
 let selectedTool = ''
 
 changeLocale(LOCALE.FINNISH)
@@ -193,7 +192,7 @@ function main() {
   function setInfoContent(contentType, params) {
     switch (contentType) {
       case 'download':
-        downloadTab.init(highlightOverlay, currentIndexMapLayer)
+        downloadTab.init(highlightOverlay)
         break
       case 'featureinfo':
         featureInfoTab.init(params, view, currentDataLayer)
@@ -288,7 +287,7 @@ function main() {
   let mapsheets = 0
 
   function updateMap() {
-    map.removeLayer(currentIndexMapLayer)
+    map.removeLayer(globals.getIndexLayer())
     map.removeLayer(currentIndexMapLabelLayer)
     map.removeLayer(currentDataLayer)
     locationSearch.clear()
@@ -302,31 +301,34 @@ function main() {
       loadIndexLayer()
       loadIndexMapLabelLayer()
 
-      if (currentIndexMapLayer !== null) {
-        currentIndexMapLayer.getSource().once('change', (event) => {
-          let hasInfoTab = false
-          if (event.target.getState() == 'ready' && isFirstTimeLoaded) {
-            hasInfoTab = datasets.hasFeatureInfo()
-            mapsheets = datasets.getCurrent().map_sheets
-            if (mapsheets > 1) {
-              featureSearchContainer.css('visibility', 'visible')
-            } else if (mapsheets === 1) {
-              // if there is only one mapsheet, select all files
-              globals
-                .getSelectedFeatures()
-                .extend(currentIndexMapLayer.getSource().getFeatures())
-              featureSearchContainer.css('visibility', 'hidden')
+      if (globals.getIndexLayer() !== null) {
+        globals
+          .getIndexLayer()
+          .getSource()
+          .once('change', (event) => {
+            let hasInfoTab = false
+            if (event.target.getState() == 'ready' && isFirstTimeLoaded) {
+              hasInfoTab = datasets.hasFeatureInfo()
+              mapsheets = datasets.getCurrent().map_sheets
+              if (mapsheets > 1) {
+                featureSearchContainer.css('visibility', 'visible')
+              } else if (mapsheets === 1) {
+                // if there is only one mapsheet, select all files
+                globals
+                  .getSelectedFeatures()
+                  .extend(globals.getIndexLayer().getSource().getFeatures())
+                featureSearchContainer.css('visibility', 'hidden')
+              }
+              setInfoContent('download')
+              isFirstTimeLoaded = false
+              toggleMapControlButtonsVisibility()
             }
-            setInfoContent('download')
-            isFirstTimeLoaded = false
-            toggleMapControlButtonsVisibility()
-          }
-          selectTabAfterDatasetChange(hasInfoTab)
-        })
+            selectTabAfterDatasetChange(hasInfoTab)
+          })
 
         if (currentIndexMapLabelLayer !== null) {
-          currentIndexMapLayer.on('change:visible', () => {
-            if (currentIndexMapLayer.getVisible()) {
+          globals.getIndexLayer().on('change:visible', () => {
+            if (globals.getIndexLayer().getVisible()) {
               currentIndexMapLabelLayer.setVisible(true)
             } else {
               currentIndexMapLabelLayer.setVisible(false)
@@ -350,7 +352,7 @@ function main() {
         } else {
           setDataAvailabiltyWarning()
         }
-        map.addLayer(currentIndexMapLayer)
+        map.addLayer(globals.getIndexLayer())
         if (currentIndexMapLabelLayer !== null) {
           map.addLayer(currentIndexMapLabelLayer)
         }
@@ -436,19 +438,21 @@ function main() {
         },
       })
 
-      currentIndexMapLayer = new layer.Vector({
-        title: translate('map.indexmap'),
-        source: indexSource,
-        visible: true,
-        style: new style.Style({
-          stroke: new style.Stroke({
-            color: 'rgba(0, 0, 255, 1.0)',
-            width: 2,
+      globals.setIndexLayer(
+        new layer.Vector({
+          title: translate('map.indexmap'),
+          source: indexSource,
+          visible: true,
+          style: new style.Style({
+            stroke: new style.Stroke({
+              color: 'rgba(0, 0, 255, 1.0)',
+              width: 2,
+            }),
           }),
-        }),
-      })
+        })
+      )
     } else {
-      currentIndexMapLayer = null
+      globals.setIndexLayer(null)
     }
     isFirstTimeLoaded = true
   }
@@ -492,14 +496,17 @@ function main() {
 
   function getSearchResultFeatures(searchStr) {
     const hits = []
-    currentIndexMapLayer.getSource().forEachFeature((feature) => {
-      if (
-        feature.get('label').toLowerCase().indexOf(searchStr.toLowerCase()) !=
-        -1
-      ) {
-        hits.push(feature)
-      }
-    })
+    globals
+      .getIndexLayer()
+      .getSource()
+      .forEachFeature((feature) => {
+        if (
+          feature.get('label').toLowerCase().indexOf(searchStr.toLowerCase()) !=
+          -1
+        ) {
+          hits.push(feature)
+        }
+      })
     return hits
   }
 
@@ -632,7 +639,8 @@ function main() {
     const oldFeaturesInSelection = []
     let existing
 
-    currentIndexMapLayer
+    globals
+      .getIndexLayer()
       .getSource()
       .forEachFeatureIntersectingExtent(extent, (feature) => {
         existing = globals.getSelectedFeatures().remove(feature)
@@ -677,7 +685,7 @@ function main() {
 
   function updateDrawSelection(event) {
     const polygon = event.feature.getGeometry()
-    const features = currentIndexMapLayer.getSource().getFeatures()
+    const features = globals.getIndexLayer().getSource().getFeatures()
 
     const newFeatures = []
     const oldFeaturesInSelection = []

@@ -12,7 +12,7 @@ const rootElem = $('#' + TAB_ID)
 let filePaths = []
 let fileLabels = []
 
-function init(highlightOverlay, currentIndexMapLayer) {
+function init(highlightOverlay) {
   highlightOverlay.getSource().clear()
 
   // Download and download list buttons are inside wrappers so that
@@ -159,14 +159,16 @@ function init(highlightOverlay, currentIndexMapLayer) {
       dlLabel.hover(
         (event) => {
           highlightOverlay.getSource().clear()
-          const olId = currentIndexMapLayer
+          const olId = globals
+            .getIndexLayer()
             .getSource()
             .getFeatureById($(event.target).attr('ol_id'))
           highlightOverlay.getSource().addFeature(olId)
-          dlLabel.css('font-weight', 'Bold')
+          dlLabel.css('font-weight', 'bold')
         },
         (event) => {
-          const olId = currentIndexMapLayer
+          const olId = globals
+            .getIndexLayer()
             .getSource()
             .getFeatureById($(event.target).attr('ol_id'))
           highlightOverlay.getSource().removeFeature(olId)
