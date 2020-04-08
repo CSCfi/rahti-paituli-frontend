@@ -18,8 +18,10 @@ import auth from '../shared/auth'
 import datasetSelect from './components/datasetSelect'
 import datasets from './datasets'
 import emailModal from './components/emailModal'
+import featureInfoTab from './components/featureInfoTab'
+import metadataTab from './components/metadataTab'
 import linksTab from './components/linksTab'
-import { translate } from '../shared/translations'
+import { changeLocale, translate } from '../shared/translations'
 import { LANGUAGE } from '../shared/constants'
 import { LAYER, URL } from '../shared/urls'
 
@@ -31,9 +33,10 @@ import '../css/download.css'
 
 const MAX_DOWNLOADABLE_SIZE = 3000
 
+changeLocale(LANGUAGE.FINNISH)
+
 // mutable global variables
 let pageDataIdParam = getUrlParameter('data_id')
-let currentLocale = LANGUAGE.FINNISH
 let currentIndexMapLayer = null
 let selectedTool = ''
 
@@ -209,11 +212,16 @@ function main() {
         break
       case 'featureinfo':
         clearFeatureInfoTabContent()
-        createFeatureInfoContent(featureInfoTabContentRoot, params)
+        featureInfoTab.init(
+          featureInfoTabContentRoot,
+          params,
+          view,
+          currentDataLayer
+        )
         break
       case 'metadata':
         clearMetadataTabContent()
-        createMetadataTabContent()
+        metadataTab.init(metadataTabContentRoot)
         linksTab.init(linksTabContentRoot)
         break
       default:
@@ -265,25 +273,6 @@ function main() {
       )
     }
     return false
-  }
-
-  function createFeatureInfoContent(rootElem, event) {
-    const viewResolution = view.getResolution()
-    if (currentDataLayer) {
-      const url = currentDataLayer
-        .getSource()
-        .getFeatureInfoUrl(event.coordinate, viewResolution, 'EPSG:3857', {
-          INFO_FORMAT: 'text/plain',
-          outputFormat: 'text/javascript',
-        })
-      if (url) {
-        const iframe =
-          '<iframe id="feature-info-iframe" seamless src="' +
-          url +
-          '"></iframe>'
-        rootElem.html(iframe)
-      }
-    }
   }
 
   function createDownloadContent(rootElem) {
@@ -621,179 +610,12 @@ function main() {
     $('#feature-search-results').empty()
   }
 
-  function createMetadataTabContent() {
-    const metadataURN = datasets.getCurrent().meta
-    const metadataInfoLabel = $('<div>', {
-      id: 'metadata-info-label',
-    })
-    if (metadataURN !== null) {
-      metadataInfoLabel.append(
-        translate('info.metadatainfo').replace(
-          '!metadata_url!',
-          URL.ETSIN_METADATA_BASE + flipURN(metadataURN)
-        )
-      )
-      metadataTabContentRoot.append(metadataInfoLabel)
-    }
-
-    const errorFunction = (metadataNotes) => {
-      metadataNotes.html(translate('info.nometadataavailable'))
-      metadataTabContentRoot.append(metadataNotes)
-    }
-
-    const successFunction = (rawEtsinMetadata, metadataNotes) => {
-      const notesHtml = getNotesAsHtmlFromEtsinMetadata(rawEtsinMetadata)
-      const linksHtml = getLinksAsHtmlFromEtsinMetadata(rawEtsinMetadata)
-      if (rawEtsinMetadata == null || notesHtml == null) {
-        metadataNotes.html(translate('info.nometadataavailable'))
-      } else {
-        metadataNotes.html(
-          translate('info.metadatacontentheader') + notesHtml + linksHtml
-        )
-      }
-      if (metadataTabContentRoot.children().length >= 2) {
-        metadataTabContentRoot.children().last().remove()
-      }
-      metadataTabContentRoot.append(metadataNotes)
-    }
-
-    const metadataNotes = $('<div>', {
-      id: 'metadata-notes',
-    })
-
-    fetchMetadataDescription(
-      metadataURN,
-      metadataNotes,
-      successFunction,
-      errorFunction
-    )
-  }
-
-  // Get dataset's metadata file links from Metax
-  function getLinksAsHtmlFromEtsinMetadata(rawEtsinMetadata) {
-    if (rawEtsinMetadata != null) {
-      const hasFileLink = (metadata) =>
-        metadata.title != null &&
-        metadata.download_url.identifier
-          .toLowerCase()
-          .includes('latauspalvelu') === false
-      const toHtmlLink = (metadata) =>
-        '<li><a href="' +
-        metadata.download_url.identifier +
-        '" target="_blank">' +
-        metadata.title +
-        '</a></li>'
-      const htmlLinks = rawEtsinMetadata.research_dataset.remote_resources
-        .filter(hasFileLink)
-        .map(toHtmlLink)
-
-      if (htmlLinks.length > 0) {
-        return (
-          '<br>' +
-          translate('info.metadatalinksheader') +
-          '<ul>' +
-          htmlLinks +
-          '</ul>'
-        )
-      }
-    }
-    return null
-  }
-
-  // Get dataset's metadata description from Metax
-  function getNotesAsHtmlFromEtsinMetadata(rawEtsinMetadata) {
-    if (rawEtsinMetadata != null) {
-      let notes =
-        currentLocale == LANGUAGE.FINNISH
-          ? rawEtsinMetadata.research_dataset.description.fi
-          : rawEtsinMetadata.research_dataset.description.en
-      if (notes == null) {
-        return null
-      }
-      // Fix links from MarkDown to HTML
-      const regexp = /\[.*?\]\(http.*?\)/g
-      const matches = []
-
-      let match
-      while ((match = regexp.exec(notes)) != null) {
-        matches.push(match.index)
-      }
-      matches.reverse()
-
-      const insert = (string, index, value) => {
-        return index > 0
-          ? string.substring(0, index) +
-              value +
-              string.substring(index, string.length)
-          : value + string
-      }
-
-      $.each(matches, (loopIdx, matchIdx) => {
-        notes = insert(
-          notes,
-          matchIdx + 1,
-          '<b><a href="' +
-            notes.substring(
-              notes.indexOf('(', matchIdx) + 1,
-              notes.indexOf(')', matchIdx)
-            ) +
-            '" target="_blank">'
-        )
-        notes = insert(notes, notes.indexOf(']', matchIdx), '</a></b>')
-        notes = notes.replace(
-          notes.substring(
-            notes.indexOf('(', matchIdx),
-            notes.indexOf(')', matchIdx) + 1
-          ),
-          ''
-        )
-      })
-      notes = notes.replace(/\[|\]/g, '')
-
-      // Fix new lines from MarkDown to HTML
-      return notes.replace(/(\r\n|\n|\r)/gm, '<br>')
-    }
-    return null
-  }
-
   function cutLicenseURL(urn) {
     if (urn != null) {
       const arr = urn.split('geodata/')
       urn = arr[1]
     }
     return urn
-  }
-
-  function flipURN(urn) {
-    const colon = ':'
-    const dash = '-'
-    if (urn.indexOf(colon) == -1) {
-      const arr = urn.split(dash)
-      urn =
-        arr[0] +
-        colon +
-        arr[1] +
-        colon +
-        arr[2] +
-        colon +
-        arr[3] +
-        dash +
-        arr[4]
-    }
-    return urn
-  }
-
-  function fetchMetadataDescription(
-    metadataURN,
-    metadataNotes,
-    successFn,
-    errorFn
-  ) {
-    $.ajax({
-      url: URL.ETSIN_METADATA_JSON_BASE + flipURN(metadataURN),
-      success: (data) => successFn(data, metadataNotes),
-      error: () => errorFn(metadataNotes),
-    })
   }
 
   function setFeatureInfoTabDefaultContent() {

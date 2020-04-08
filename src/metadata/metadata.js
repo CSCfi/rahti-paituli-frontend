@@ -6,6 +6,7 @@ import 'bootstrap-table/dist/extensions/multiple-sort/bootstrap-table-multiple-s
 import 'bootstrap-table/dist/extensions/filter-control/bootstrap-table-filter-control'
 
 import { translate } from '../shared/translations'
+import { flipURN } from '../shared/utils'
 import { URL } from '../shared/urls'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -14,20 +15,6 @@ import 'jquery-ui-bundle/jquery-ui.css'
 import 'ol/ol.css'
 import 'ol-layerswitcher/src/ol-layerswitcher.css'
 import '../css/metadata.css'
-
-function flipURN(urn) {
-  const colon = ':'
-  const dash = '-'
-  if (!urn.includes(colon)) {
-    return urn
-      .split(dash)
-      .reduce(
-        (acc, value, i, arr) =>
-          acc + (i < arr.length - 1 ? colon : dash) + value
-      )
-  }
-  return urn
-}
 
 const filterControlPlaceholder = translate('metadataTable.filter')
 $('#table').bootstrapTable({

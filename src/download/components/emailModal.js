@@ -1,7 +1,7 @@
 import $ from 'jquery'
 
 import datasets from '../datasets'
-import { translate, getCurrentLocale } from '../../shared/translations'
+import { getCurrentLocale, translate } from '../../shared/translations'
 import { DOWNLOAD_TYPE } from '../../shared/constants'
 import { URL } from '../../shared/urls'
 
