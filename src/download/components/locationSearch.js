@@ -1,0 +1,43 @@
+import $ from 'jquery'
+import { translate } from '../../shared/translations'
+import { URL } from '../../shared/urls'
+import * as proj from 'ol/proj'
+
+const searchInput = $('#location-search-input')
+searchInput.attr('placeholder', translate('map.locationsearch'))
+
+function search(map, searchStr) {
+  $.getJSON(URL.NOMINATIM_API.replace('!query!', searchStr), (data) => {
+    if (data.length > 0) {
+      const center = proj.transform(
+        [Number(data[0].lon), Number(data[0].lat)],
+        'EPSG:4326',
+        'EPSG:3857'
+      )
+      map.getView().setCenter(center)
+      const zoom = searchStr.includes(',') ? 16 : 13
+      map.getView().setZoom(zoom)
+    } else {
+      alert(translate('map.locationNotFound'))
+    }
+  })
+}
+
+function init(map) {
+  searchInput.keypress((event) => {
+    const keyCode = event.keyCode || event.charCode
+    if (keyCode == 13) {
+      const searchStr = searchInput.val()
+      if (searchStr.length > 0) {
+        search(map, searchStr)
+      }
+    }
+  })
+}
+
+const clear = () => searchInput.val('')
+
+export default {
+  init,
+  clear,
+}

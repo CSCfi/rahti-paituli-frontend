@@ -18,6 +18,7 @@ import auth from '../shared/auth'
 import datasetSelect from './components/datasetSelect'
 import globals from './globals'
 import datasets from './datasets'
+import locationSearch from './components/locationSearch'
 import downloadTab from './components/downloadTab'
 import featureInfoTab from './components/featureInfoTab'
 import metadataTab from './components/metadataTab'
@@ -177,14 +178,12 @@ function main() {
   infoSelectContainer.hide()
 
   drawSelectContainer.hide()
-  const locationSearchInput = $('#location-search-input')
   let currentIndexMapLabelLayer = null
   let currentDataLayer = null
   let currentMaxResolution = null
   let mapContainerId = 'map-container'
   let prevSelectedTab = null
 
-  locationSearchInput.attr('placeholder', translate('map.locationsearch'))
   const tabContainerId = 'info-container'
   const tabContainer = $('#' + tabContainerId)
   tabContainer.tabs({
@@ -292,7 +291,7 @@ function main() {
     map.removeLayer(currentIndexMapLayer)
     map.removeLayer(currentIndexMapLabelLayer)
     map.removeLayer(currentDataLayer)
-    locationSearchInput.val('')
+    locationSearch.clear()
     clearMapFeatureSelection()
     featureInfoTab.clear()
     clearSearchResults()
@@ -754,6 +753,7 @@ function main() {
 
   function selectSelectTool() {
     selectTab(0)
+
     $('#panselection-button').removeClass('active')
     $('#selectselection-button').addClass('active')
     $('#infoselection-button').removeClass('active')
@@ -769,6 +769,7 @@ function main() {
 
   function selectInfoTool() {
     selectTab(1)
+
     $('#panselection-button').removeClass('active')
     $('#selectselection-button').removeClass('active')
     $('#infoselection-button').addClass('active')
@@ -788,6 +789,7 @@ function main() {
 
   function selectDrawTool() {
     selectTab(0)
+
     $('#panselection-button').removeClass('active')
     $('#selectselection-button').removeClass('active')
     $('#infoselection-button').removeClass('active')
@@ -808,38 +810,6 @@ function main() {
 
   const scaleLineControl = new control.ScaleLine()
 
-  function initLocationSearch() {
-    locationSearchInput.keypress((event) => {
-      const keyCode = event.keyCode || event.charCode
-      if (keyCode == 13) {
-        const searchStr = locationSearchInput.val()
-        if (searchStr.length > 0) {
-          const queryUrl = URL.NOMINATIM_API.replace('!query!', searchStr)
-          $.getJSON(queryUrl, (data) => {
-            if (data.length > 0) {
-              map
-                .getView()
-                .setCenter(
-                  proj.transform(
-                    [Number(data[0].lon), Number(data[0].lat)],
-                    'EPSG:4326',
-                    'EPSG:3857'
-                  )
-                )
-              if (searchStr.indexOf(',') != -1) {
-                map.getView().setZoom(16)
-              } else {
-                map.getView().setZoom(13)
-              }
-            } else {
-              alert(translate('map.locationNotFound'))
-            }
-          })
-        }
-      }
-    })
-  }
-
   $('#resetview-button').on('click', resetMapView)
   $('#panselection-button').on('click', selectPanTool)
   $('#selectselection-button').on('click', selectSelectTool)
@@ -854,7 +824,7 @@ function main() {
   map.addControl(scaleLineControl)
 
   datasetSelect.init(updateMap, pageDataIdParam)
-  initLocationSearch()
+  locationSearch.init(map)
   createSearchField()
 
   resetMapView()
