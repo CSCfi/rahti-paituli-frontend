@@ -1,4 +1,5 @@
 function init(rootElem, event, view, layer) {
+  rootElem.empty()
   if (layer) {
     const viewResolution = view.getResolution()
     const url = layer
