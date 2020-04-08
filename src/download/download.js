@@ -125,7 +125,25 @@ function checkParameterDatasetAccess() {
   })
 }
 
+function setTranslations() {
+  $('#dl-service-header h1').text(translate('appHeader'))
+  $('#data-form legend').text(translate('data.header'))
+  $('#resetview-button').attr('title', translate('map.reset'))
+  $('#clearselection-button').attr('title', translate('map.clearSelection'))
+  $('#panselection-button').attr('title', translate('map.pan'))
+  $('#selectselection-button').attr('title', translate('map.select'))
+  $('#infoselection-button').attr('title', translate('map.info'))
+  $('#drawselection-button').attr('title', translate('map.draw'))
+
+  $('#download-container-anchor').text(translate('info.downloadtab'))
+  $('#feature-info-container-anchor').text(translate('info.featureinfotab'))
+  $('#metadata-container-anchor').text(translate('info.metadatatab'))
+  $('#links-container-anchor').text(translate('info.linkstab'))
+}
+
 function main() {
+  setTranslations()
+
   $(document).tooltip({ track: true })
 
   const selected_style = new style.Style({
@@ -153,7 +171,6 @@ function main() {
       color: [255, 255, 255, 0.8],
     }),
   })
-
   const panSelectBtn = $('#panselection-button')
   const selectSelectContainer = $('#selectselection-container')
   const clearSelectContainer = $('#clearselection-container')
@@ -163,34 +180,16 @@ function main() {
   selectSelectContainer.hide()
   clearSelectContainer.hide()
   infoSelectContainer.hide()
-  drawSelectContainer.hide()
 
+  drawSelectContainer.hide()
   const locationSearchInput = $('#location-search-input')
   let currentIndexMapLabelLayer = null
   let currentDataLayer = null
   let currentMaxResolution = null
-
   let mapContainerId = 'map-container'
   let prevSelectedTab = null
 
-  function setHtmlElementTextValues() {
-    $('#dl-service-header h1').text(translate('appHeader'))
-    $('#data-form legend').text(translate('data.header'))
-    $('#resetview-button').attr('title', translate('map.reset'))
-    $('#clearselection-button').attr('title', translate('map.clearSelection'))
-    $('#panselection-button').attr('title', translate('map.pan'))
-    $('#selectselection-button').attr('title', translate('map.select'))
-    $('#infoselection-button').attr('title', translate('map.info'))
-    $('#drawselection-button').attr('title', translate('map.draw'))
-
-    $('#download-container-anchor').text(translate('info.downloadtab'))
-    $('#feature-info-container-anchor').text(translate('info.featureinfotab'))
-    $('#metadata-container-anchor').text(translate('info.metadatatab'))
-    $('#links-container-anchor').text(translate('info.linkstab'))
-    locationSearchInput.attr('placeholder', translate('map.locationsearch'))
-  }
-
-  setHtmlElementTextValues()
+  locationSearchInput.attr('placeholder', translate('map.locationsearch'))
   const tabContainerId = 'info-container'
   const tabContainer = $('#' + tabContainerId)
   const downloadTabContentRootId = 'download-container'
