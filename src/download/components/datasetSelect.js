@@ -1,8 +1,8 @@
 import $ from 'jquery'
 
-import auth from '../shared/auth'
-import datasets from './datasets'
-import { translate } from '../shared/translations'
+import auth from '../../shared/auth'
+import datasets from '../datasets'
+import { translate } from '../../shared/translations'
 
 const rootElem = $('#form-input-container')
 const producerInput = initInput(rootElem, 'producer', 'data.producer')

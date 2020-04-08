@@ -15,9 +15,9 @@ import LayerSwitcher from 'ol-layerswitcher'
 import proj4 from 'proj4'
 
 import auth from '../shared/auth'
-import datasetSelect from './datasetSelect'
+import datasetSelect from './components/datasetSelect'
 import datasets from './datasets'
-import emailModal from './emailModal'
+import emailModal from './components/emailModal'
 import { translate } from '../shared/translations'
 import { LANGUAGE } from '../shared/constants'
 import { LAYER, URL } from '../shared/urls'
@@ -268,16 +268,20 @@ function main() {
 
   function createFeatureInfoContent(rootElem, event) {
     const viewResolution = view.getResolution()
-    const url = currentDataLayer
-      .getSource()
-      .getFeatureInfoUrl(event.coordinate, viewResolution, 'EPSG:3857', {
-        INFO_FORMAT: 'text/plain',
-        outputFormat: 'text/javascript',
-      })
-    if (url) {
-      rootElem.html(
-        '<iframe id="feature-info-iframe" seamless src="' + url + '"></iframe>'
-      )
+    if (currentDataLayer) {
+      const url = currentDataLayer
+        .getSource()
+        .getFeatureInfoUrl(event.coordinate, viewResolution, 'EPSG:3857', {
+          INFO_FORMAT: 'text/plain',
+          outputFormat: 'text/javascript',
+        })
+      if (url) {
+        const iframe =
+          '<iframe id="feature-info-iframe" seamless src="' +
+          url +
+          '"></iframe>'
+        rootElem.html(iframe)
+      }
     }
   }
 

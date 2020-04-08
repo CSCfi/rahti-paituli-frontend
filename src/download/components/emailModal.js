@@ -1,9 +1,9 @@
 import $ from 'jquery'
 
-import datasets from './datasets'
-import { translate, getCurrentLocale } from '../shared/translations'
-import { DOWNLOAD_TYPE } from '../shared/constants'
-import { URL } from '../shared/urls'
+import datasets from '../datasets'
+import { translate, getCurrentLocale } from '../../shared/translations'
+import { DOWNLOAD_TYPE } from '../../shared/constants'
+import { URL } from '../../shared/urls'
 
 let filePaths = []
 let fileLabels = []
