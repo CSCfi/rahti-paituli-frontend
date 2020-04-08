@@ -13,6 +13,7 @@ const emailRegexp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-
 const emailInput = $('#email-input')
 const licenseCheckbox = $('#license-checkbox')
 const tips = $('#email-modal-tips')
+
 const modal = $('#email-modal').dialog({
   autoOpen: false,
   height: 'auto',
@@ -115,35 +116,7 @@ function displayValidationError(input, errorMessage) {
 }
 
 function initModal(downloadSize) {
-  const currentDataset = datasets.getCurrent()
-  const dataDescrContainer = $('#data-description')
-  dataDescrContainer.empty()
-  $('#license-checkbox-label').html(
-    translate('email.licensefield').replace(
-      '!license!',
-      currentDataset.license_url
-    )
-  )
-  const dataDescrContent = $('<div>')
-  dataDescrContent.text(
-    translate('email.datasetinfo') +
-      ': ' +
-      currentDataset.org +
-      ', ' +
-      currentDataset.name +
-      ', ' +
-      currentDataset.scale +
-      ', ' +
-      currentDataset.year +
-      ', ' +
-      currentDataset.coord_sys +
-      ', ' +
-      currentDataset.format +
-      ': ' +
-      downloadSize +
-      ' Mb'
-  )
-  dataDescrContent.appendTo(dataDescrContainer)
+  initDataDescription(downloadSize)
 
   $('#email-modal-tips').empty()
   const email = modal.data('email')
@@ -151,6 +124,36 @@ function initModal(downloadSize) {
 
   modal.dialog('option', 'title', translate('email.modalheader'))
   modal.dialog('option', 'buttons', getModalButtons('email.sendButton'))
+}
+
+function initDataDescription(downloadSize) {
+  const currentDataset = datasets.getCurrent()
+  const container = $('#data-description')
+  container.empty()
+  $('#license-checkbox-label').html(
+    translate('email.licensefield').replace(
+      '!license!',
+      currentDataset.license_url
+    )
+  )
+  const description = [
+    currentDataset.org,
+    currentDataset.name,
+    currentDataset.scale,
+    currentDataset.year,
+    currentDataset.coord_sys,
+    currentDataset.format,
+  ].join(', ')
+  const content = $('<div>')
+  content.text(
+    translate('email.datasetinfo') +
+      ': ' +
+      description +
+      ': ' +
+      downloadSize +
+      ' Mb'
+  )
+  content.appendTo(container)
 }
 
 function getModalButtons(submitLabel) {

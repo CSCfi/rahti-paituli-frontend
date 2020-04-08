@@ -13,6 +13,7 @@
         "sourceType": "module"
     },
     "rules": {
-        "block-scoped-var": "error"
+        "block-scoped-var": "error",
+        "semi": "off"
     }
 }
