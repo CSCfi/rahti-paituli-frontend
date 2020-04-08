@@ -3,7 +3,7 @@ import $ from 'jquery'
 import datasets from '../datasets'
 import { flipURN } from '../../shared/utils'
 import { getCurrentLocale, translate } from '../../shared/translations'
-import { LANGUAGE } from '../../shared/constants'
+import { LOCALE } from '../../shared/constants'
 import { URL } from '../../shared/urls'
 
 function init(metadataTabContentRoot) {
@@ -89,7 +89,7 @@ function getLinksAsHtmlFromEtsinMetadata(rawEtsinMetadata) {
 function getNotesAsHtmlFromEtsinMetadata(rawEtsinMetadata) {
   if (rawEtsinMetadata != null) {
     let notes =
-      getCurrentLocale() == LANGUAGE.FINNISH
+      getCurrentLocale() == LOCALE.FINNISH
         ? rawEtsinMetadata.research_dataset.description.fi
         : rawEtsinMetadata.research_dataset.description.en
     if (notes == null) {

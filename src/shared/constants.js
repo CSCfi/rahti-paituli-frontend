@@ -1,4 +1,4 @@
-export const LANGUAGE = {
+export const LOCALE = {
   FINNISH: 'fi_FI',
   ENGLISH: 'en_US',
 }

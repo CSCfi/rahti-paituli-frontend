@@ -1,6 +1,6 @@
-import { LANGUAGE } from './constants'
+import { LOCALE } from './constants'
 
-let locale = LANGUAGE.FINNISH
+let locale = LOCALE.FINNISH
 
 const translations = {
   appHeader: {

@@ -22,7 +22,7 @@ import featureInfoTab from './components/featureInfoTab'
 import metadataTab from './components/metadataTab'
 import linksTab from './components/linksTab'
 import { changeLocale, translate } from '../shared/translations'
-import { LANGUAGE } from '../shared/constants'
+import { LOCALE } from '../shared/constants'
 import { LAYER, URL } from '../shared/urls'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -33,7 +33,7 @@ import '../css/download.css'
 
 const MAX_DOWNLOADABLE_SIZE = 3000
 
-changeLocale(LANGUAGE.FINNISH)
+changeLocale(LOCALE.FINNISH)
 
 // mutable global variables
 let pageDataIdParam = getUrlParameter('data_id')
