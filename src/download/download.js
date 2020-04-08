@@ -299,7 +299,7 @@ function main() {
     $('#feature-search-field').value = ''
     if (datasets.hasCurrent()) {
       setInfoContent('metadata')
-      featureInfoTab.reset()
+      featureInfoTab.setDefaultLabel()
       loadIndexLayer()
       loadIndexMapLabelLayer()
 

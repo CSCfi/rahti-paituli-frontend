@@ -26,17 +26,17 @@ function clear() {
   rootElem.empty()
 }
 
-function reset() {
-  const featureInfoDefaultLabel = $('<div>', {
+function setDefaultLabel() {
+  const label = $('<div>', {
     id: 'feature-info-default-label',
   })
-  featureInfoDefaultLabel.append(translate('info.featureinfodefault'))
-  rootElem.append(featureInfoDefaultLabel)
+  label.append(translate('info.featureinfodefault'))
+  rootElem.append(label)
 }
 
 export default {
   TAB_ID,
   init,
   clear,
-  reset,
+  setDefaultLabel,
 }
