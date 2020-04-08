@@ -1,7 +1,8 @@
 import $ from 'jquery'
+import * as proj from 'ol/proj'
+
 import { translate } from '../../shared/translations'
 import { URL } from '../../shared/urls'
-import * as proj from 'ol/proj'
 
 const searchInput = $('#location-search-input')
 searchInput.attr('placeholder', translate('map.locationsearch'))

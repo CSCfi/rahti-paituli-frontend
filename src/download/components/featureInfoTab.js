@@ -1,4 +1,5 @@
 import $ from 'jquery'
+
 import { translate } from '../../shared/translations'
 
 const TAB_ID = 'feature-info-container'

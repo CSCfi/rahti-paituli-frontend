@@ -1,4 +1,5 @@
 import $ from 'jquery'
+
 import { translate } from '../../shared/translations'
 import globals from '../globals'
 import datasets from '../datasets'
