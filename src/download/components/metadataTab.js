@@ -6,57 +6,58 @@ import { getCurrentLocale, translate } from '../../shared/translations'
 import { LOCALE } from '../../shared/constants'
 import { URL } from '../../shared/urls'
 
-function init(metadataTabContentRoot) {
-  const metadataURN = datasets.getCurrent().meta
-  const metadataInfoLabel = $('<div>', {
+function init(tabRootId) {
+  const tabRoot = $('#' + tabRootId)
+  tabRoot.empty()
+
+  const urn = datasets.getCurrent().meta
+  const infoLabel = $('<div>', {
     id: 'metadata-info-label',
   })
-  if (metadataURN !== null) {
-    metadataInfoLabel.append(
+  if (urn !== null) {
+    infoLabel.append(
       translate('info.metadatainfo').replace(
         '!metadata_url!',
-        URL.ETSIN_METADATA_BASE + flipURN(metadataURN)
+        URL.ETSIN_METADATA_BASE + flipURN(urn)
       )
     )
-    metadataTabContentRoot.append(metadataInfoLabel)
+    tabRoot.append(infoLabel)
   }
 
-  const errorFunction = (metadataNotes) => {
-    metadataNotes.html(translate('info.nometadataavailable'))
-    metadataTabContentRoot.append(metadataNotes)
-  }
-
-  const successFunction = (rawEtsinMetadata, metadataNotes) => {
-    const notesHtml = getNotesAsHtmlFromEtsinMetadata(rawEtsinMetadata)
-    const linksHtml = getLinksAsHtmlFromEtsinMetadata(rawEtsinMetadata)
-    if (rawEtsinMetadata == null || notesHtml == null) {
-      metadataNotes.html(translate('info.nometadataavailable'))
-    } else {
-      metadataNotes.html(
-        translate('info.metadatacontentheader') + notesHtml + linksHtml
-      )
-    }
-    if (metadataTabContentRoot.children().length >= 2) {
-      metadataTabContentRoot.children().last().remove()
-    }
-    metadataTabContentRoot.append(metadataNotes)
-  }
-
-  const metadataNotes = $('<div>', {
-    id: 'metadata-notes',
+  const notesDiv = $('<div>', {
+    id: 'metadata-notesDiv',
   })
 
-  fetchMetadataDescription(
-    metadataURN,
-    metadataNotes,
-    successFunction,
-    errorFunction
-  )
+  fetchMetadataDescription(urn, notesDiv, tabRoot)
 }
 
-// Get dataset's metadata file links from Metax
-function getLinksAsHtmlFromEtsinMetadata(rawEtsinMetadata) {
-  if (rawEtsinMetadata != null) {
+function fetchMetadataDescription(urn, notesDiv, tabRoot) {
+  $.ajax({
+    url: URL.ETSIN_METADATA_JSON_BASE + flipURN(urn),
+    success: (data) => {
+      const notesHtml = getMetadataDescriptionFromMetax(data)
+      const linksHtml = getMetadataFileLinksFromMetax(data)
+      if (data == null || notesHtml == null) {
+        notesDiv.html(translate('info.nometadataavailable'))
+      } else {
+        notesDiv.html(
+          translate('info.metadatacontentheader') + notesHtml + linksHtml
+        )
+      }
+      if (tabRoot.children().length >= 2) {
+        tabRoot.children().last().remove()
+      }
+      tabRoot.append(notesDiv)
+    },
+    error: () => {
+      notesDiv.html(translate('info.nometadataavailable'))
+      tabRoot.append(notesDiv)
+    },
+  })
+}
+
+function getMetadataFileLinksFromMetax(rawMetadata) {
+  if (rawMetadata != null) {
     const hasFileLink = (metadata) =>
       metadata.title != null &&
       metadata.download_url.identifier
@@ -68,7 +69,7 @@ function getLinksAsHtmlFromEtsinMetadata(rawEtsinMetadata) {
       '" target="_blank">' +
       metadata.title +
       '</a></li>'
-    const htmlLinks = rawEtsinMetadata.research_dataset.remote_resources
+    const htmlLinks = rawMetadata.research_dataset.remote_resources
       .filter(hasFileLink)
       .map(toHtmlLink)
 
@@ -85,13 +86,12 @@ function getLinksAsHtmlFromEtsinMetadata(rawEtsinMetadata) {
   return null
 }
 
-// Get dataset's metadata description from Metax
-function getNotesAsHtmlFromEtsinMetadata(rawEtsinMetadata) {
-  if (rawEtsinMetadata != null) {
+function getMetadataDescriptionFromMetax(rawMetadata) {
+  if (rawMetadata != null) {
     let notes =
       getCurrentLocale() == LOCALE.FINNISH
-        ? rawEtsinMetadata.research_dataset.description.fi
-        : rawEtsinMetadata.research_dataset.description.en
+        ? rawMetadata.research_dataset.description.fi
+        : rawMetadata.research_dataset.description.en
     if (notes == null) {
       return null
     }
@@ -104,14 +104,6 @@ function getNotesAsHtmlFromEtsinMetadata(rawEtsinMetadata) {
       matches.push(match.index)
     }
     matches.reverse()
-
-    const insert = (string, index, value) => {
-      return index > 0
-        ? string.substring(0, index) +
-            value +
-            string.substring(index, string.length)
-        : value + string
-    }
 
     $.each(matches, (loopIdx, matchIdx) => {
       notes = insert(
@@ -141,17 +133,12 @@ function getNotesAsHtmlFromEtsinMetadata(rawEtsinMetadata) {
   return null
 }
 
-function fetchMetadataDescription(
-  metadataURN,
-  metadataNotes,
-  successFn,
-  errorFn
-) {
-  $.ajax({
-    url: URL.ETSIN_METADATA_JSON_BASE + flipURN(metadataURN),
-    success: (data) => successFn(data, metadataNotes),
-    error: () => errorFn(metadataNotes),
-  })
+function insert(string, index, value) {
+  return index > 0
+    ? string.substring(0, index) +
+        value +
+        string.substring(index, string.length)
+    : value + string
 }
 
 export default {

@@ -198,9 +198,9 @@ function main() {
   const featureInfoTabContentRootId = 'feature-info-container'
   const featureInfoTabContentRoot = $('#' + featureInfoTabContentRootId)
   const metadataTabContentRootId = 'metadata-container'
-  const metadataTabContentRoot = $('#' + metadataTabContentRootId)
   const linksTabContentRootId = 'links-container'
   const linksTabContentRoot = $('#' + linksTabContentRootId)
+
   tabContainer.tabs({
     activate: (event, ui) => (prevSelectedTab = ui.newPanel.get(0).id),
   })
@@ -220,8 +220,7 @@ function main() {
         )
         break
       case 'metadata':
-        clearMetadataTabContent()
-        metadataTab.init(metadataTabContentRoot)
+        metadataTab.init(metadataTabContentRootId)
         linksTab.init(linksTabContentRoot)
         break
       default:
@@ -567,10 +566,6 @@ function main() {
 
   function clearDownloadTabContent() {
     downloadTabContentRoot.empty()
-  }
-
-  function clearMetadataTabContent() {
-    metadataTabContentRoot.empty()
   }
 
   function clearInfoBoxTabs() {
