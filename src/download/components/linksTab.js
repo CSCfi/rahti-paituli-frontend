@@ -3,7 +3,10 @@ import datasets from '../datasets'
 import $ from 'jquery'
 import { URL } from '../../shared/urls'
 
-function init(rootElem) {
+const TAB_ID = 'links-container'
+const rootElem = $('#' + TAB_ID)
+
+function init() {
   rootElem.empty()
   const infoText = createParagraph('#links-info', translate('info.linksIntro'))
   infoText.appendTo(rootElem)
@@ -74,5 +77,6 @@ function addLink(linkName, hrefValue, container) {
 }
 
 export default {
+  TAB_ID,
   init,
 }

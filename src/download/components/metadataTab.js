@@ -6,9 +6,11 @@ import { getCurrentLocale, translate } from '../../shared/translations'
 import { LOCALE } from '../../shared/constants'
 import { URL } from '../../shared/urls'
 
-function init(tabRootId) {
-  const tabRoot = $('#' + tabRootId)
-  tabRoot.empty()
+const TAB_ID = 'metadata-container'
+const rootElem = $('#' + TAB_ID)
+
+function init() {
+  rootElem.empty()
 
   const urn = datasets.getCurrent().meta
   const infoLabel = $('<div>', {
@@ -21,17 +23,17 @@ function init(tabRootId) {
         URL.ETSIN_METADATA_BASE + flipURN(urn)
       )
     )
-    tabRoot.append(infoLabel)
+    rootElem.append(infoLabel)
   }
 
   const notesDiv = $('<div>', {
     id: 'metadata-notesDiv',
   })
 
-  fetchMetadataDescription(urn, notesDiv, tabRoot)
+  fetchMetadataDescription(urn, notesDiv)
 }
 
-function fetchMetadataDescription(urn, notesDiv, tabRoot) {
+function fetchMetadataDescription(urn, notesDiv) {
   $.ajax({
     url: URL.ETSIN_METADATA_JSON_BASE + flipURN(urn),
     success: (data) => {
@@ -44,14 +46,14 @@ function fetchMetadataDescription(urn, notesDiv, tabRoot) {
           translate('info.metadatacontentheader') + notesHtml + linksHtml
         )
       }
-      if (tabRoot.children().length >= 2) {
-        tabRoot.children().last().remove()
+      if (rootElem.children().length >= 2) {
+        rootElem.children().last().remove()
       }
-      tabRoot.append(notesDiv)
+      rootElem.append(notesDiv)
     },
     error: () => {
       notesDiv.html(translate('info.nometadataavailable'))
-      tabRoot.append(notesDiv)
+      rootElem.append(notesDiv)
     },
   })
 }
@@ -142,5 +144,6 @@ function insert(string, index, value) {
 }
 
 export default {
+  TAB_ID,
   init,
 }

@@ -5,12 +5,14 @@ import datasets from '../datasets'
 import emailModal from './emailModal'
 
 const MAX_DOWNLOADABLE_SIZE = 3000
+const TAB_ID = 'download-container'
+const rootElem = $('#' + TAB_ID)
 
 // files selected for download
 let filePaths = []
 let fileLabels = []
 
-function init(rootElem, highlightOverlay, currentIndexMapLayer) {
+function init(highlightOverlay, currentIndexMapLayer) {
   highlightOverlay.getSource().clear()
 
   // Download and download list buttons are inside wrappers so that
@@ -315,6 +317,7 @@ function removeFileLabel(event) {
 }
 
 export default {
+  TAB_ID,
   init,
   addFileLabel,
   removeFileLabel,

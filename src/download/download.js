@@ -187,14 +187,6 @@ function main() {
   locationSearchInput.attr('placeholder', translate('map.locationsearch'))
   const tabContainerId = 'info-container'
   const tabContainer = $('#' + tabContainerId)
-  const downloadTabContentRootId = 'download-container'
-  const downloadTabContentRoot = $('#' + downloadTabContentRootId)
-  const featureInfoTabContentRootId = 'feature-info-container'
-  const featureInfoTabContentRoot = $('#' + featureInfoTabContentRootId)
-  const metadataTabContentRootId = 'metadata-container'
-  const linksTabContentRootId = 'links-container'
-  const linksTabContentRoot = $('#' + linksTabContentRootId)
-
   tabContainer.tabs({
     activate: (event, ui) => (prevSelectedTab = ui.newPanel.get(0).id),
   })
@@ -202,23 +194,14 @@ function main() {
   function setInfoContent(contentType, params) {
     switch (contentType) {
       case 'download':
-        downloadTab.init(
-          downloadTabContentRoot,
-          highlightOverlay,
-          currentIndexMapLayer
-        )
+        downloadTab.init(highlightOverlay, currentIndexMapLayer)
         break
       case 'featureinfo':
-        featureInfoTab.init(
-          featureInfoTabContentRoot,
-          params,
-          view,
-          currentDataLayer
-        )
+        featureInfoTab.init(params, view, currentDataLayer)
         break
       case 'metadata':
-        metadataTab.init(metadataTabContentRootId)
-        linksTab.init(linksTabContentRoot)
+        metadataTab.init()
+        linksTab.init()
         break
       default:
         break
@@ -277,20 +260,19 @@ function main() {
 
   function selectTabAfterDatasetChange(hasInfoTab) {
     if (prevSelectedTab == null) {
-      prevSelectedTab = downloadTabContentRootId
+      prevSelectedTab = downloadTab.TAB_ID
     }
-
     let newTabId = null
-    if (prevSelectedTab == downloadTabContentRootId) {
-      newTabId = downloadTabContentRootId
-    } else if (prevSelectedTab == featureInfoTabContentRootId) {
+    if (prevSelectedTab == downloadTab.TAB_ID) {
+      newTabId = downloadTab.TAB_ID
+    } else if (prevSelectedTab == featureInfoTab.TAB_ID) {
       if (hasInfoTab) {
-        newTabId = featureInfoTabContentRootId
+        newTabId = featureInfoTab.TAB_ID
       } else {
-        newTabId = downloadTabContentRootId
+        newTabId = downloadTab.TAB_ID
       }
-    } else if (prevSelectedTab == metadataTabContentRootId) {
-      newTabId = metadataTabContentRootId
+    } else if (prevSelectedTab == metadataTab.TAB_ID) {
+      newTabId = metadataTab.TAB_ID
     }
     const index = $('#' + tabContainerId + ' a[href="#' + newTabId + '"]')
       .parent()
@@ -303,14 +285,6 @@ function main() {
     $('#feature-search-results').empty()
   }
 
-  function setFeatureInfoTabDefaultContent() {
-    const featureInfoDefaultLabel = $('<div>', {
-      id: 'feature-info-default-label',
-    })
-    featureInfoDefaultLabel.append(translate('info.featureinfodefault'))
-    featureInfoTabContentRoot.append(featureInfoDefaultLabel)
-  }
-
   let isFirstTimeLoaded = true
   let mapsheets = 0
 
@@ -320,13 +294,12 @@ function main() {
     map.removeLayer(currentDataLayer)
     locationSearchInput.val('')
     clearMapFeatureSelection()
-    downloadTabContentRoot.empty()
-    featureInfoTabContentRoot.empty()
+    featureInfoTab.clear()
     clearSearchResults()
     $('#feature-search-field').value = ''
     if (datasets.hasCurrent()) {
       setInfoContent('metadata')
-      setFeatureInfoTabDefaultContent()
+      featureInfoTab.reset()
       loadIndexLayer()
       loadIndexMapLabelLayer()
 
