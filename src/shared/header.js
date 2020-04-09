@@ -1,7 +1,8 @@
 import $ from 'jquery'
 import 'jquery-ui-bundle/jquery-ui'
 
-// import Translator from './translator'
+import { translate, getCurrentLocale, changeLocale } from './translations'
+import { LOCALE } from './constants'
 
 import '../css/header.css'
 
@@ -18,11 +19,20 @@ const downloadLink = $('#download-link')
 // const openDataLink = $('#open-data-link')
 // const contactInfoLink = $('#contact-info-link')
 
-const FINNISH_LANGUAGE = 'fi_FI'
-// const ENGLISH_LANGUAGE = 'en_US'
-
-let currentLocale = FINNISH_LANGUAGE
-// let translator = new Translator(currentLocale)
+function setTranslations() {
+  $('#metadata-link').text(translate('header.metadataPage'))
+  $('#download-link').text(translate('header.downloadPage'))
+  $('#guide-link').text(translate('header.guidePage'))
+  $('#api-link').text(translate('header.apiPage'))
+  $('#ftp-link').text(translate('header.ftpPage'))
+  $('#open-data-link').text(translate('header.openDataPage'))
+  $('#contact-info-link').text(translate('header.contactPage'))
+  $('#contact-initiator').text(translate('header.contact'))
+  $('#language-selector').text(translate('header.language'))
+  $('#login-initiator').text(translate('header.login'))
+  $('#search-form').attr('placeholder', translate('header.searchPlaceholder'))
+  $('#header-search-button').text(translate('header.searchButton'))
+}
 
 languageSelector.click(function () {
   updateLanguage()
@@ -40,12 +50,13 @@ downloadLink.click(function () {
 })
 
 function updateLanguage() {
-  console.log(currentLocale)
-  // TODO: STORE IN LOCAL BROWSER STORAGE
-  //   if (currentLocale == FINNISH_LANGUAGE) {
-  //     currentLocale = ENGLISH_LANGUAGE
-  //   } else {
-  //     currentLocale = FINNISH_LANGUAGE
-  //   }
-  //   translator = new Translator(currentLocale)
+  if (getCurrentLocale() == LOCALE.FINNISH) {
+    changeLocale(LOCALE.ENGLISH)
+    setTranslations()
+  } else {
+    changeLocale(LOCALE.FINNISH)
+    setTranslations()
+  }
 }
+
+setTranslations()

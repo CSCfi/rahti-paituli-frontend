@@ -345,6 +345,56 @@ const translations = {
       en_US: 'Filter results',
     },
   },
+  header: {
+    metadataPage: {
+      fi_FI: 'Metatiedot',
+      en_US: 'Metadata',
+    },
+    downloadPage: {
+      fi_FI: 'Latauspalvelu',
+      en_US: 'Download data',
+    },
+    guidePage: {
+      fi_FI: 'Ohjeet',
+      en_US: 'Help',
+    },
+    apiPage: {
+      fi_FI: 'Rajapinnat',
+      en_US: 'Web services',
+    },
+    ftpPage: {
+      fi_FI: 'FTP ja rsync',
+      en_US: 'FTP and rsync',
+    },
+    openDataPage: {
+      fi_FI: 'Avaa aineistosi',
+      en_US: 'Open your data',
+    },
+    contactPage: {
+      fi_FI: 'Yhteystiedot',
+      en_US: 'Contact',
+    },
+    contact: {
+      fi_FI: 'Ota yhteyttä',
+      en_US: 'Contact',
+    },
+    language: {
+      fi_FI: 'In English',
+      en_US: 'Suomeksi',
+    },
+    login: {
+      fi_FI: 'Kirjaudu',
+      en_US: 'Log in',
+    },
+    searchPlaceholder: {
+      fi_FI: 'Etsi AVAA-Portaalista',
+      en_US: 'Search from AVAA Portal',
+    },
+    searchButton: {
+      fi_FI: 'Etsi',
+      en_US: 'Search',
+    },
+  },
 }
 
 const byString = (o, s) => {
