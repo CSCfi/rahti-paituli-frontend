@@ -17,7 +17,6 @@ import proj4 from 'proj4'
 import auth from '../shared/auth'
 import datasets from './datasets'
 import datasetSelect from './components/datasetSelect'
-import downloadTab from './components/downloadTab'
 import featureSearch from './components/featureSearch'
 import globals from './globals'
 import locationSearch from './components/locationSearch'
@@ -500,8 +499,8 @@ function main() {
   featureSelectInteraction.on('select', () => tabs.setInfoContent('download'))
 
   const selectedFeatures = featureSelectInteraction.getFeatures()
-  selectedFeatures.on('add', downloadTab.addFileLabel)
-  selectedFeatures.on('remove', downloadTab.removeFileLabel)
+  selectedFeatures.on('add', tabs.addFileLabel)
+  selectedFeatures.on('remove', tabs.removeFileLabel)
   globals.setSelectedFeatures(selectedFeatures)
 
   function clearMapFeatureSelection() {

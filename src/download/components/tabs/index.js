@@ -62,19 +62,20 @@ function selectTab(tabIndex) {
   tabContainer.tabs('option', 'active', tabIndex)
 }
 
-function clearFeatureInfo() {
-  featureInfoTab.clear()
-}
-
 const show = () => tabContainer.show()
 const hide = () => tabContainer.hide()
+const clearFeatureInfo = () => featureInfoTab.clear()
+const addFileLabel = (event) => downloadTab.addFileLabel(event)
+const removeFileLabel = (event) => downloadTab.removeFileLabel(event)
 
 export default {
   init,
+  show,
+  hide,
   clearFeatureInfo,
+  addFileLabel,
+  removeFileLabel,
   selectTab,
   setInfoContent,
   selectTabAfterDatasetChange,
-  show,
-  hide,
 }

@@ -1,10 +1,10 @@
 import $ from 'jquery'
 
-import datasets from '../datasets'
-import { flipURN } from '../../shared/utils'
-import { getCurrentLocale, translate } from '../../shared/translations'
-import { LOCALE } from '../../shared/constants'
-import { URL } from '../../shared/urls'
+import datasets from '../../datasets'
+import { flipURN } from '../../../shared/utils'
+import { getCurrentLocale, translate } from '../../../shared/translations'
+import { LOCALE } from '../../../shared/constants'
+import { URL } from '../../../shared/urls'
 
 const TAB_ID = 'metadata-container'
 const rootElem = $('#' + TAB_ID)

@@ -1,9 +1,9 @@
 import $ from 'jquery'
 
-import { translate } from '../../shared/translations'
-import globals from '../globals'
-import datasets from '../datasets'
-import emailModal from './emailModal'
+import { translate } from '../../../shared/translations'
+import globals from '../../globals'
+import datasets from '../../datasets'
+import emailModal from '../emailModal'
 
 const MAX_DOWNLOADABLE_SIZE = 3000
 const TAB_ID = 'download-container'
@@ -187,7 +187,7 @@ function init(highlightOverlay) {
         return -1
       }
     })
-    $.each(dlLabelList, (idx, val) => val.appendTo(dataListContainerElem))
+    dlLabelList.forEach((val) => val.appendTo(dataListContainerElem))
     if (i > 0) {
       dataListContainerElem.appendTo(rootElem)
     }

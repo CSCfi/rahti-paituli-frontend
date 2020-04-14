@@ -1,7 +1,7 @@
 import $ from 'jquery'
 
-import { translate } from '../../shared/translations'
-import globals from '../globals'
+import { translate } from '../../../shared/translations'
+import globals from '../../globals'
 
 const TAB_ID = 'feature-info-container'
 const rootElem = $('#' + TAB_ID)
