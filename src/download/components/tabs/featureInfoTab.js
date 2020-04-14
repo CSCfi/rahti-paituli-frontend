@@ -2,18 +2,19 @@ import $ from 'jquery'
 
 import { translate } from '../../../shared/translations'
 import globals from '../../globals'
+import map from '../map'
 
 const TAB_ID = 'feature-info-container'
 const rootElem = $('#' + TAB_ID)
 
-function init(event, view) {
+function init(event) {
   rootElem.empty()
   const dataLayer = globals.getDataLayer()
   if (dataLayer) {
-    const viewResolution = view.getResolution()
+    const resolution = map.getView().getResolution()
     const url = dataLayer
       .getSource()
-      .getFeatureInfoUrl(event.coordinate, viewResolution, 'EPSG:3857', {
+      .getFeatureInfoUrl(event.coordinate, resolution, 'EPSG:3857', {
         INFO_FORMAT: 'text/plain',
         outputFormat: 'text/javascript',
       })

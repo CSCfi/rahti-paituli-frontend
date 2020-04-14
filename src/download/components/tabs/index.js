@@ -10,12 +10,11 @@ tabContainer.tabs({
   activate: (event, ui) => (prevSelectedTab = ui.newPanel.get(0).id),
 })
 let prevSelectedTab = null
-let highlightOverlay, view
+let highlightOverlay
 
 // TODO
-function init(overlay, mapView) {
+function init(overlay) {
   highlightOverlay = overlay
-  view = mapView
 }
 
 function selectTabAfterDatasetChange(hasInfoTab) {
@@ -46,7 +45,7 @@ function setInfoContent(contentType, params) {
       downloadTab.init(highlightOverlay)
       break
     case 'featureinfo':
-      featureInfoTab.init(params, view)
+      featureInfoTab.init(params)
       break
     case 'metadata':
       metadataTab.init()

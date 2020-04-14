@@ -1,18 +1,12 @@
 import $ from 'jquery'
 import 'jquery-ui-bundle/jquery-ui'
-import { Collection, Map, View } from 'ol'
-import * as control from 'ol/control'
+import { Collection } from 'ol'
 import * as condition from 'ol/events/condition'
 import * as ol_format from 'ol/format'
 import * as interaction from 'ol/interaction'
 import * as layer from 'ol/layer'
-import { unByKey } from 'ol/Observable'
-import * as proj from 'ol/proj'
-import { register } from 'ol/proj/proj4'
 import * as source from 'ol/source'
 import * as style from 'ol/style'
-import LayerSwitcher from 'ol-layerswitcher'
-import proj4 from 'proj4'
 
 import auth from '../shared/auth'
 import datasets from './datasets'
@@ -20,10 +14,11 @@ import datasetSelect from './components/datasetSelect'
 import featureSearch from './components/featureSearch'
 import globals from './globals'
 import locationSearch from './components/locationSearch'
+import map from './components/map'
 import tabs from './components/tabs'
 import { changeLocale, translate } from '../shared/translations'
 import { LOCALE } from '../shared/constants'
-import { LAYER, URL } from '../shared/urls'
+import { URL } from '../shared/urls'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'jquery-ui-bundle/jquery-ui.css'
@@ -36,18 +31,6 @@ let pageDataIdParam = getUrlParameter('data_id')
 let selectedTool = ''
 
 changeLocale(LOCALE.FINNISH)
-
-proj4.defs([
-  [
-    'EPSG:3067',
-    '+proj=utm +zone=35 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs',
-  ],
-  [
-    'EPSG:3857',
-    '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs',
-  ],
-])
-register(proj4)
 
 function getUrlParameter(param) {
   const pageURL = window.location.search.substring(1)
@@ -177,8 +160,6 @@ function main() {
   drawSelectContainer.hide()
   let currentIndexMapLabelLayer = null
   let currentMaxResolution = null
-  let mapContainerId = 'map-container'
-
   let isFirstTimeLoaded = true
   let mapsheets = 0
 
@@ -231,11 +212,9 @@ function main() {
           })
         }
 
-        const maxScaleResult = datasets.getCurrent().data_max_scale
-        if (maxScaleResult !== null) {
-          currentMaxResolution = getMapResolutionFromScale(
-            parseInt(maxScaleResult)
-          )
+        const maxScale = datasets.getCurrent().data_max_scale
+        if (maxScale !== null) {
+          currentMaxResolution = parseInt(maxScale) / 2835
         } else {
           currentMaxResolution = null
         }
@@ -243,9 +222,9 @@ function main() {
         loadDataLayer()
         if (globals.getDataLayer() !== null) {
           map.getLayers().insertAt(1, globals.getDataLayer())
-          clearMapWarning()
+          map.clearWarning()
         } else {
-          setDataAvailabiltyWarning()
+          setDataAvailabilityWarning()
         }
         map.addLayer(globals.getIndexLayer())
         if (currentIndexMapLabelLayer !== null) {
@@ -254,7 +233,7 @@ function main() {
         // Kylli, without next 3 rows, the warning of previously
         // selected dataset was visible.
         if (currentMaxResolution != null) {
-          setMaxResolutionWarning()
+          map.setMaxResolutionWarning(currentMaxResolution)
         }
       }
       tabs.show()
@@ -389,105 +368,9 @@ function main() {
     }
   }
 
-  function getMapResolutionFromScale(scale) {
-    return scale / 2835
-  }
-
-  const osmLayerOptions = {
-    title: translate('map.basemap'),
-    source: new source.TileWMS({
-      url: 'http://ows.terrestris.de/osm/service?',
-      attributions:
-        'Background map: © <a target="_blank" href="http://ows.terrestris.de/dienste.html">terrestris</a>. Data: © <a target="_blank" href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>',
-      params: {
-        LAYERS: 'OSM-WMS',
-        VERSION: '1.1.0',
-      },
-    }),
-    opacity: 1.0,
-    visible: true,
-  }
-
-  const municipalitiesLayer = new layer.Tile({
-    title: translate('map.municipalitiesmap'),
-    source: new source.TileWMS({
-      url: URL.WMS_PAITULI_BASE,
-      params: {
-        LAYERS: LAYER.MUNICIPALITIES_LAYER,
-        SRS: 'EPSG:3067',
-        VERSION: '1.1.0',
-      },
-    }),
-    opacity: 1.0,
-    visible: false,
-  })
-
-  const catchmentLayer = new layer.Tile({
-    title: translate('map.catchment'),
-    source: new source.TileWMS({
-      url: URL.WMS_PAITULI_BASE,
-      params: {
-        LAYERS: LAYER.CATCHMENT_AREAS_LAYER,
-        SRS: 'EPSG:2393',
-        VERSION: '1.1.0',
-      },
-    }),
-    opacity: 1.0,
-    visible: false,
-  })
-
-  const overviewMap = new control.OverviewMap({
-    collapsed: false,
-    layers: [new layer.Tile(osmLayerOptions)],
-  })
-
-  const map = new Map({
-    layers: [
-      new layer.Tile(osmLayerOptions),
-      catchmentLayer,
-      municipalitiesLayer,
-    ],
-    target: mapContainerId,
-    view: new View({
-      center: proj.transform([500000, 7200000], 'EPSG:3067', 'EPSG:3857'),
-      zoom: 5,
-    }),
-  })
-
-  const view = map.getView()
-
-  map.on('moveend', () => setMaxResolutionWarning())
-
-  function setMaxResolutionWarning() {
-    if (currentMaxResolution !== null) {
-      const currRes = view.getResolution()
-      if (currRes > currentMaxResolution) {
-        createMaxResolutionWarning()
-      } else {
-        clearMapWarning()
-      }
-    }
-  }
-
-  function setDataAvailabiltyWarning() {
+  function setDataAvailabilityWarning() {
     $('#notification-container').text(translate('map.dataAvailabilityWarning'))
     $('#notification-container').show()
-  }
-
-  function createMaxResolutionWarning() {
-    $('#notification-container').text(translate('map.resolutionwarning'))
-    $('#notification-container').show()
-  }
-
-  function clearMapWarning() {
-    $('#notification-container').empty()
-    $('#notification-container').hide()
-  }
-
-  function resetMapView() {
-    view.setZoom(5)
-    view.setCenter(proj.transform([500000, 7200000], 'EPSG:3067', 'EPSG:3857'))
-    return false
   }
 
   // a normal select interaction to handle click
@@ -601,7 +484,7 @@ function main() {
 
   const highlightCollection = new Collection()
   const highlightOverlay = new layer.Vector({
-    map: map,
+    map: map.getMap(),
     source: new source.Vector({
       features: highlightCollection,
       useSpatialIndex: false, // optional, might improve performance
@@ -610,9 +493,6 @@ function main() {
     updateWhileAnimating: true, // optional, for instant visual feedback
     updateWhileInteracting: true, // optional, for instant visual feedback
   })
-
-  // TODO ???
-  let getFeatureInfoToolKey = null
 
   // Select right tool
   // Set default
@@ -635,7 +515,7 @@ function main() {
     featureSelectInteraction.setActive(false)
     mapDragBox.setActive(false)
     draw.setActive(false)
-    unByKey(getFeatureInfoToolKey)
+    map.removeInfoToolListener()
   }
 
   function selectSelectTool() {
@@ -651,7 +531,7 @@ function main() {
     featureSelectInteraction.setActive(true)
     mapDragBox.setActive(true)
     draw.setActive(false)
-    unByKey(getFeatureInfoToolKey)
+    map.removeInfoToolListener()
   }
 
   function selectInfoTool() {
@@ -669,9 +549,7 @@ function main() {
     if (selectedTool != 'drag') {
       dragPan.setActive(true)
     }
-    getFeatureInfoToolKey = map.on('singleclick', (event) =>
-      tabs.setInfoContent('featureinfo', event)
-    )
+    map.addInfoToolListener()
   }
 
   function selectDrawTool() {
@@ -688,16 +566,10 @@ function main() {
     mapDragBox.setActive(false)
     mapDragBox.setActive(false)
     draw.setActive(true)
-    unByKey(getFeatureInfoToolKey)
+    map.removeInfoToolListener()
   }
 
-  const layerSwitcher = new LayerSwitcher({
-    tipLabel: 'Toggle layers', // Optional label for button
-  })
-
-  const scaleLineControl = new control.ScaleLine()
-
-  $('#resetview-button').on('click', resetMapView)
+  $('#resetview-button').on('click', () => map.resetView())
   $('#panselection-button').on('click', selectPanTool)
   $('#selectselection-button').on('click', selectSelectTool)
   $('#clearselection-button').on('click', clearMapFeatureSelection)
@@ -706,16 +578,12 @@ function main() {
 
   selectPanTool()
 
-  map.addControl(overviewMap)
-  map.addControl(layerSwitcher)
-  map.addControl(scaleLineControl)
-
-  tabs.init(highlightOverlay, view)
+  tabs.init(highlightOverlay)
   datasetSelect.init(updateMap, pageDataIdParam)
-  locationSearch.init(map)
+  locationSearch.init()
   featureSearch.init(clearMapFeatureSelection)
 
-  resetMapView()
+  map.resetView()
 }
 
 // checkAccessRights();

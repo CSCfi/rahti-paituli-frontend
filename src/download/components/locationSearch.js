@@ -1,13 +1,14 @@
 import $ from 'jquery'
 import * as proj from 'ol/proj'
 
+import map from './map'
 import { translate } from '../../shared/translations'
 import { URL } from '../../shared/urls'
 
 const searchInput = $('#location-search-input')
 searchInput.attr('placeholder', translate('map.locationsearch'))
 
-function search(map, searchStr) {
+function search(searchStr) {
   $.getJSON(URL.NOMINATIM_API.replace('!query!', searchStr), (data) => {
     if (data.length > 0) {
       const center = proj.transform(
@@ -24,13 +25,13 @@ function search(map, searchStr) {
   })
 }
 
-function init(map) {
+function init() {
   searchInput.keypress((event) => {
     const keyCode = event.keyCode || event.charCode
     if (keyCode == 13) {
       const searchStr = searchInput.val()
       if (searchStr.length > 0) {
-        search(map, searchStr)
+        search(searchStr)
       }
     }
   })
