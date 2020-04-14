@@ -1,7 +1,6 @@
 import $ from 'jquery'
 
 import { translate } from '../../../shared/translations'
-import globals from '../../globals'
 import map from '../map'
 
 const TAB_ID = 'feature-info-container'
@@ -9,7 +8,7 @@ const rootElem = $('#' + TAB_ID)
 
 function init(event) {
   rootElem.empty()
-  const dataLayer = globals.getDataLayer()
+  const dataLayer = map.getDataLayer()
   if (dataLayer) {
     const resolution = map.getView().getResolution()
     const url = dataLayer

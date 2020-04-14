@@ -10,12 +10,6 @@ tabContainer.tabs({
   activate: (event, ui) => (prevSelectedTab = ui.newPanel.get(0).id),
 })
 let prevSelectedTab = null
-let highlightOverlay
-
-// TODO
-function init(overlay) {
-  highlightOverlay = overlay
-}
 
 function selectTabAfterDatasetChange(hasInfoTab) {
   if (prevSelectedTab == null) {
@@ -42,7 +36,7 @@ function selectTabAfterDatasetChange(hasInfoTab) {
 function setInfoContent(contentType, params) {
   switch (contentType) {
     case 'download':
-      downloadTab.init(highlightOverlay)
+      downloadTab.init()
       break
     case 'featureinfo':
       featureInfoTab.init(params)
@@ -64,16 +58,15 @@ function selectTab(tabIndex) {
 const show = () => tabContainer.show()
 const hide = () => tabContainer.hide()
 const clearFeatureInfo = () => featureInfoTab.clear()
-const addFileLabel = (event) => downloadTab.addFileLabel(event)
-const removeFileLabel = (event) => downloadTab.removeFileLabel(event)
+const addFile = (event) => downloadTab.addFile(event)
+const removeFile = (event) => downloadTab.removeFile(event)
 
 export default {
-  init,
   show,
   hide,
   clearFeatureInfo,
-  addFileLabel,
-  removeFileLabel,
+  addFile,
+  removeFile,
   selectTab,
   setInfoContent,
   selectTabAfterDatasetChange,

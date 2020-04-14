@@ -1,9 +1,10 @@
 import $ from 'jquery'
 
-import { translate } from '../../../shared/translations'
 import globals from '../../globals'
 import datasets from '../../datasets'
 import emailModal from '../emailModal'
+import map from '../map'
+import { translate } from '../../../shared/translations'
 
 const MAX_DOWNLOADABLE_SIZE = 3000
 const TAB_ID = 'download-container'
@@ -13,8 +14,8 @@ const rootElem = $('#' + TAB_ID)
 let filePaths = []
 let fileLabels = []
 
-function init(highlightOverlay) {
-  highlightOverlay.getSource().clear()
+function init() {
+  map.clearHighlights()
 
   // Download and download list buttons are inside wrappers so that
   // tooltips can be attached to wrappers instead of buttons. This way
@@ -159,20 +160,11 @@ function init(highlightOverlay) {
       })
       dlLabel.hover(
         (event) => {
-          highlightOverlay.getSource().clear()
-          const olId = globals
-            .getIndexLayer()
-            .getSource()
-            .getFeatureById($(event.target).attr('ol_id'))
-          highlightOverlay.getSource().addFeature(olId)
+          map.addHighlight(event)
           dlLabel.css('font-weight', 'bold')
         },
         (event) => {
-          const olId = globals
-            .getIndexLayer()
-            .getSource()
-            .getFeatureById($(event.target).attr('ol_id'))
-          highlightOverlay.getSource().removeFeature(olId)
+          map.removeHighlight(event)
           dlLabel.css('font-weight', 'normal')
         }
       )
@@ -308,11 +300,11 @@ function cutLicenseURL(urn) {
   return urn
 }
 
-function addFileLabel(event) {
+function addFile(event) {
   fileLabels.push(event.element.get('label'))
 }
 
-function removeFileLabel(event) {
+function removeFile(event) {
   const deleteIdx = fileLabels.indexOf(event.element.get('label'))
   if (deleteIdx > -1) {
     fileLabels.splice(deleteIdx, 1)
@@ -322,6 +314,6 @@ function removeFileLabel(event) {
 export default {
   TAB_ID,
   init,
-  addFileLabel,
-  removeFileLabel,
+  addFile,
+  removeFile,
 }

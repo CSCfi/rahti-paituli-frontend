@@ -3,6 +3,7 @@ import $ from 'jquery'
 import auth from '../../shared/auth'
 import datasets from '../datasets'
 import { translate } from '../../shared/translations'
+import map from './map'
 
 const rootElem = $('#form-input-container')
 const producerInput = initInput(rootElem, 'producer', 'data.producer')
@@ -12,16 +13,15 @@ const yearInput = initInput(rootElem, 'year', 'data.year')
 const formatInput = initInput(rootElem, 'format', 'data.format')
 const coordsysInput = initInput(rootElem, 'coordsys', 'data.coordSys')
 
-function init(updateMapCallback, datasetId) {
+function init(datasetId) {
   producerInput.on('change', producerSelected)
   dataInput.on('change', datasetSelected)
   scaleInput.on('change', scaleSelected)
   yearInput.on('change', yearSelected)
   formatInput.on('change', formatSelected)
-  coordsysInput.on('change', () => coordsysSelected(updateMapCallback))
+  coordsysInput.on('change', () => coordsysSelected())
 
   filterProducers()
-
   if (datasetId !== null) {
     selectDataset(datasetId)
   }
@@ -157,7 +157,7 @@ function formatSelected() {
   }
 }
 
-function coordsysSelected(updateMapCallback) {
+function coordsysSelected() {
   const selectedData = datasets
     .getAll()
     .find(
@@ -174,7 +174,7 @@ function coordsysSelected(updateMapCallback) {
   } else {
     datasets.clearCurrent()
   }
-  updateMapCallback()
+  map.update()
 }
 
 function addEmptyOption(inputElem) {

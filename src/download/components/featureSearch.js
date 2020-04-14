@@ -1,17 +1,18 @@
 import $ from 'jquery'
 import { translate } from '../../shared/translations'
 import globals from '../globals'
+import map from './map'
 
 const featureSearchContainer = $('#feature-search-container')
 
-function init(callback) {
+function init() {
   const searchBtn = $('<a>', {
     class: 'btn btn-default',
     id: 'search-button',
     href: '',
   })
   searchBtn.text(translate('data.search'))
-  searchBtn.on('click', () => searchFeatures(callback))
+  searchBtn.on('click', () => searchFeatures())
 
   const searchField = $('<input>', {
     id: 'feature-search-field',
@@ -34,10 +35,10 @@ function init(callback) {
   searchResults.appendTo(featureSearchContainer)
 }
 
-function searchFeatures(callback) {
+function searchFeatures() {
   const searchStr = $('#feature-search-field').val()
   if (searchStr !== null && searchStr.length > 0) {
-    callback()
+    map.clearFeatureSelection()
     clearResults()
     const features = getSearchResultFeatures(searchStr)
     globals.getSelectedFeatures().extend(features)
@@ -55,13 +56,12 @@ function clearResults() {
 
 function getSearchResultFeatures(searchStr) {
   const hits = []
-  globals
+  map
     .getIndexLayer()
     .getSource()
     .forEachFeature((feature) => {
       if (
-        feature.get('label').toLowerCase().indexOf(searchStr.toLowerCase()) !=
-        -1
+        feature.get('label').toLowerCase().includes(searchStr.toLowerCase())
       ) {
         hits.push(feature)
       }

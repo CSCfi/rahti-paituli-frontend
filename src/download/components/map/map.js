@@ -9,9 +9,9 @@ import { unByKey } from 'ol/Observable'
 import proj4 from 'proj4'
 import { register } from 'ol/proj/proj4'
 
-import tabs from './tabs'
-import { translate } from '../../shared/translations'
-import { LAYER, URL } from '../../shared/urls'
+import tabs from '../tabs'
+import { translate } from '../../../shared/translations'
+import { LAYER, URL } from '../../../shared/urls'
 
 proj4.defs([
   [
@@ -117,6 +117,11 @@ function createMaxResolutionWarning() {
   $('#notification-container').show()
 }
 
+function insertDataLayer(dataLayer) {
+  map.getLayers().insertAt(1, dataLayer)
+  clearWarning()
+}
+
 function clearWarning() {
   $('#notification-container').empty()
   $('#notification-container').hide()
@@ -139,7 +144,6 @@ const removeInfoToolListener = () => unByKey(infoToolListenerKey)
 
 const getMap = () => map
 const getView = () => map.getView()
-const getLayers = () => map.getLayers()
 const addLayer = (layer) => map.addLayer(layer)
 const removeLayer = (layer) => map.removeLayer(layer)
 const getInteractions = () => map.getInteractions()
@@ -148,9 +152,9 @@ const addInteraction = (interaction) => map.addInteraction(interaction)
 export default {
   getMap,
   getView,
-  getLayers,
   addLayer,
   removeLayer,
+  insertDataLayer,
   getInteractions,
   addInteraction,
   resetView,

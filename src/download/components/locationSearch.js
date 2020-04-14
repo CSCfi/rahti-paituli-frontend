@@ -16,8 +16,8 @@ function search(searchStr) {
         'EPSG:4326',
         'EPSG:3857'
       )
-      map.getView().setCenter(center)
       const zoom = searchStr.includes(',') ? 16 : 13
+      map.getView().setCenter(center)
       map.getView().setZoom(zoom)
     } else {
       alert(translate('map.locationNotFound'))
