@@ -1,15 +1,17 @@
 import $ from 'jquery'
 
 import { translate } from '../../shared/translations'
+import globals from '../globals'
 
 const TAB_ID = 'feature-info-container'
 const rootElem = $('#' + TAB_ID)
 
-function init(event, view, layer) {
+function init(event, view) {
   rootElem.empty()
-  if (layer) {
+  const dataLayer = globals.getDataLayer()
+  if (dataLayer) {
     const viewResolution = view.getResolution()
-    const url = layer
+    const url = dataLayer
       .getSource()
       .getFeatureInfoUrl(event.coordinate, viewResolution, 'EPSG:3857', {
         INFO_FORMAT: 'text/plain',
@@ -24,14 +26,11 @@ function init(event, view, layer) {
 }
 
 function clear() {
-  rootElem.empty()
-}
-
-function setDefaultLabel() {
   const label = $('<div>', {
     id: 'feature-info-default-label',
   })
   label.append(translate('info.featureinfodefault'))
+  rootElem.empty()
   rootElem.append(label)
 }
 
@@ -39,5 +38,4 @@ export default {
   TAB_ID,
   init,
   clear,
-  setDefaultLabel,
 }

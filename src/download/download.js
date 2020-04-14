@@ -18,12 +18,10 @@ import auth from '../shared/auth'
 import datasets from './datasets'
 import datasetSelect from './components/datasetSelect'
 import downloadTab from './components/downloadTab'
-import featureInfoTab from './components/featureInfoTab'
 import featureSearch from './components/featureSearch'
 import globals from './globals'
-import linksTab from './components/linksTab'
 import locationSearch from './components/locationSearch'
-import metadataTab from './components/metadataTab'
+import tabs from './components/tabs'
 import { changeLocale, translate } from '../shared/translations'
 import { LOCALE } from '../shared/constants'
 import { LAYER, URL } from '../shared/urls'
@@ -167,6 +165,7 @@ function main() {
       color: [255, 255, 255, 0.8],
     }),
   })
+
   const panSelectBtn = $('#panselection-button')
   const selectSelectContainer = $('#selectselection-container')
   const clearSelectContainer = $('#clearselection-container')
@@ -176,62 +175,10 @@ function main() {
   selectSelectContainer.hide()
   clearSelectContainer.hide()
   infoSelectContainer.hide()
-
   drawSelectContainer.hide()
   let currentIndexMapLabelLayer = null
-  let currentDataLayer = null
   let currentMaxResolution = null
   let mapContainerId = 'map-container'
-  let prevSelectedTab = null
-
-  const tabContainerId = 'info-container'
-  const tabContainer = $('#' + tabContainerId)
-  tabContainer.tabs({
-    activate: (event, ui) => (prevSelectedTab = ui.newPanel.get(0).id),
-  })
-
-  function setInfoContent(contentType, params) {
-    switch (contentType) {
-      case 'download':
-        downloadTab.init(highlightOverlay)
-        break
-      case 'featureinfo':
-        featureInfoTab.init(params, view, currentDataLayer)
-        break
-      case 'metadata':
-        metadataTab.init()
-        linksTab.init()
-        break
-      default:
-        break
-    }
-  }
-
-  function selectTab(tabIndex) {
-    tabContainer.tabs('option', 'active', tabIndex)
-  }
-
-  function selectTabAfterDatasetChange(hasInfoTab) {
-    if (prevSelectedTab == null) {
-      prevSelectedTab = downloadTab.TAB_ID
-    }
-    let newTabId = null
-    if (prevSelectedTab == downloadTab.TAB_ID) {
-      newTabId = downloadTab.TAB_ID
-    } else if (prevSelectedTab == featureInfoTab.TAB_ID) {
-      if (hasInfoTab) {
-        newTabId = featureInfoTab.TAB_ID
-      } else {
-        newTabId = downloadTab.TAB_ID
-      }
-    } else if (prevSelectedTab == metadataTab.TAB_ID) {
-      newTabId = metadataTab.TAB_ID
-    }
-    const index = $('#' + tabContainerId + ' a[href="#' + newTabId + '"]')
-      .parent()
-      .index()
-    $('#' + tabContainerId).tabs('option', 'active', index)
-  }
 
   let isFirstTimeLoaded = true
   let mapsheets = 0
@@ -239,15 +186,14 @@ function main() {
   function updateMap() {
     map.removeLayer(globals.getIndexLayer())
     map.removeLayer(currentIndexMapLabelLayer)
-    map.removeLayer(currentDataLayer)
+    map.removeLayer(globals.getDataLayer())
     locationSearch.clear()
     clearMapFeatureSelection()
-    featureInfoTab.clear()
+    tabs.clearFeatureInfo()
     featureSearch.clearResults()
     $('#feature-search-field').value = ''
     if (datasets.hasCurrent()) {
-      setInfoContent('metadata')
-      featureInfoTab.setDefaultLabel()
+      tabs.setInfoContent('metadata')
       loadIndexLayer()
       loadIndexMapLabelLayer()
 
@@ -269,11 +215,11 @@ function main() {
                   .extend(globals.getIndexLayer().getSource().getFeatures())
                 featureSearch.hide()
               }
-              setInfoContent('download')
+              tabs.setInfoContent('download')
               isFirstTimeLoaded = false
               toggleMapControlButtonsVisibility()
             }
-            selectTabAfterDatasetChange(hasInfoTab)
+            tabs.selectTabAfterDatasetChange(hasInfoTab)
           })
 
         if (currentIndexMapLabelLayer !== null) {
@@ -296,8 +242,8 @@ function main() {
         }
 
         loadDataLayer()
-        if (currentDataLayer !== null) {
-          map.getLayers().insertAt(1, currentDataLayer)
+        if (globals.getDataLayer() !== null) {
+          map.getLayers().insertAt(1, globals.getDataLayer())
           clearMapWarning()
         } else {
           setDataAvailabiltyWarning()
@@ -312,10 +258,10 @@ function main() {
           setMaxResolutionWarning()
         }
       }
-      tabContainer.show()
+      tabs.show()
     } else {
       mapsheets = 0
-      tabContainer.hide()
+      tabs.hide()
     }
   }
 
@@ -411,32 +357,36 @@ function main() {
     if (datasets.hasCurrent() && datasets.getCurrent().data_url != null) {
       const dataUrl = datasets.getCurrent().data_url
       if (dataUrl.indexOf('protected') > -1) {
-        currentDataLayer = new layer.Image({
-          title: translate('map.datamap'),
-          source: new source.ImageWMS({
-            url: URL.WMS_PAITULI_BASE,
-            params: { LAYERS: dataUrl, VERSION: '1.1.1' },
-            serverType: 'geoserver',
-          }),
-          visible: true,
-        })
+        globals.setDataLayer(
+          new layer.Image({
+            title: translate('map.datamap'),
+            source: new source.ImageWMS({
+              url: URL.WMS_PAITULI_BASE,
+              params: { LAYERS: dataUrl, VERSION: '1.1.1' },
+              serverType: 'geoserver',
+            }),
+            visible: true,
+          })
+        )
       } else {
-        currentDataLayer = new layer.Tile({
-          title: translate('map.datamap'),
-          source: new source.TileWMS({
-            url: URL.WMS_PAITULI_BASE_GWC,
-            params: { LAYERS: dataUrl, VERSION: '1.1.1' },
-            serverType: 'geoserver',
-          }),
-          visible: true,
-        })
+        globals.setDataLayer(
+          new layer.Tile({
+            title: translate('map.datamap'),
+            source: new source.TileWMS({
+              url: URL.WMS_PAITULI_BASE_GWC,
+              params: { LAYERS: dataUrl, VERSION: '1.1.1' },
+              serverType: 'geoserver',
+            }),
+            visible: true,
+          })
+        )
       }
 
       if (currentMaxResolution !== null) {
-        currentDataLayer.setMaxResolution(currentMaxResolution)
+        globals.getDataLayer().setMaxResolution(currentMaxResolution)
       }
     } else {
-      currentDataLayer = null
+      globals.setDataLayer(null)
     }
   }
 
@@ -547,7 +497,7 @@ function main() {
     style: selected_style,
     multi: true, //Select several, if overlapping
   })
-  featureSelectInteraction.on('select', () => setInfoContent('download'))
+  featureSelectInteraction.on('select', () => tabs.setInfoContent('download'))
 
   const selectedFeatures = featureSelectInteraction.getFeatures()
   selectedFeatures.on('add', downloadTab.addFileLabel)
@@ -556,7 +506,7 @@ function main() {
 
   function clearMapFeatureSelection() {
     globals.getSelectedFeatures().clear()
-    setInfoContent('download')
+    tabs.setInfoContent('download')
     return false
   }
 
@@ -588,7 +538,7 @@ function main() {
       globals.getSelectedFeatures().extend(oldFeaturesInSelection)
       globals.getSelectedFeatures().extend(newFeatures)
     }
-    setInfoContent('download')
+    tabs.setInfoContent('download')
   })
   map.addInteraction(mapDragBox)
 
@@ -640,7 +590,7 @@ function main() {
       globals.getSelectedFeatures().extend(oldFeaturesInSelection)
       globals.getSelectedFeatures().extend(newFeatures)
     }
-    setInfoContent('download')
+    tabs.setInfoContent('download')
     //Remove the drawed polygon from map. The drawend is fired before the polygon is added to the source,
     //so the first simply sets the geometry to null, and after next polygon is drawn it is properly removed.
     //Possibly there is one-liner for this.
@@ -661,10 +611,6 @@ function main() {
     updateWhileAnimating: true, // optional, for instant visual feedback
     updateWhileInteracting: true, // optional, for instant visual feedback
   })
-
-  function getFeatureInfo(evt) {
-    setInfoContent('featureinfo', evt)
-  }
 
   // TODO ???
   let getFeatureInfoToolKey = null
@@ -694,7 +640,7 @@ function main() {
   }
 
   function selectSelectTool() {
-    selectTab(0)
+    tabs.selectTab(0)
 
     $('#panselection-button').removeClass('active')
     $('#selectselection-button').addClass('active')
@@ -710,7 +656,7 @@ function main() {
   }
 
   function selectInfoTool() {
-    selectTab(1)
+    tabs.selectTab(1)
 
     $('#panselection-button').removeClass('active')
     $('#selectselection-button').removeClass('active')
@@ -725,12 +671,12 @@ function main() {
       dragPan.setActive(true)
     }
     getFeatureInfoToolKey = map.on('singleclick', (event) =>
-      getFeatureInfo(event)
+      tabs.setInfoContent('featureinfo', event)
     )
   }
 
   function selectDrawTool() {
-    selectTab(0)
+    tabs.selectTab(0)
 
     $('#panselection-button').removeClass('active')
     $('#selectselection-button').removeClass('active')
@@ -765,6 +711,7 @@ function main() {
   map.addControl(layerSwitcher)
   map.addControl(scaleLineControl)
 
+  tabs.init(highlightOverlay, view)
   datasetSelect.init(updateMap, pageDataIdParam)
   locationSearch.init(map)
   featureSearch.init(clearMapFeatureSelection)
