@@ -15,14 +15,15 @@ import LayerSwitcher from 'ol-layerswitcher'
 import proj4 from 'proj4'
 
 import auth from '../shared/auth'
-import datasetSelect from './components/datasetSelect'
-import globals from './globals'
 import datasets from './datasets'
-import locationSearch from './components/locationSearch'
+import datasetSelect from './components/datasetSelect'
 import downloadTab from './components/downloadTab'
 import featureInfoTab from './components/featureInfoTab'
-import metadataTab from './components/metadataTab'
+import featureSearch from './components/featureSearch'
+import globals from './globals'
 import linksTab from './components/linksTab'
+import locationSearch from './components/locationSearch'
+import metadataTab from './components/metadataTab'
 import { changeLocale, translate } from '../shared/translations'
 import { LOCALE } from '../shared/constants'
 import { LAYER, URL } from '../shared/urls'
@@ -206,52 +207,6 @@ function main() {
     }
   }
 
-  const featureSearchContainer = $('#feature-search-container')
-
-  function createSearchField() {
-    const searchBtn = $('<a>', {
-      class: 'btn btn-default',
-      id: 'search-button',
-      href: '',
-    })
-    searchBtn.text(translate('data.search'))
-    searchBtn.on('click', searchFeatures)
-
-    const searchField = $('<input>', {
-      id: 'feature-search-field',
-      type: 'search',
-    })
-    searchField.keyup((event) => {
-      if (event.keyCode == 13) {
-        searchBtn.click()
-        event.target.blur()
-      }
-    })
-    searchField.focus(() => clearSearchResults())
-
-    const searchResults = $('<div>', {
-      id: 'feature-search-results',
-    })
-
-    searchField.appendTo(featureSearchContainer)
-    searchBtn.appendTo(featureSearchContainer)
-    searchResults.appendTo(featureSearchContainer)
-  }
-
-  function searchFeatures() {
-    const searchStr = $('#feature-search-field').val()
-    if (searchStr !== null && searchStr.length > 0) {
-      clearMapFeatureSelection()
-      clearSearchResults()
-      const features = getSearchResultFeatures(searchStr)
-      globals.getSelectedFeatures().extend(features)
-      $('#feature-search-results').text(
-        translate('data.searchresult').replace('!features!', features.length)
-      )
-    }
-    return false
-  }
-
   function selectTab(tabIndex) {
     tabContainer.tabs('option', 'active', tabIndex)
   }
@@ -278,11 +233,6 @@ function main() {
     $('#' + tabContainerId).tabs('option', 'active', index)
   }
 
-  function clearSearchResults() {
-    $('#feature-search-field').val('')
-    $('#feature-search-results').empty()
-  }
-
   let isFirstTimeLoaded = true
   let mapsheets = 0
 
@@ -293,7 +243,7 @@ function main() {
     locationSearch.clear()
     clearMapFeatureSelection()
     featureInfoTab.clear()
-    clearSearchResults()
+    featureSearch.clearResults()
     $('#feature-search-field').value = ''
     if (datasets.hasCurrent()) {
       setInfoContent('metadata')
@@ -311,13 +261,13 @@ function main() {
               hasInfoTab = datasets.hasFeatureInfo()
               mapsheets = datasets.getCurrent().map_sheets
               if (mapsheets > 1) {
-                featureSearchContainer.css('visibility', 'visible')
+                featureSearch.show()
               } else if (mapsheets === 1) {
                 // if there is only one mapsheet, select all files
                 globals
                   .getSelectedFeatures()
                   .extend(globals.getIndexLayer().getSource().getFeatures())
-                featureSearchContainer.css('visibility', 'hidden')
+                featureSearch.hide()
               }
               setInfoContent('download')
               isFirstTimeLoaded = false
@@ -492,22 +442,6 @@ function main() {
 
   function getMapResolutionFromScale(scale) {
     return scale / 2835
-  }
-
-  function getSearchResultFeatures(searchStr) {
-    const hits = []
-    globals
-      .getIndexLayer()
-      .getSource()
-      .forEachFeature((feature) => {
-        if (
-          feature.get('label').toLowerCase().indexOf(searchStr.toLowerCase()) !=
-          -1
-        ) {
-          hits.push(feature)
-        }
-      })
-    return hits
   }
 
   const osmLayerOptions = {
@@ -833,7 +767,7 @@ function main() {
 
   datasetSelect.init(updateMap, pageDataIdParam)
   locationSearch.init(map)
-  createSearchField()
+  featureSearch.init(clearMapFeatureSelection)
 
   resetMapView()
 }
