@@ -69,7 +69,7 @@ function checkAccessRights() {
 }
 */
 
-function checkParameterDatasetAccess() {
+function fetchDatasets() {
   datasets.fetch(() => {
     if (pageDataIdParam === null || pageDataIdParam.length == 0) {
       init()
@@ -115,7 +115,7 @@ function init() {
 }
 
 // checkAccessRights();
-checkParameterDatasetAccess()
+fetchDatasets()
 
 $(function () {
   $('#header').load('header.html')
