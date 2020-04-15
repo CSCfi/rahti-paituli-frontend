@@ -196,7 +196,7 @@ function selectPanTool() {
 }
 
 function selectSelectTool() {
-  tabs.selectTab(0)
+  tabs.selectDownloadTab()
 
   $('#panselection-button').removeClass('active')
   $('#selectselection-button').addClass('active')
@@ -212,7 +212,7 @@ function selectSelectTool() {
 }
 
 function selectInfoTool() {
-  tabs.selectTab(1)
+  tabs.selectInfoTab()
 
   $('#panselection-button').removeClass('active')
   $('#selectselection-button').removeClass('active')
@@ -230,7 +230,7 @@ function selectInfoTool() {
 }
 
 function selectDrawTool() {
-  tabs.selectTab(0)
+  tabs.selectDownloadTab()
 
   $('#panselection-button').removeClass('active')
   $('#selectselection-button').removeClass('active')

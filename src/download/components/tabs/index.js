@@ -51,7 +51,6 @@ function setInfoContent(contentType, params) {
   }
 }
 
-// TODO
 function selectTab(tabIndex) {
   tabContainer.tabs('option', 'active', tabIndex)
 }
@@ -61,6 +60,8 @@ const hide = () => tabContainer.hide()
 const clearFeatureInfo = () => featureInfoTab.clear()
 const addFile = (event) => downloadTab.addFile(event)
 const removeFile = (event) => downloadTab.removeFile(event)
+const selectDownloadTab = () => selectTab(0)
+const selectInfoTab = () => selectTab(1)
 
 export default {
   show,
@@ -68,7 +69,8 @@ export default {
   clearFeatureInfo,
   addFile,
   removeFile,
-  selectTab,
+  selectDownloadTab,
+  selectInfoTab,
   setInfoContent,
   selectTabAfterDatasetChange,
 }
