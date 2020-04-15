@@ -9,8 +9,44 @@ import tabs from '../tabs'
 import globals from '../../globals'
 import map from './map'
 import layers from './layers'
+import datasets from '../../datasets'
 
 let selectedTool = ''
+
+const panSelectBtn = $('#panselection-button')
+const selectSelectContainer = $('#selectselection-container')
+const clearSelectContainer = $('#clearselection-container')
+const infoSelectContainer = $('#infoselection-container')
+const infoSelectBtn = $('#infoselection-button')
+const drawSelectContainer = $('#drawselection-container')
+selectSelectContainer.hide()
+clearSelectContainer.hide()
+infoSelectContainer.hide()
+drawSelectContainer.hide()
+
+function toggleVisibility(numberOfMapSheets) {
+  // If more than 1 mapsheet, show mapsheet selection tools
+  if (numberOfMapSheets > 1) {
+    selectSelectContainer.show()
+    clearSelectContainer.show()
+    drawSelectContainer.show()
+  } else {
+    selectSelectContainer.hide()
+    clearSelectContainer.hide()
+    drawSelectContainer.hide()
+  }
+  // If layers has feature info, show info tool and container for results
+  if (datasets.hasFeatureInfo()) {
+    infoSelectContainer.show()
+    $('#feature-info-container-tab').show()
+  } else {
+    if (infoSelectBtn.hasClass('active')) {
+      panSelectBtn.click()
+    }
+    infoSelectContainer.hide()
+    $('#feature-info-container-tab').hide()
+  }
+}
 
 const selected_style = new style.Style({
   stroke: new style.Stroke({
@@ -221,4 +257,5 @@ selectPanTool()
 
 export default {
   clearFeatureSelection,
+  toggleVisibility,
 }

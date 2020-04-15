@@ -12,7 +12,7 @@ import layers from './layers'
 import { translate } from '../../../shared/translations'
 
 let maxResolution = null
-let mapsheets = 0
+let numberOfMapSheets = 0
 
 function update() {
   map.removeLayer(layers.getIndexLayer())
@@ -37,10 +37,10 @@ function update() {
         let hasInfoTab = false
         if (event.target.getState() == 'ready') {
           hasInfoTab = datasets.hasFeatureInfo()
-          mapsheets = datasets.getCurrent().map_sheets
-          if (mapsheets > 1) {
+          numberOfMapSheets = datasets.getCurrent().map_sheets
+          if (numberOfMapSheets > 1) {
             featureSearch.show()
-          } else if (mapsheets === 1) {
+          } else if (numberOfMapSheets === 1) {
             // if there is only one mapsheet, select all files
             globals
               .getSelectedFeatures()
@@ -48,7 +48,7 @@ function update() {
             featureSearch.hide()
           }
           tabs.setInfoContent('download')
-          toggleMapControlButtonsVisibility()
+          controls.toggleVisibility(numberOfMapSheets)
         }
         tabs.selectTabAfterDatasetChange(hasInfoTab)
       })
@@ -89,50 +89,14 @@ function update() {
     }
     tabs.show()
   } else {
-    mapsheets = 0
+    numberOfMapSheets = 0
     tabs.hide()
   }
 }
 
-const panSelectBtn = $('#panselection-button')
-const selectSelectContainer = $('#selectselection-container')
-const clearSelectContainer = $('#clearselection-container')
-const infoSelectContainer = $('#infoselection-container')
-const infoSelectBtn = $('#infoselection-button')
-const drawSelectContainer = $('#drawselection-container')
-selectSelectContainer.hide()
-clearSelectContainer.hide()
-infoSelectContainer.hide()
-drawSelectContainer.hide()
-
 function setDataAvailabilityWarning() {
   $('#notification-container').text(translate('map.dataAvailabilityWarning'))
   $('#notification-container').show()
-}
-
-//Show map related tools
-function toggleMapControlButtonsVisibility() {
-  // If more than 1 mapsheet, show mapsheet selection tools
-  if (mapsheets > 1) {
-    selectSelectContainer.show()
-    clearSelectContainer.show()
-    drawSelectContainer.show()
-  } else {
-    selectSelectContainer.hide()
-    clearSelectContainer.hide()
-    drawSelectContainer.hide()
-  }
-  // If layers has feature info, show info tool and container for results
-  if (datasets.hasFeatureInfo()) {
-    infoSelectContainer.show()
-    $('#feature-info-container-tab').show()
-  } else {
-    if (infoSelectBtn.hasClass('active')) {
-      panSelectBtn.click()
-    }
-    infoSelectContainer.hide()
-    $('#feature-info-container-tab').hide()
-  }
 }
 
 const getDataLayer = () => layers.getDataLayer()
