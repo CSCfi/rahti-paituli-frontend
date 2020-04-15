@@ -1,7 +1,8 @@
 import $ from 'jquery'
-import { translate } from '../../shared/translations'
+
 import globals from '../globals'
 import map from './map'
+import { translate } from '../../shared/translations'
 
 const featureSearchContainer = $('#feature-search-container')
 

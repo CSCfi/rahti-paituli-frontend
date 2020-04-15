@@ -5,10 +5,10 @@ import * as source from 'ol/source'
 import * as layer from 'ol/layer'
 import * as style from 'ol/style'
 
-import { getIndexLayer } from './index'
 import tabs from '../tabs'
 import globals from '../../globals'
 import map from './map'
+import layers from './layers'
 
 let selectedTool = ''
 
@@ -53,7 +53,8 @@ mapDragBox.on('boxend', () => {
   const oldFeaturesInSelection = []
   let existing
 
-  getIndexLayer()
+  layers
+    .getIndexLayer()
     .getSource()
     .forEachFeatureIntersectingExtent(extent, (feature) => {
       existing = globals.getSelectedFeatures().remove(feature)
@@ -98,7 +99,7 @@ map.addInteraction(draw)
 
 function updateDrawSelection(event) {
   const polygon = event.feature.getGeometry()
-  const features = getIndexLayer().getSource().getFeatures()
+  const features = layers.getIndexLayer().getSource().getFeatures()
 
   const newFeatures = []
   const oldFeaturesInSelection = []

@@ -5,7 +5,7 @@ import * as layer from 'ol/layer'
 import * as source from 'ol/source'
 
 import map from './map'
-import { getIndexLayer } from './index'
+import layers from './layers'
 
 const highlighted_style = new style.Style({
   stroke: new style.Stroke({
@@ -31,14 +31,16 @@ const highlightOverlay = new layer.Vector({
 
 function addHighlight(event) {
   highlightOverlay.getSource().clear()
-  const olId = getIndexLayer()
+  const olId = layers
+    .getIndexLayer()
     .getSource()
     .getFeatureById($(event.target).attr('ol_id'))
   highlightOverlay.getSource().addFeature(olId)
 }
 
 function removeHighlight(event) {
-  const olId = getIndexLayer()
+  const olId = layers
+    .getIndexLayer()
     .getSource()
     .getFeatureById($(event.target).attr('ol_id'))
   highlightOverlay.getSource().removeFeature(olId)
