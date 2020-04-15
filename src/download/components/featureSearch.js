@@ -1,6 +1,5 @@
 import $ from 'jquery'
 
-import globals from '../globals'
 import map from './map'
 import { translate } from '../../shared/translations'
 
@@ -42,7 +41,7 @@ function searchFeatures() {
     map.clearFeatureSelection()
     clearResults()
     const features = getSearchResultFeatures(searchStr)
-    globals.getSelectedFeatures().extend(features)
+    map.getSelectedFeatures().extend(features)
     $('#feature-search-results').text(
       translate('data.searchresult').replace('!features!', features.length)
     )

@@ -3,7 +3,6 @@ import $ from 'jquery'
 import controls from './controls'
 import datasets from '../../datasets'
 import featureSearch from '../featureSearch'
-import globals from '../../globals'
 import highlightOverlay from './highlightOverlay'
 import locationSearch from '../locationSearch'
 import map from './map'
@@ -41,7 +40,7 @@ function update() {
             featureSearch.show()
           } else if (numberOfMapSheets === 1) {
             // if there is only one mapsheet, select all files
-            globals
+            controls
               .getSelectedFeatures()
               .extend(indexLayer.getSource().getFeatures())
             featureSearch.hide()
@@ -79,6 +78,8 @@ function update() {
 
 const getDataLayer = () => layers.getDataLayer()
 const getIndexLayer = () => layers.getIndexLayer()
+const getSelectedFeatures = () => controls.getSelectedFeatures()
+const setSelectedFeatures = (value) => controls.setSelectedFeatures(value)
 const clearFeatureSelection = () => controls.clearFeatureSelection()
 const addHighlight = (event) => highlightOverlay.addHighlight(event)
 const removeHighlight = (event) => highlightOverlay.removeHighlight(event)
@@ -90,6 +91,8 @@ export default {
   update,
   getDataLayer,
   getIndexLayer,
+  getSelectedFeatures,
+  setSelectedFeatures,
   clearFeatureSelection,
   addHighlight,
   removeHighlight,

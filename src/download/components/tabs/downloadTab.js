@@ -1,6 +1,5 @@
 import $ from 'jquery'
 
-import globals from '../../globals'
 import datasets from '../../datasets'
 import emailModal from '../emailModal'
 import map from '../map'
@@ -103,7 +102,7 @@ function init() {
   })
   downloadFilesHeader.text(translate('info.files'))
 
-  const selectedFeatures = globals.getSelectedFeatures()
+  const selectedFeatures = map.getSelectedFeatures()
   if (selectedFeatures.getLength() > 0) {
     let dataListContainerElem = $('#data-download-list')
     if (!dataListContainerElem.length) {
@@ -225,15 +224,15 @@ function init() {
 function getDownloadSize() {
   const fileSize = datasets.getCurrent().file_size
   return fileSize !== null
-    ? Math.ceil(fileSize * globals.getSelectedFeatures().getLength())
+    ? Math.ceil(fileSize * map.getSelectedFeatures().getLength())
     : 0
 }
 
 function updateSelectedFeatures(clickedFeature, dlInput) {
   if (dlInput.is(':checked')) {
-    globals.getSelectedFeatures().push(clickedFeature)
+    map.getSelectedFeatures().push(clickedFeature)
   } else {
-    globals.getSelectedFeatures().remove(clickedFeature)
+    map.getSelectedFeatures().remove(clickedFeature)
   }
 }
 

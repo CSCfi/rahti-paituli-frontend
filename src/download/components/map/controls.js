@@ -6,12 +6,12 @@ import * as layer from 'ol/layer'
 import * as style from 'ol/style'
 
 import tabs from '../tabs'
-import globals from '../../globals'
 import map from './map'
 import layers from './layers'
 import datasets from '../../datasets'
 
 let selectedTool = ''
+let selectedFeatures = {}
 
 const panSelectBtn = $('#panselection-button')
 const selectSelectContainer = $('#selectselection-container')
@@ -71,13 +71,11 @@ const featureSelectInteraction = new interaction.Select({
   multi: true, //Select several, if overlapping
 })
 featureSelectInteraction.on('select', () => tabs.setInfoContent('download'))
+map.addInteraction(featureSelectInteraction)
 
-const selectedFeatures = featureSelectInteraction.getFeatures()
+selectedFeatures = featureSelectInteraction.getFeatures()
 selectedFeatures.on('add', tabs.addFile)
 selectedFeatures.on('remove', tabs.removeFile)
-globals.setSelectedFeatures(selectedFeatures)
-
-map.addInteraction(featureSelectInteraction)
 
 // a DragBox interaction used to select features by drawing boxes
 const mapDragBox = new interaction.DragBox({})
@@ -93,7 +91,7 @@ mapDragBox.on('boxend', () => {
     .getIndexLayer()
     .getSource()
     .forEachFeatureIntersectingExtent(extent, (feature) => {
-      existing = globals.getSelectedFeatures().remove(feature)
+      existing = selectedFeatures.remove(feature)
       if (existing) {
         oldFeaturesInSelection.push(feature)
       } else {
@@ -101,8 +99,8 @@ mapDragBox.on('boxend', () => {
       }
     })
   if (newFeatures.length > 0) {
-    globals.getSelectedFeatures().extend(oldFeaturesInSelection)
-    globals.getSelectedFeatures().extend(newFeatures)
+    selectedFeatures.extend(oldFeaturesInSelection)
+    selectedFeatures.extend(newFeatures)
   }
   tabs.setInfoContent('download')
 })
@@ -143,7 +141,7 @@ function updateDrawSelection(event) {
 
   for (let i = 0; i < features.length; i++) {
     if (polygon.intersectsExtent(features[i].getGeometry().getExtent())) {
-      existing = globals.getSelectedFeatures().remove(features[i])
+      existing = selectedFeatures.remove(features[i])
       if (existing) {
         oldFeaturesInSelection.push(features[i])
       } else {
@@ -153,8 +151,8 @@ function updateDrawSelection(event) {
   }
 
   if (newFeatures.length > 0) {
-    globals.getSelectedFeatures().extend(oldFeaturesInSelection)
-    globals.getSelectedFeatures().extend(newFeatures)
+    selectedFeatures.extend(oldFeaturesInSelection)
+    selectedFeatures.extend(newFeatures)
   }
   tabs.setInfoContent('download')
   //Remove the drawed polygon from map. The drawend is fired before the polygon is added to the source,
@@ -176,7 +174,7 @@ map.getInteractions().forEach((i) => {
 }, this)
 
 function clearFeatureSelection() {
-  globals.getSelectedFeatures().clear()
+  selectedFeatures.clear()
   tabs.setInfoContent('download')
   return false
 }
@@ -255,7 +253,12 @@ $('#drawselection-button').on('click', selectDrawTool)
 
 selectPanTool()
 
+const getSelectedFeatures = () => selectedFeatures
+const setSelectedFeatures = (value) => (selectedFeatures = value)
+
 export default {
+  getSelectedFeatures,
+  setSelectedFeatures,
   clearFeatureSelection,
   toggleVisibility,
 }

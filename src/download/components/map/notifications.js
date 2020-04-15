@@ -1,6 +1,6 @@
 import $ from 'jquery'
-import { translate } from '../../../shared/translations'
 
+import { translate } from '../../../shared/translations'
 import map from './map'
 
 function setDataAvailabilityWarning() {
