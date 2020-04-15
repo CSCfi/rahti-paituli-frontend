@@ -1,8 +1,9 @@
+import $ from 'jquery'
+
 import downloadTab from './downloadTab'
 import featureInfoTab from './featureInfoTab'
-import metadataTab from './metadataTab'
 import linksTab from './linksTab'
-import $ from 'jquery'
+import metadataTab from './metadataTab'
 
 const tabContainerId = 'info-container'
 const tabContainer = $('#' + tabContainerId)

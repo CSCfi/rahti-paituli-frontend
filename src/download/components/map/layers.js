@@ -5,6 +5,7 @@ import * as ol_format from 'ol/format'
 import * as style from 'ol/style'
 
 import datasets from '../../datasets'
+import map from './map'
 import { URL } from '../../../shared/urls'
 import { translate } from '../../../shared/translations'
 
@@ -12,7 +13,7 @@ let dataLayer = null
 let indexLayer = null
 let indexLabelLayer = null
 
-function loadDataLayer(maxResolution) {
+function loadDataLayer() {
   if (datasets.hasCurrent() && datasets.getCurrent().data_url != null) {
     const dataUrl = datasets.getCurrent().data_url
     if (dataUrl.indexOf('protected') > -1) {
@@ -36,8 +37,8 @@ function loadDataLayer(maxResolution) {
         visible: true,
       })
     }
-    if (maxResolution !== null) {
-      dataLayer.setMaxResolution(maxResolution)
+    if (map.getMaxResolution() !== null) {
+      dataLayer.setMaxResolution(map.getMaxResolution())
     }
   } else {
     dataLayer = null

@@ -1,7 +1,7 @@
 import $ from 'jquery'
 
-import { translate } from '../../../shared/translations'
 import datasets from '../../datasets'
+import { translate } from '../../../shared/translations'
 import { URL } from '../../../shared/urls'
 
 const TAB_ID = 'links-container'

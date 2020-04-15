@@ -1,4 +1,3 @@
-import $ from 'jquery'
 import { Map, View } from 'ol'
 import * as control from 'ol/control'
 import * as layer from 'ol/layer'
@@ -9,23 +8,12 @@ import { unByKey } from 'ol/Observable'
 import proj4 from 'proj4'
 import { register } from 'ol/proj/proj4'
 
+import notifications from './notifications'
 import tabs from '../tabs'
 import { translate } from '../../../shared/translations'
 import { LAYER, URL } from '../../../shared/urls'
 
-proj4.defs([
-  [
-    'EPSG:3067',
-    '+proj=utm +zone=35 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs',
-  ],
-  [
-    'EPSG:3857',
-    '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs',
-  ],
-])
-register(proj4)
-
-const mapContainerId = 'map-container'
+registerProj4()
 
 const osmLayerOptions = {
   title: translate('map.basemap'),
@@ -81,14 +69,12 @@ const map = new Map({
     catchmentLayer,
     municipalitiesLayer,
   ],
-  target: mapContainerId,
+  target: 'map-container',
   view: new View({
     center: proj.transform([500000, 7200000], 'EPSG:3067', 'EPSG:3857'),
     zoom: 5,
   }),
 })
-
-map.on('moveend', () => setMaxResolutionWarning())
 
 const layerSwitcher = new LayerSwitcher({
   tipLabel: 'Toggle layers', // Optional label for button
@@ -96,35 +82,28 @@ const layerSwitcher = new LayerSwitcher({
 
 const scaleLineControl = new control.ScaleLine()
 
+map.on('moveend', () => notifications.setMaxResolutionWarning())
 map.addControl(overviewMap)
 map.addControl(layerSwitcher)
 map.addControl(scaleLineControl)
 
-// TODO notification container module
-function setMaxResolutionWarning(currentMaxResolution) {
-  if (currentMaxResolution !== null) {
-    const currRes = map.getView().getResolution()
-    if (currRes > currentMaxResolution) {
-      createMaxResolutionWarning()
-    } else {
-      clearWarning()
-    }
-  }
-}
-
-function createMaxResolutionWarning() {
-  $('#notification-container').text(translate('map.resolutionwarning'))
-  $('#notification-container').show()
+function registerProj4() {
+  proj4.defs([
+    [
+      'EPSG:3067',
+      '+proj=utm +zone=35 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs',
+    ],
+    [
+      'EPSG:3857',
+      '+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs',
+    ],
+  ])
+  register(proj4)
 }
 
 function insertDataLayer(dataLayer) {
   map.getLayers().insertAt(1, dataLayer)
-  clearWarning()
-}
-
-function clearWarning() {
-  $('#notification-container').empty()
-  $('#notification-container').hide()
+  notifications.clearWarning()
 }
 
 function resetView() {
@@ -133,6 +112,10 @@ function resetView() {
   view.setCenter(proj.transform([500000, 7200000], 'EPSG:3067', 'EPSG:3857'))
   map.updateSize()
 }
+
+let maxResolution = null
+const getMaxResolution = () => maxResolution
+const setMaxResolution = (value) => (maxResolution = value)
 
 let infoToolListenerKey
 function addInfoToolListener() {
@@ -152,14 +135,14 @@ const addInteraction = (interaction) => map.addInteraction(interaction)
 export default {
   getMap,
   getView,
+  resetView,
   addLayer,
   removeLayer,
   insertDataLayer,
   getInteractions,
   addInteraction,
-  resetView,
-  clearWarning,
-  setMaxResolutionWarning,
+  getMaxResolution,
+  setMaxResolution,
   addInfoToolListener,
   removeInfoToolListener,
 }

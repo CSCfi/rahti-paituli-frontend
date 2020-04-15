@@ -9,9 +9,8 @@ import locationSearch from '../locationSearch'
 import map from './map'
 import tabs from '../tabs'
 import layers from './layers'
-import { translate } from '../../../shared/translations'
+import notifications from './notifications'
 
-let maxResolution = null
 let numberOfMapSheets = 0
 
 function update() {
@@ -64,18 +63,15 @@ function update() {
       }
 
       const maxScale = datasets.getCurrent().data_max_scale
-      if (maxScale !== null) {
-        maxResolution = parseInt(maxScale) / 2835
-      } else {
-        maxResolution = null
-      }
+      const maxResolution = maxScale !== null ? parseInt(maxScale) / 2835 : null
+      map.setMaxResolution(maxResolution)
 
-      layers.loadDataLayer(maxResolution)
+      layers.loadDataLayer()
       const dataLayer = layers.getDataLayer()
       if (dataLayer !== null) {
         map.insertDataLayer(dataLayer)
       } else {
-        setDataAvailabilityWarning()
+        notifications.setDataAvailabilityWarning()
       }
       map.addLayer(indexLayer)
       if (indexLabelLayer !== null) {
@@ -84,7 +80,7 @@ function update() {
       // Kylli, without next 3 rows, the warning of previously
       // selected dataset was visible.
       if (maxResolution != null) {
-        map.setMaxResolutionWarning(maxResolution)
+        notifications.setMaxResolutionWarning()
       }
     }
     tabs.show()
@@ -92,11 +88,6 @@ function update() {
     numberOfMapSheets = 0
     tabs.hide()
   }
-}
-
-function setDataAvailabilityWarning() {
-  $('#notification-container').text(translate('map.dataAvailabilityWarning'))
-  $('#notification-container').show()
 }
 
 const getDataLayer = () => layers.getDataLayer()
