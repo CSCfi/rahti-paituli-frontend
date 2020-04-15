@@ -25,11 +25,11 @@ function update() {
 
   if (datasets.hasCurrent()) {
     tabs.setInfoContent('metadata')
-    layers.loadIndexLayer()
-    layers.loadIndexLabelLayer()
 
+    layers.init()
     const indexLayer = layers.getIndexLayer()
     const indexLabelLayer = layers.getIndexLabelLayer()
+    const dataLayer = layers.getDataLayer()
 
     if (indexLayer !== null) {
       indexLayer.getSource().once('change', (event) => {
@@ -52,35 +52,22 @@ function update() {
         tabs.selectTabAfterDatasetChange(hasInfoTab)
       })
 
-      if (indexLabelLayer !== null) {
-        indexLayer.on('change:visible', () => {
-          if (indexLayer.getVisible()) {
-            indexLabelLayer.setVisible(true)
-          } else {
-            indexLabelLayer.setVisible(false)
-          }
-        })
-      }
-
       const maxScale = datasets.getCurrent().data_max_scale
       const maxResolution = maxScale !== null ? parseInt(maxScale) / 2835 : null
       map.setMaxResolution(maxResolution)
+      if (maxResolution != null) {
+        notifications.setMaxResolutionWarning()
+      }
 
-      layers.loadDataLayer()
-      const dataLayer = layers.getDataLayer()
       if (dataLayer !== null) {
         map.insertDataLayer(dataLayer)
+        notifications.clearWarning()
       } else {
         notifications.setDataAvailabilityWarning()
       }
       map.addLayer(indexLayer)
       if (indexLabelLayer !== null) {
         map.addLayer(indexLabelLayer)
-      }
-      // Kylli, without next 3 rows, the warning of previously
-      // selected dataset was visible.
-      if (maxResolution != null) {
-        notifications.setMaxResolutionWarning()
       }
     }
     tabs.show()

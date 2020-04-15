@@ -13,6 +13,22 @@ let dataLayer = null
 let indexLayer = null
 let indexLabelLayer = null
 
+function init() {
+  loadIndexLayer()
+  loadIndexLabelLayer()
+  loadDataLayer()
+
+  if (indexLabelLayer !== null) {
+    indexLayer.on('change:visible', () => {
+      if (indexLayer.getVisible()) {
+        indexLabelLayer.setVisible(true)
+      } else {
+        indexLabelLayer.setVisible(false)
+      }
+    })
+  }
+}
+
 function loadDataLayer() {
   if (datasets.hasCurrent() && datasets.getCurrent().data_url != null) {
     const dataUrl = datasets.getCurrent().data_url
@@ -108,10 +124,8 @@ const getIndexLayer = () => indexLayer
 const getIndexLabelLayer = () => indexLabelLayer
 
 export default {
+  init,
   getDataLayer,
   getIndexLayer,
   getIndexLabelLayer,
-  loadDataLayer,
-  loadIndexLayer,
-  loadIndexLabelLayer,
 }

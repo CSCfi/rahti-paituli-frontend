@@ -103,7 +103,6 @@ function registerProj4() {
 
 function insertDataLayer(dataLayer) {
   map.getLayers().insertAt(1, dataLayer)
-  notifications.clearWarning()
 }
 
 function resetView() {
