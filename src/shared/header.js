@@ -51,11 +51,16 @@ downloadLink.click(function () {
 
 function updateLanguage() {
   if (getCurrentLocale() == LOCALE.FINNISH) {
-    changeLocale(LOCALE.ENGLISH)
-    setTranslations()
+    if (typeof Storage !== 'undefined') {
+      localStorage.language = LOCALE.ENGLISH
+      window.location.reload()
+    }
   } else {
     changeLocale(LOCALE.FINNISH)
-    setTranslations()
+    if (typeof Storage !== 'undefined') {
+      localStorage.language = LOCALE.FINNISH
+      window.location.reload()
+    }
   }
 }
 

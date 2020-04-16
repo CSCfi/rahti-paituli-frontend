@@ -7,8 +7,7 @@ import datasetSelect from './components/datasetSelect'
 import featureSearch from './components/featureSearch'
 import locationSearch from './components/locationSearch'
 import map from './components/map'
-import { changeLocale, translate } from '../shared/translations'
-import { LOCALE } from '../shared/constants'
+import { translate } from '../shared/translations'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'jquery-ui-bundle/jquery-ui.css'
@@ -17,8 +16,6 @@ import 'ol-layerswitcher/src/ol-layerswitcher.css'
 import '../css/download.css'
 
 let pageDataIdParam = getUrlParameter('data_id')
-
-changeLocale(LOCALE.FINNISH)
 
 function getUrlParameter(param) {
   const pageURL = window.location.search.substring(1)

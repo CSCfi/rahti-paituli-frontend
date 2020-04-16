@@ -1,6 +1,9 @@
 import { LOCALE } from './constants'
 
-let locale = LOCALE.FINNISH
+let locale =
+  typeof localStorage.language == 'undefined'
+    ? LOCALE.FINNISH
+    : localStorage.language
 
 const translations = {
   appHeader: {
