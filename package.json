@@ -6,7 +6,7 @@
   "scripts": {
     "start": "webpack-dev-server --open --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
-    "clean": "rm -rf dist/*.js && rm -rf dist/*.png",
+    "clean": "rm -rf dist/*.js",
     "lint": "eslint . --ext .js",
     "lint:fix": "npm run lint -- --fix"
   },
