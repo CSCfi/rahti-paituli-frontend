@@ -48,7 +48,7 @@ function sendEmail() {
       data_id: current.data_id,
       downloadType,
       email: emailInput.val(),
-      language: getCurrentLocale(),
+      locale: getCurrentLocale(),
       filePaths: filePaths,
       filenames: fileLabels,
       org: current.org,

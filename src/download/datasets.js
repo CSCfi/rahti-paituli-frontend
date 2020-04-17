@@ -1,12 +1,13 @@
 import $ from 'jquery'
 
 import { URL } from '../shared/urls'
+import { getCurrentLocale } from '../shared/translations'
 
 let datasets = []
 let currentDataset = {}
 
 function fetch(callback) {
-  $.getJSON(URL.METADATA_API, (response) => {
+  $.getJSON(`${URL.METADATA_API}/${getCurrentLocale()}`, (response) => {
     datasets = response
     callback()
   })

@@ -1,6 +1,6 @@
 export const LOCALE = {
-  FINNISH: 'fi_FI',
-  ENGLISH: 'en_US',
+  FINNISH: 'fi',
+  ENGLISH: 'en',
 }
 
 export const DOWNLOAD_TYPE = {

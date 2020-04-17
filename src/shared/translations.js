@@ -7,395 +7,393 @@ let locale =
 
 const translations = {
   appHeader: {
-    fi_FI: 'PaITuli - Paikkatietoja tutkimukseen ja opetukseen',
-    en_US: 'PaITuli - Spatial data for research and teaching',
+    fi: 'PaITuli - Paikkatietoja tutkimukseen ja opetukseen',
+    en: 'PaITuli - Spatial data for research and teaching',
   },
   data: {
     header: {
-      fi_FI: 'Valitse aineisto:',
-      en_US: 'Select dataset:',
+      fi: 'Valitse aineisto:',
+      en: 'Select dataset:',
     },
     producer: {
-      fi_FI: 'Tuottaja:',
-      en_US: 'Producer:',
+      fi: 'Tuottaja:',
+      en: 'Producer:',
     },
     selectProducer: {
-      fi_FI: '--Valitse aineistotuottaja--',
-      en_US: '--Select data producer--',
+      fi: '--Valitse aineistotuottaja--',
+      en: '--Select data producer--',
     },
     data: {
-      fi_FI: 'Aineisto:',
-      en_US: 'Data:',
+      fi: 'Aineisto:',
+      en: 'Data:',
     },
     scale: {
-      fi_FI: 'Mittakaava:',
-      en_US: 'Scale:',
+      fi: 'Mittakaava:',
+      en: 'Scale:',
     },
     year: {
-      fi_FI: 'Vuosi:',
-      en_US: 'Year:',
+      fi: 'Vuosi:',
+      en: 'Year:',
     },
     format: {
-      fi_FI: 'Formaatti:',
-      en_US: 'Format:',
+      fi: 'Formaatti:',
+      en: 'Format:',
     },
     coordSys: {
-      fi_FI: 'Koordinaatisto:',
-      en_US: 'Coordinate system:',
+      fi: 'Koordinaatisto:',
+      en: 'Coordinate system:',
     },
     metadata: {
-      fi_FI: 'Metatiedot',
-      en_US: 'Metadata',
+      fi: 'Metatiedot',
+      en: 'Metadata',
     },
     search: {
-      fi_FI: 'Hae karttalehtiä',
-      en_US: 'Search mapsheets',
+      fi: 'Hae karttalehtiä',
+      en: 'Search mapsheets',
     },
     searchresult: {
-      fi_FI: 'Löydettiin !features! karttalehteä',
-      en_US: 'Found !features! map sheets',
+      fi: 'Löydettiin !features! karttalehteä',
+      en: 'Found !features! map sheets',
     },
     toomanyresults: {
-      fi_FI: 'Löydettiin liian monta karttalehteä. Rajaa hakua tarkemmaksi.',
-      en_US: 'Found too many map sheets. Please search more specifically.',
+      fi: 'Löydettiin liian monta karttalehteä. Rajaa hakua tarkemmaksi.',
+      en: 'Found too many map sheets. Please search more specifically.',
     },
   },
   info: {
     download: {
-      fi_FI: 'Lataa aineisto zip tiedostona',
-      en_US: 'Download dataset as zip file',
+      fi: 'Lataa aineisto zip tiedostona',
+      en: 'Download dataset as zip file',
     },
     downloadlist: {
-      fi_FI: 'Lataa tiedostolista',
-      en_US: 'Download list of files',
+      fi: 'Lataa tiedostolista',
+      en: 'Download list of files',
     },
     downloadTooltip: {
-      fi_FI:
+      fi:
         'Ladattavan zip tiedoston enimmäsikoko on 3GB. Suuremmilla aineistoilla lataa tiedostolista ja lataa aineisto ftp:n tai rsyncin avulla.',
-      en_US:
+      en:
         'Limit for downloading as a zip file is 3GB. For larger datasets download file list and use ftp/rsync',
     },
     dlListTooltip: {
-      fi_FI:
+      fi:
         'Lataa lista valituista tiedostoista polkuineen. Listan avulla voit ladata tiedostot esimerkiksi FTP:n tai rsyncin avulla. Ladattavien tiedostojen määrässä ei ole 3GB rajoitusta. Lisätietoja FTP ja rsync sivulta.',
-      en_US:
+      en:
         "Download a list of selected files including paths. You can use the list to download files using FTP or rsync. There isn't download size limit for this method. See FTP and rsync page for details",
     },
     dlIndexMapInfo: {
-      fi_FI:
+      fi:
         'Tiedosto sisältää kaikkien karttalehtien nimet, polut ja geometrian.',
-      en_US: 'The shapefile contains names, paths and geometry of mapsheets.',
+      en: 'The shapefile contains names, paths and geometry of mapsheets.',
     },
     files: {
-      fi_FI: 'Tiedostot',
-      en_US: 'Files',
+      fi: 'Tiedostot',
+      en: 'Files',
     },
     documents: {
-      fi_FI: 'Dokumentit',
-      en_US: 'Documents',
+      fi: 'Dokumentit',
+      en: 'Documents',
     },
     license: {
-      fi_FI: 'Käyttöehdot',
-      en_US: 'Licence terms',
+      fi: 'Käyttöehdot',
+      en: 'Licence terms',
     },
     downloadindex: {
-      fi_FI: 'Indeksikartta Shape formaatissa.',
-      en_US: 'Indexmap as a Shape file.',
+      fi: 'Indeksikartta Shape formaatissa.',
+      en: 'Indexmap as a Shape file.',
     },
     info: {
-      fi_FI:
+      fi:
         'Valitse karttalehdet kartalta tai hae karttalehtia nimen perusteella. Karttalehtien valitsemiksi kartalta aktivoi ensin karttalehtien valinnan työkalu ja raaha kartalle sopivaan paikkaan nelikulmio tai klikkaa kartalla tarvitsemasi karttalehtiä. Jo valittuja karttalehtiä voi poistaa valinnasta valitsemalla niitä uudestaan.',
-      en_US:
+      en:
         'Select area of interest from the map or search map sheets by name. For selecting map sheets from the map first activate the map sheets selection tool and then draw a rectangle to a suitable area or click map sheets one by one. Already selected map sheets may be removed from selection by selecting them again.',
     },
     downloadtab: {
-      fi_FI: 'Ladattavat tiedostot',
-      en_US: 'Files for download',
+      fi: 'Ladattavat tiedostot',
+      en: 'Files for download',
     },
     featureinfotab: {
-      fi_FI: 'Kohdetiedot',
-      en_US: 'Feature info',
+      fi: 'Kohdetiedot',
+      en: 'Feature info',
     },
     metadatatab: {
-      fi_FI: 'Metatiedot',
-      en_US: 'Metadata',
+      fi: 'Metatiedot',
+      en: 'Metadata',
     },
     linkstab: {
-      fi_FI: 'Linkit',
-      en_US: 'Links',
+      fi: 'Linkit',
+      en: 'Links',
     },
     metadatainfo: {
-      fi_FI:
+      fi:
         "Tämän aineiston <b>kaikki metatiedot</b> löytyvät <a href='!metadata_url!' target='_blank'>" +
         'Etsin-hakupalvelusta</a>.',
-      en_US:
+      en:
         "<b>All metadata</b> for this dataset is available from <a href='!metadata_url!' target='_blank'>Etsin metadata service</a>.",
     },
     metadatacontentheader: {
-      fi_FI: '<h6>Aineiston kuvaus</h6>',
-      en_US: '<h6>Description of dataset</h6>',
+      fi: '<h6>Aineiston kuvaus</h6>',
+      en: '<h6>Description of dataset</h6>',
     },
     metadatalinksheader: {
-      fi_FI: '<h6>Aineistoa kuvaavat tiedostot</h6>',
-      en_US: '<h6>Files describing the dataset</h6>',
+      fi: '<h6>Aineistoa kuvaavat tiedostot</h6>',
+      en: '<h6>Files describing the dataset</h6>',
     },
     nometadataavailable: {
-      fi_FI: 'Aineiston kuvaus ei ole saatavilla',
-      en_US: 'Dataset description not available',
+      fi: 'Aineiston kuvaus ei ole saatavilla',
+      en: 'Dataset description not available',
     },
     featureinfodefault: {
-      fi_FI: 'Valitse Info-työkalu ja klikkaa karttaa',
-      en_US: 'Select Info tool and click on map',
+      fi: 'Valitse Info-työkalu ja klikkaa karttaa',
+      en: 'Select Info tool and click on map',
     },
     maxfeaturewarning: {
-      fi_FI:
+      fi:
         'Latauksen kokorajoitus on 3 GB. Korkeintaan !maxFeatures! karttalehteä voidaan valita.',
-      en_US:
+      en:
         'Download limit is 3 GB. Maximum of !maxFeatures! map sheets may be selected.',
     },
     linksHeader: {
-      fi_FI: 'Rsync/FTP/HTTP linkit aineistoon:',
-      en_US: 'Rsync/FTP/HTTP links to dataset:',
+      fi: 'Rsync/FTP/HTTP linkit aineistoon:',
+      en: 'Rsync/FTP/HTTP links to dataset:',
     },
     linksInfo: {
-      fi_FI:
+      fi:
         "Lisätietoja <a target='_blank' href=!infolink!>FTP ja rsync sivulta</a>.",
-      en_US:
+      en:
         "Additional info: <a target='_blank' href=!infolink!>FTP and rsync page</a>.",
     },
     linksIntro: {
-      fi_FI:
+      fi:
         'Ladataksesi kokonaisia aineistoja tai selataksesi aineiston tiedostoja käytä alla olevia linkkejä:',
-      en_US:
+      en:
         'For downloading the full dataset or viewing the files included please use these links:',
     },
   },
   map: {
     basemap: {
-      fi_FI: 'Taustakartta',
-      en_US: 'Background map',
+      fi: 'Taustakartta',
+      en: 'Background map',
     },
     indexmap: {
-      fi_FI: 'Indeksikartta',
-      en_US: 'Index map',
+      fi: 'Indeksikartta',
+      en: 'Index map',
     },
     datamap: {
-      fi_FI: 'Aineisto',
-      en_US: 'Data',
+      fi: 'Aineisto',
+      en: 'Data',
     },
     catchment: {
-      fi_FI: 'Valuma-alueet',
-      en_US: 'Catchment areas',
+      fi: 'Valuma-alueet',
+      en: 'Catchment areas',
     },
     municipalitiesmap: {
-      fi_FI: 'Kuntajako',
-      en_US: 'Municipalities',
+      fi: 'Kuntajako',
+      en: 'Municipalities',
     },
     reset: {
-      fi_FI: 'Näytä koko Suomi',
-      en_US: 'Zoom to Finland',
+      fi: 'Näytä koko Suomi',
+      en: 'Zoom to Finland',
     },
     pan: {
-      fi_FI: 'Siirrä karttaa hiirellä raahaamalla',
-      en_US: 'Pan, move the map with dragging the mouse',
+      fi: 'Siirrä karttaa hiirellä raahaamalla',
+      en: 'Pan, move the map with dragging the mouse',
     },
     select: {
-      fi_FI:
+      fi:
         'Valitse karttalehtiä kartalta, raahaamalla nelikulmio tai klikkaamalla',
-      en_US:
-        'Select map sheets from the map by drawing a rectangle or clicking',
+      en: 'Select map sheets from the map by drawing a rectangle or clicking',
     },
     info: {
-      fi_FI: 'Info, katso kohteiden ominaisuustietoja klikkaamalla',
-      en_US: 'Info, see attribute data by clicking',
+      fi: 'Info, katso kohteiden ominaisuustietoja klikkaamalla',
+      en: 'Info, see attribute data by clicking',
     },
     clearSelection: {
-      fi_FI: 'Poista kaikki karttalehdet valinnasta',
-      en_US: 'Deselect all map sheets',
+      fi: 'Poista kaikki karttalehdet valinnasta',
+      en: 'Deselect all map sheets',
     },
     draw: {
-      fi_FI: 'Valitse karttalehtiä piirtämällä',
-      en_US: 'Select map sheets by drawing',
+      fi: 'Valitse karttalehtiä piirtämällä',
+      en: 'Select map sheets by drawing',
     },
     dataAvailabilityWarning: {
-      fi_FI: 'Aineiston esikatselu ei ole saatavilla',
-      en_US: 'Data preview is not available',
+      fi: 'Aineiston esikatselu ei ole saatavilla',
+      en: 'Data preview is not available',
     },
     resolutionwarning: {
-      fi_FI: 'Lähennä karttaa nähdäksesi aineiston',
-      en_US: 'Zoom in to see the data',
+      fi: 'Lähennä karttaa nähdäksesi aineiston',
+      en: 'Zoom in to see the data',
     },
     locationsearch: {
-      fi_FI: 'Etsi sijaintia...',
-      en_US: 'Search for a location...',
+      fi: 'Etsi sijaintia...',
+      en: 'Search for a location...',
     },
     locationNotFound: {
-      fi_FI: 'Annetulla haulla ei löytynyt sijantia',
-      en_US: 'The provided query did not find any related location',
+      fi: 'Annetulla haulla ei löytynyt sijantia',
+      en: 'The provided query did not find any related location',
     },
   },
   email: {
     modalheader: {
-      fi_FI: 'Lähetä latauslinkki sähköpostiini',
-      en_US: 'Send data download link to my e-mail',
+      fi: 'Lähetä latauslinkki sähköpostiini',
+      en: 'Send data download link to my e-mail',
     },
     modalheaderList: {
-      fi_FI: 'Lähetä tiedostolistaus sähköpostiini',
-      en_US: 'Send file list to my e-mail',
+      fi: 'Lähetä tiedostolistaus sähköpostiini',
+      en: 'Send file list to my e-mail',
     },
     datasetinfo: {
-      fi_FI: 'Valittu aineisto',
-      en_US: 'Selected dataset',
+      fi: 'Valittu aineisto',
+      en: 'Selected dataset',
     },
     inputsheader: {
-      fi_FI: 'Tiedot lataamista varten',
-      en_US: 'Information for downloading',
+      fi: 'Tiedot lataamista varten',
+      en: 'Information for downloading',
     },
     emailfield: {
-      fi_FI: 'Sähköpostiosoite',
-      en_US: 'E-mail',
+      fi: 'Sähköpostiosoite',
+      en: 'E-mail',
     },
     emailfieldPlaceholder: {
-      fi_FI: 'esim@toinen.fi',
-      en_US: 'example@other.com',
+      fi: 'esim@toinen.fi',
+      en: 'example@other.com',
     },
     licensefield: {
-      fi_FI:
+      fi:
         "Hyväksyn aineiston <a href='!license!' target='_blank'>käyttöehdot</a>",
-      en_US:
-        "I accept the <a href='!license!' target='_blank'>license terms</a>",
+      en: "I accept the <a href='!license!' target='_blank'>license terms</a>",
     },
     info: {
-      fi_FI:
+      fi:
         'Lähetettyäsi tilauksen saat hetken kuluttua sähköpostiisi latauslinkin.',
-      en_US:
+      en:
         'In a moment after sending the download order, you will receive an e-mail with a download link.',
     },
     infoList: {
-      fi_FI:
+      fi:
         'Lähetettyäsi tilauksen saat hetken kuluttua sähköpostiisi tiedostolistan.',
-      en_US:
+      en:
         'In a moment after sending the order, you will receive an e-mail with a file list.',
     },
     sendButton: {
-      fi_FI: 'Lähetä latauslinkki sähköpostiini',
-      en_US: 'Send data download link to my e-mail',
+      fi: 'Lähetä latauslinkki sähköpostiini',
+      en: 'Send data download link to my e-mail',
     },
     sendButtonList: {
-      fi_FI: 'Lähetä tiedostolista sähköpostiini',
-      en_US: 'Send file list link to my e-mail',
+      fi: 'Lähetä tiedostolista sähköpostiini',
+      en: 'Send file list link to my e-mail',
     },
     cancelButton: {
-      fi_FI: 'Peruuta',
-      en_US: 'Cancel',
+      fi: 'Peruuta',
+      en: 'Cancel',
     },
     errorEmailLength: {
-      fi_FI: 'Sähköpostiosoite puuttuu',
-      en_US: 'E-mail is missing',
+      fi: 'Sähköpostiosoite puuttuu',
+      en: 'E-mail is missing',
     },
     errorEmailFormat: {
-      fi_FI: 'Virheellinen sähköpostiosoite',
-      en_US: 'E-mail address invalid',
+      fi: 'Virheellinen sähköpostiosoite',
+      en: 'E-mail address invalid',
     },
     errorCheckboxChecked: {
-      fi_FI: 'Käyttöehtojen hyväksyminen on pakollista',
-      en_US: 'Accepting the license terms is mandatory',
+      fi: 'Käyttöehtojen hyväksyminen on pakollista',
+      en: 'Accepting the license terms is mandatory',
     },
   },
   metadataTable: {
     producer: {
-      fi_FI: 'Tuottaja',
-      en_US: 'Producer',
+      fi: 'Tuottaja',
+      en: 'Producer',
     },
     name: {
-      fi_FI: 'Aineisto',
-      en_US: 'Dataset',
+      fi: 'Aineisto',
+      en: 'Dataset',
     },
     scale: {
-      fi_FI: 'Mittakaava',
-      en_US: 'Scale',
+      fi: 'Mittakaava',
+      en: 'Scale',
     },
     year: {
-      fi_FI: 'Vuosi',
-      en_US: 'Year',
+      fi: 'Vuosi',
+      en: 'Year',
     },
     format: {
-      fi_FI: 'Formaatti',
-      en_US: 'Format',
+      fi: 'Formaatti',
+      en: 'Format',
     },
     coordSys: {
-      fi_FI: 'CRS',
-      en_US: 'CRS',
+      fi: 'CRS',
+      en: 'CRS',
     },
     description: {
-      fi_FI: 'Kuvaus',
-      en_US: 'Description',
+      fi: 'Kuvaus',
+      en: 'Description',
     },
     license: {
-      fi_FI: 'Lisenssi',
-      en_US: 'License',
+      fi: 'Lisenssi',
+      en: 'License',
     },
     download: {
-      fi_FI: 'Lataus',
-      en_US: 'Download',
+      fi: 'Lataus',
+      en: 'Download',
     },
     access: {
-      fi_FI: 'Avoin',
-      en_US: 'Open',
+      fi: 'Avoin',
+      en: 'Open',
     },
     filter: {
-      fi_FI: 'Rajaa tuloksia',
-      en_US: 'Filter results',
+      fi: 'Rajaa tuloksia',
+      en: 'Filter results',
     },
   },
   header: {
     metadataPage: {
-      fi_FI: 'Metatiedot',
-      en_US: 'Metadata',
+      fi: 'Metatiedot',
+      en: 'Metadata',
     },
     downloadPage: {
-      fi_FI: 'Latauspalvelu',
-      en_US: 'Download data',
+      fi: 'Latauspalvelu',
+      en: 'Download data',
     },
     guidePage: {
-      fi_FI: 'Ohjeet',
-      en_US: 'Help',
+      fi: 'Ohjeet',
+      en: 'Help',
     },
     apiPage: {
-      fi_FI: 'Rajapinnat',
-      en_US: 'Web services',
+      fi: 'Rajapinnat',
+      en: 'Web services',
     },
     ftpPage: {
-      fi_FI: 'FTP ja rsync',
-      en_US: 'FTP and rsync',
+      fi: 'FTP ja rsync',
+      en: 'FTP and rsync',
     },
     openDataPage: {
-      fi_FI: 'Avaa aineistosi',
-      en_US: 'Open your data',
+      fi: 'Avaa aineistosi',
+      en: 'Open your data',
     },
     contactPage: {
-      fi_FI: 'Yhteystiedot',
-      en_US: 'Contact',
+      fi: 'Yhteystiedot',
+      en: 'Contact',
     },
     contact: {
-      fi_FI: 'Ota yhteyttä',
-      en_US: 'Contact',
+      fi: 'Ota yhteyttä',
+      en: 'Contact',
     },
     language: {
-      fi_FI: 'In English',
-      en_US: 'Suomeksi',
+      fi: 'In English',
+      en: 'Suomeksi',
     },
     login: {
-      fi_FI: 'Kirjaudu',
-      en_US: 'Log in',
+      fi: 'Kirjaudu',
+      en: 'Log in',
     },
     searchPlaceholder: {
-      fi_FI: 'Etsi AVAA-Portaalista',
-      en_US: 'Search from AVAA Portal',
+      fi: 'Etsi AVAA-Portaalista',
+      en: 'Search from AVAA Portal',
     },
     searchButton: {
-      fi_FI: 'Etsi',
-      en_US: 'Search',
+      fi: 'Etsi',
+      en: 'Search',
     },
   },
 }
