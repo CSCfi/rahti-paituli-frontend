@@ -1,6 +1,7 @@
 import $ from 'jquery'
 
 import map from './map'
+import tabs from './tabs'
 import { translate } from '../../shared/translations'
 
 const featureSearchContainer = $('#feature-search-container')
@@ -45,6 +46,7 @@ function searchFeatures() {
     $('#feature-search-results').text(
       translate('data.searchresult').replace('!features!', features.length)
     )
+    tabs.setInfoContent('download')
   }
   return false
 }
