@@ -67,7 +67,7 @@ function checkAccessRights() {
 */
 
 function fetchDatasets() {
-  datasets.fetch(() => {
+  datasets.fetch().done(() => {
     if (pageDataIdParam === null || pageDataIdParam.length == 0) {
       init()
     } else {

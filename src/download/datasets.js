@@ -6,10 +6,9 @@ import { getCurrentLocale } from '../shared/translations'
 let datasets = []
 let currentDataset = {}
 
-function fetch(callback) {
-  $.getJSON(`${URL.METADATA_API}/${getCurrentLocale()}`, (response) => {
+function fetch() {
+  return $.getJSON(`${URL.METADATA_API}/${getCurrentLocale()}`, (response) => {
     datasets = response
-    callback()
   })
 }
 
