@@ -1,7 +1,6 @@
 const path = require('path')
 
 module.exports = {
-  mode: 'development',
   entry: {
     download: './src/download/download.js',
     metadata: './src/metadata/metadata.js',
@@ -10,18 +9,6 @@ module.exports = {
   output: {
     filename: '[name].js',
     path: __dirname + '/dist',
-  },
-  devtool: 'inline-source-map',
-  devServer: {
-    contentBase: './dist',
-    openPage: 'download.html',
-    port: 9000,
-    proxy: {
-      '/api': {
-        target: 'http://localhost:8080',
-        pathRewrite: { '^/api': '' },
-      },
-    },
   },
   module: {
     rules: [
