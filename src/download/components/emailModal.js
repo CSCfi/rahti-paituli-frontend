@@ -115,15 +115,15 @@ function displayValidationError(input, errorMessage) {
   setTimeout(() => tips.removeClass('ui-state-highlight', 1500), 500)
 }
 
-function initModal(downloadSize) {
+function initModal(downloadSize, header, buttons) {
   initDataDescription(downloadSize)
 
   $('#email-modal-tips').empty()
   const email = modal.data('email')
   $('#email-input').val(email === null ? '' : email)
 
-  modal.dialog('option', 'title', translate('email.modalheader'))
-  modal.dialog('option', 'buttons', getModalButtons('email.sendButton'))
+  modal.dialog('option', 'title', header)
+  modal.dialog('option', 'buttons', buttons)
 }
 
 function initDataDescription(downloadSize) {
