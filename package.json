@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "start": "webpack-dev-server --open --config webpack.dev.js",
-    "build": "npm run clean && webpack --config webpack.prod.js",
+    "build": "npm run clean && webpack --progress --config webpack.prod.js",
+    "build-test": "npm run clean && webpack --progress --config webpack.test.js",
     "clean": "rm -rf dist",
     "lint": "eslint . --ext .js",
     "lint:fix": "npm run lint -- --fix"
@@ -27,10 +28,11 @@
     "babel-loader": "^8.1.0",
     "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.5.2",
+    "dotenv-webpack": "^1.7.0",
     "eslint": "^6.8.0",
     "file-loader": "^6.0.0",
     "husky": "^4.2.5",
-    "lint-staged": "^10.1.4",
+    "lint-staged": "^10.1.6",
     "prettier": "^2.0.4",
     "style-loader": "^1.1.4",
     "webpack": "^4.42.1",

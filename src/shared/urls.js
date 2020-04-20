@@ -1,9 +1,7 @@
-// PaiTuli backend endpoints
-const METADATA_API = '/api/datasets'
-const DOWNLOAD_API = '/api/download'
-
-const GEOSERVER_BASE = '//avaa.tdata.fi/geoserver/' // "//avoin-test.csc.fi/geoserver/"
-const ETSIN_BASE = '//metax.fairdata.fi' // "//metax-test.csc.fi" "//etsin.avointiede.fi" "//etsin-demo.avointiede.fi"
+const METADATA_API = process.env.METADATA_API
+const DOWNLOAD_API = process.env.DOWNLOAD_API
+const GEOSERVER_BASE = process.env.GEOSERVER_BASE
+const ETSIN_BASE = process.env.ETSIN_BASE
 
 export const LAYER = {
   INDEX_LAYER: 'paituli:index',
