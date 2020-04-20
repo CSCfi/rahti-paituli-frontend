@@ -5,8 +5,8 @@
   "private": true,
   "scripts": {
     "start": "webpack-dev-server --open --config webpack.dev.js",
-    "build": "webpack --config webpack.prod.js",
-    "clean": "rm -rf dist/*.js",
+    "build": "npm run clean && webpack --config webpack.prod.js",
+    "clean": "rm -rf dist",
     "lint": "eslint . --ext .js",
     "lint:fix": "npm run lint -- --fix"
   },
@@ -25,6 +25,7 @@
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.5",
     "babel-loader": "^8.1.0",
+    "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.5.2",
     "eslint": "^6.8.0",
     "file-loader": "^6.0.0",

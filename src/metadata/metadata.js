@@ -14,7 +14,7 @@ import 'bootstrap-table/dist/bootstrap-table.min.css'
 import 'jquery-ui-bundle/jquery-ui.css'
 import 'ol/ol.css'
 import 'ol-layerswitcher/src/ol-layerswitcher.css'
-import '../css/metadata.css'
+import '../../css/metadata.css'
 
 const filterControlPlaceholder = translate('metadataTable.filter')
 $('#table').bootstrapTable({

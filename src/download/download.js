@@ -13,7 +13,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'jquery-ui-bundle/jquery-ui.css'
 import 'ol/ol.css'
 import 'ol-layerswitcher/src/ol-layerswitcher.css'
-import '../css/download.css'
+import '../../css/download.css'
 
 let pageDataIdParam = getUrlParameter('data_id')
 

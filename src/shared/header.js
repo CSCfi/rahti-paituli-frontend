@@ -4,7 +4,7 @@ import 'jquery-ui-bundle/jquery-ui'
 import { translate, getCurrentLocale, changeLocale } from './translations'
 import { LOCALE } from './constants'
 
-import '../css/header.css'
+import '../../css/header.css'
 
 const languageSelector = $('#language-selector')
 // const contactInitiator = $('#contact-initiator')
