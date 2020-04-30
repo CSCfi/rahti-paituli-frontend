@@ -8,6 +8,7 @@ import 'bootstrap-table/dist/extensions/filter-control/bootstrap-table-filter-co
 import { translate } from '../shared/translations'
 import { flipURN } from '../shared/utils'
 import { URL } from '../shared/urls'
+import { getCurrentLocale } from '../shared/translations'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-table/dist/bootstrap-table.min.css'
@@ -18,7 +19,7 @@ import '../../css/metadata.css'
 
 const filterControlPlaceholder = translate('metadataTable.filter')
 $('#table').bootstrapTable({
-  url: URL.METADATA_API,
+  url: `${URL.METADATA_API}/${getCurrentLocale()}`,
   filterControl: true,
   showMultiSort: true,
   sortPriority: [

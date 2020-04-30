@@ -7,7 +7,7 @@ module.exports = merge(common, {
   devtool: 'inline-source-map',
   devServer: {
     contentBase: './dist',
-    openPage: 'download.html',
+    openPage: 'home.html',
     port: 9000,
     proxy: {
       '/api': {

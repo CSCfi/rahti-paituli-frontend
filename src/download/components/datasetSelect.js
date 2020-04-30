@@ -39,6 +39,9 @@ function initInput(rootElem, name, translationPath) {
   const input = $('<select>', {
     class: 'form-input',
     id: name + '-input',
+    selected: $('<option>', {
+      value: '',
+    }),
   })
   label.append(translate(translationPath))
   label.appendTo(row)
