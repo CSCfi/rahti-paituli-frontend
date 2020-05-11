@@ -401,7 +401,7 @@ const translations = {
       fi: 'Karttatason nimi',
       en: 'Layer name',
     },
-    heading: {
+    layerName: {
       fi: 'Karttatason otsikko',
       en: 'Layer title',
     },

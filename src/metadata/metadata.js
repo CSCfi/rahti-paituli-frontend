@@ -18,9 +18,11 @@ import 'ol-layerswitcher/src/ol-layerswitcher.css'
 import '../../css/metadata.css'
 
 const filterControlPlaceholder = translate('metadataTable.filter')
+
 $('#table').bootstrapTable({
   url: `${URL.METADATA_API}/${getCurrentLocale()}`,
   filterControl: true,
+  locale: 'en-US',
   showMultiSort: true,
   sortPriority: [
     {
