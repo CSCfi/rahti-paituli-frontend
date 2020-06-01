@@ -4,6 +4,7 @@ import 'jquery-ui-bundle/jquery-ui'
 import { translate, getCurrentLocale, changeLocale } from './translations'
 import { LOCALE } from './constants'
 
+import '../../css/main.css'
 import '../../css/header.css'
 
 const languageSelector = $('#language-selector')
@@ -29,7 +30,6 @@ function setTranslations() {
   $('#contact-info-link').text(translate('header.contactPage'))
   $('#contact-initiator').text(translate('header.contact'))
   $('#language-selector').text(translate('header.language'))
-  $('#login-initiator').text(translate('header.login'))
   $('#search-form').attr('placeholder', translate('header.searchPlaceholder'))
   $('#header-search-button').text(translate('header.searchButton'))
 }

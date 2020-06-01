@@ -13,6 +13,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'jquery-ui-bundle/jquery-ui.css'
 import 'ol/ol.css'
 import 'ol-layerswitcher/src/ol-layerswitcher.css'
+import '../../css/main.css'
 import '../../css/download.css'
 
 let pageDataIdParam = getUrlParameter('data_id')
@@ -87,7 +88,7 @@ function fetchDatasets() {
 }
 
 function setTranslations() {
-  $('#dl-service-header h1').text(translate('appHeader'))
+  $('#dl-service-header').text(translate('appHeader'))
   $('#data-form legend').text(translate('data.header'))
   $('#resetview-button').attr('title', translate('map.reset'))
   $('#clearselection-button').attr('title', translate('map.clearSelection'))

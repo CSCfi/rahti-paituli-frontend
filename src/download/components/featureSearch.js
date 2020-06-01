@@ -8,7 +8,7 @@ const featureSearchContainer = $('#feature-search-container')
 
 function init() {
   const searchBtn = $('<a>', {
-    class: 'btn btn-default',
+    class: 'btn btn-light',
     id: 'search-button',
     href: '',
   })

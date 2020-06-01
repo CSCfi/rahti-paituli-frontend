@@ -132,12 +132,12 @@ const translations = {
         "<b>All metadata</b> for this dataset is available from <a href='!metadata_url!' target='_blank'>Etsin metadata service</a>.",
     },
     metadatacontentheader: {
-      fi: '<h6>Aineiston kuvaus</h6>',
-      en: '<h6>Description of dataset</h6>',
+      fi: '<h6 class="tab-content-header">Aineiston kuvaus</h6>',
+      en: '<h6 class="tab-content-header">Description of dataset</h6>',
     },
     metadatalinksheader: {
-      fi: '<h6>Aineistoa kuvaavat tiedostot</h6>',
-      en: '<h6>Files describing the dataset</h6>',
+      fi: '<h6 class="tab-content-header">Aineistoa kuvaavat tiedostot</h6>',
+      en: '<h6 class="tab-content-header">Files describing the dataset</h6>',
     },
     nometadataavailable: {
       fi: 'Aineiston kuvaus ei ole saatavilla',
@@ -494,32 +494,32 @@ const translations = {
       <li>
           <a href="http://www.ilmatieteenlaitos.fi">Finnish Meteorological Institute (FMI)</a><br />
           Pentti Pirinen, pentti.pirinen@fmi.fi<br />
-      </li>
+      </li><br>
       <li>
           <a href="http://www.kotus.fi">Institute for the Languages of Finland (KOTUS)</a><br />
           sms@kotus.fi<br />
-      </li>
+      </li><br>
       <li>
           <a href="http://www.digiroad.fi">Finnish Transport Infrastructure Agency, Digiroad</a><br />
           Digiroad user support, info@digiroad.fi<br />
-      </li>
+      </li><br>
       <li><a href="http://www.latuviitta.org/">Latuviitta</a><br /></li>
       <li>
           <a href="http://www.maanmittauslaitos.fi">National Land Survey (MML)</a><br />
           Customer service, asiakaspalvelu@maanmittauslaitos.fi<br />
-      </li>
+      </li><br>
       <li>
           <a href="http://www.mavi.fi">Agency for Rural Affairs</a><br />
           tiedonluovutus@mavi.fi<br />
-      </li>
+      </li><br>
       <li>
           <a href="http://www.syke.fi">Finnish Environment Institute (SYKE)</a><br />
           GIS-tuki, 020 490 2659, gistuki.syke@ymparisto.fi<br />
-      </li>
+      </li><br>
       <li>
           <a href="http://www.tilastokeskus.fi/index_en.html">Statistics Finland</a><br />
           inspire@tilastokeskus.fi
-      </li>
+      </li><br>
   </ul>
   <ul>
       <li>
@@ -767,7 +767,7 @@ const translations = {
   
   
   
-      <h2>Suositeltavat ohjelmistot</h2>
+      <h3>Suositeltavat ohjelmistot</h3>
   
       <p>FTP ja rsync ovat molemmat hyviä vaihtoehtoja alihakemistoja sisältävien hakemistojen lataamiseen. Molempia
           käytettäessä voi helposti valita vain ylimmän kansion ja ladata kaikki alikansiot sisältöineen automaattisesti.
@@ -786,9 +786,7 @@ const translations = {
   
   
   
-      <h2
-          style="margin: 10px 0px; padding: 0px; line-height: 40px; font-size: 31.5px; font-family: Arial, sans-serif; font-weight: bold; color: rgb(85, 85, 85); text-rendering: optimizeLegibility; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial;">
-          Aineiston löytäminen</h2>
+      <h3>Aineiston löytäminen</h3>
   
       <p>Paituli sisältää noin 7Tb (=7000Gb) dataa, joten useimmiten on tarpeen ladata vain pieni osa Paitulin sisällöstä.
       </p>
@@ -811,8 +809,7 @@ const translations = {
           <li>Käytä jotain FTP työkalua TAI rsynciä aineiston lataamiseksi:</li>
       </ol>
   
-      <pre
-          style="margin: 0px 0px 10px; padding: 9.5px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 13px; color: rgb(51, 51, 51); border-radius: 2px; display: block; line-height: 20px; word-break: break-all; word-wrap: break-word; white-space: pre-wrap; background-color: rgb(245, 245, 245); border: 1px solid rgba(0, 0, 0, 0.15); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 200; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-style: initial; text-decoration-color: initial;">rsync -a rsync://rsync.nic.funet.fi/ftp/pub/sci/geo/geodata/<strong style="margin: 0px; padding: 0px; font-weight: bold;"><span style="margin: 0px; padding: 0px; color: rgb(0, 0, 205);">mml/hallintorajat_milj_tk/2017/</span></strong> <strong style="margin: 0px; padding: 0px; font-weight: bold;"><span style="margin: 0px; padding: 0px; color: rgb(0, 0, 205);">folder_to_save/</span></strong></pre>
+      <div class="codeBlock">rsync -a rsync://rsync.nic.funet.fi/ftp/pub/sci/geo/geodata/<b style="color:blue;">mml/hallintorajat_milj_tk/2017/ folder_to_save/</b></div>
   
       <ul>
           <li>Vaihda komennossa siniset osat vastaamaan valitsemaasi aineistoa ja tallennushakemistoasi.</li>
@@ -835,7 +832,7 @@ const translations = {
           <li>Käytä rsynciä aineiston lataamiseksi:</li>
       </ol>
   
-      <pre>rsync -a --files-from=<span style="margin: 0px; padding: 0px; color: rgb(0, 0, 205);"><strong style="margin: 0px; padding: 0px; font-weight: bold;">file_list.txt</strong></span> rsync://rsync.nic.funet.fi/ftp/pub/sci/geo <strong style="margin: 0px; padding: 0px; font-weight: bold;"><span style="margin: 0px; padding: 0px; color: rgb(0, 0, 205);">folder_to_save/</span></strong></pre>
+      <div class="codeBlock">rsync -a --files-from=<b style="color:blue;">file_list.txt</b> rsync://rsync.nic.funet.fi/ftp/pub/sci/geo <b style="color:blue;">folder_to_save/ </b></div>
   
   
   
@@ -844,8 +841,7 @@ const translations = {
       <p>Joskus organisaation palomuuri voi estää ftp ja rsync:n käytön. Silloin on parasta käyttää wget työkalua http:n
           kanssa. wget:lla on paljon asetuksia, yksi toimiva tapa on seuraava:</p>
   
-      <pre
-          id="yui_patched_v3_11_0_1_1525271776334_754">wget -r -l inf -N -np -nH -x -E -R html --cut-dirs=<span style="color:#0000CD;"><strong>2</strong></span> http://www.nic.funet.fi/index/geodata/<span style="color:#0000CD;"><strong>mml/hallintorajat_milj_tk/2017/</strong></span></pre>
+      <div class="codeBlock">wget -r -l inf -N -np -nH -x -E -R html --cut-dirs= http://www.nic.funet.fi/index/geodata/<b style="color:blue;">mml/hallintorajat_milj_tk/2017/</b></div>
   
       <div>-r, lataa rekursiivisesti alihakemistot.</div>
   
@@ -917,7 +913,7 @@ const translations = {
                   </span></span>rsync://rsync.nic.funet.fi/ftp/pub/sci/geo/geodata/</li>
       </ul>
   
-      <h2>Recommended software</h2>
+      <h3>Recommended software</h3>
   
       <p>FTP and rsync are both good options for downloading folders with subfolders, as it is easy to just select the
           highest level folder and download all of its contents.</p>
@@ -932,7 +928,7 @@ const translations = {
                   href="https://itefix.net/cwrsync">here</a>.</li>
           <li>If rsync is not suitable, try <strong>wget</strong>.</li>
       </ul>
-      <h2>Finding the data</h2>
+      <h3>Finding the data</h3>
   
       <p>Paituli includes in total 7 Tb (= 7000 Gb) of data, so in most cases it should be enough to download only some
           parts of it.</p>
@@ -952,7 +948,7 @@ const translations = {
           <li>Navigate to the mentioned folder with some FTP tool OR use rsync for downloading the data:</li>
       </ol>
   
-      <pre>rsync -a rsync://rsync.nic.funet.fi/ftp/pub/sci/geo/geodata/<strong><span style="color:#0000CD;">mml/hallintorajat_milj_tk/2017/</span></strong> <strong><span style="color:#0000CD;">folder_to_save/</span></strong></pre>
+      <div class="codeBlock">rsync -a rsync://rsync.nic.funet.fi/ftp/pub/sci/geo/geodata/<b style="color:blue;">mml/hallintorajat_milj_tk/2017 /folder_to_save/</b></div>
   
       <ul>
           <li>Change the blue parts in the command as needed.</li>
@@ -972,14 +968,14 @@ const translations = {
           <li>Use rsync for downloading the data:</li>
       </ol>
   
-      <pre>rsync -a --files-from=<span style="color:#0000CD;"><strong>file_list.txt</strong></span> rsync://rsync.nic.funet.fi/ftp/pub/sci/geo <strong><span style="color:#0000CD;">folder_to_save/</span></strong></pre>
+      <div class="codeBlock">rsync -a --files-from=<b style="color:blue;">file_list.txt</b> rsync://rsync.nic.funet.fi/ftp/pub/sci/geo <b style="color:blue;">folder_to_save/</b> </div>
   
       <h3>Using wget for download</h3>
   
       <p>In some places ftp and rsync are forbidden at firewall level, then you can use wget with http. wget has a lot of
           different options, one well working combination is this:</p>
   
-      <pre>wget -r -l inf -N -np -nH -x -E -R html --cut-dirs=<span style="color:#0000CD;"><strong>2</strong></span> http://www.nic.funet.fi/index/geodata/<span style="color:#0000CD;"><strong>mml/hallintorajat_milj_tk/2017/</strong></span></pre>
+      <div class="codeBlock">wget -r -l inf -N -np -nH -x -E -R html --cut-dirs= http://www.nic.funet.fi/index/geodata/<b style="color:blue;">mml/hallintorajat_milj_tk/2017/</b> </div>
   
       <div>-r, recursive download</div>
   
@@ -1043,7 +1039,7 @@ const translations = {
                       julkaista aineisto sen omistajalta. Varmistathan myös ettei mikään sopimus tai tekijänoikeus estä
                       aineiston avaamista. Aineiston uudelleenkäyttö on sallittava. Suosittelemme <a
                           href="http://creativecommons.org/licenses/by/4.0/legalcode.fi">Creative Commons BY 4.0</a>
-                      -lisenssiä. </span></span></li>
+                      -lisenssiä. </span></span></li><br>
           <li><strong><span style="font-size:16px;"><span style="font-size:16px;"><span style="font-size:16px;">Kuvaile
                               aineisto</span></span></span></strong><span style="font-size:16px;"><span
                       style="font-size:16px;"><span style="font-size:16px;">. Paitulissa olevien aineistojen metatiedot
@@ -1053,9 +1049,9 @@ const translations = {
                               kuvailevia tietoja: mitä data pitää sisällään, miten se on tehty, kuka sen omistaa jne.
                               Paikkatietoaineistojen tarkkuus (mittakaava) ja koordinaattijärjestelmä tulisi kirjoittaa
                               etusivun "Vapaa kuvaus" kenttään, formaatille ja ajankohdalle löytyvät sopivat kentät
-                              alisivulta "4. Lisätietoa".</span></span></span></span></li>
-          <li><strong>Luo aineistopaketti</strong>, teknisiä suosituksia:
-              <ul>
+                              alisivulta "4. Lisätietoa".</span></span></span></span></li><br>
+          <li><strong>Luo aineistopaketti</strong>, teknisiä suosituksia: 
+              <ul><br>
                   <li>Formaatti: Pakattu Geotiff tai JPG2000 rasteriaineistoille, Shape tai PostGIS dump
                       vektoriaineistoille, LAZ laserkeilausaineistoille.</li>
                   <li>Koordinaattijärjestelmä: ETRS-TM35FIN (EPSG:3067) Suomen aineistoille, WGS-84 (EPGS:4326)
@@ -1067,20 +1063,20 @@ const translations = {
                   <li>Nämä on vain suosituksia, jos aineistollesi olisi sopivampi joku muu vaihtoehto tarkista kysymys
                       CSC:lta.</li>
               </ul>
-          </li>
+          </li><br>
           <li>Vaihtoehtoinen. Jos haluat, että aineistosi esitetään WMS ja WMTS palveluissa valitsemasi
               <strong>tyyli</strong>llä voit lisätä aineistopakettiin tyylitiedoston&nbsp;<a
                   href="http://docs.geoserver.org/latest/en/user/styling/sld-cookbook/">SLD</a> formaatissa. Jos SLD
-              tuottaminen on vaikea, myös ArcGIS:lle tai QGIS:lle sopivia tyylitiedostoja voi lähettää.</li>
+              tuottaminen on vaikea, myös ArcGIS:lle tai QGIS:lle sopivia tyylitiedostoja voi lähettää.</li><br>
           <li><strong>Lähetä aineistosi ja Etsimen URN</strong> osoitteeseen: <a class="external-link"
                   href="mailto:giscoord@csc.fi" rel="nofollow"
                   style="text-decoration: underline; color: rgb(0, 109, 175); outline: none;">giscoord@csc.fi</a>.
               Pienemmät aineistot voi lähettää sähköpostin liitteenä, isoimmille sopii hyvin <a
                   href="https://filesender.funet.fi/">FUNET FileSender</a>. FileSenderin tiedostojen kokoraja on 200 Gb.
-          </li>
+          </li><br>
           <li>CSC julkaise aineistosi viikon tai kahden sisällä.</li>
       </ol>
-  
+      <br>
       <p>Kaikki kysymykset ja kommentit voi lähettää CSC:lle osoitteeseen: giscoord@csc.fi</p>
   </div>`,
       en: `<div class="content-article">
@@ -1122,7 +1118,7 @@ const translations = {
                       can be linked to Etsin.</span></p>
           </li>
           <li><strong>Package your data</strong>&nbsp;for download, technical recommendations
-              <ul>
+              <ul><br>
                   <li>Format: Compressed Geotiff or JPG2000 for raster, Shape or PostGIS dump for vector data, LAZ for
                       laser scanning data.</li>
                   <li>Coordinate system: ETRS-TM35FIN (EPSG:3067) for data about Finland, WGS-84 (EPGS:4326) for global
@@ -1133,6 +1129,7 @@ const translations = {
                   <li>Make a .zip file of all the files.</li>
                   <li>These are only recommendations, if you feel some other option would suit your data better, please
                       consult with CSC.</li>
+                      <br>
               </ul>
           </li>
           <li>Optional. If you want to use a specific&nbsp;<strong>style</strong>&nbsp;for visualizing your data in WMS
@@ -1410,6 +1407,289 @@ const translations = {
           </tbody>
       </table>
   </div>`,
+    },
+  },
+  metadata: {
+    content: {
+      fi: `<div class="content-article" width:100%>
+      <h1>Paikkatietoaineistojen metatiedot</h1>
+    
+      <p>
+        Alla oleva taulukko sisältää kaikki PaITulin kautta saatavilla olevat
+        paikkatietoaineistot. Kutakin riviä klikkaamalla voi siirtyä kyseisen
+        aineiston lataukseen. Taulukko sisältää myös linkit aineistojen
+        metatietoihin Etsin-palvelussa ja käyttöehtojen lataukseen. Metatiedot
+        sisältävät paikkatietoaineistojen yleiskuvauksen ja linkit aineistoihin
+        liittyviin dokumentteihin sekä aineistotuottajan itse tuottamiin
+        aineistokuvauksiin. Metatiedoista löydät myös yhteystiedot
+        aineistotuottajaan.
+      </p>
+    
+      <p>
+        Taulukkoa voi järjestää klikkaamalla halutun sarakkeen otsikkoa tai
+        suodattaa kirjoittamalla hakutermi otsikon alla olevaan kenttään.
+      </p>
+    </div>`,
+      en: `<div class="content-article">
+      <h1>Metadata of Paituli spatial data</h1>
+    
+      <p>
+        The table below lists all the datasets available in Paituli. With clicking
+        the row, it is easy to move to the download page of the selected dataset.
+        The table has also links to more detailed metadata and license terms of
+        specific datasets. Metadata and license terms are stored in Etsin service.
+        Metadata includes short description of dataset in Finnish and English,
+        contact information, license terms and if available links to additional
+        documents or web pages.
+      </p>
+    
+      <p>
+        It is possible to order the table with clicking the headers or filter the
+        contents with writing a search word below the header.
+      </p>
+    </div>
+    `,
+    },
+  },
+  webservices: {
+    content: {
+      fi: `<div class="content-article">
+      <h1>Paituli web services</h1>
+    
+      <p>
+        Several Paituli datasets are available as OGC web services: WMS, WFS, WMTS.
+        WFS service is available only for vector datasets. All datasets available
+        via web services are listed at the end of this page.
+      </p>
+    
+      <p>
+        The license terms are the same for data downloaded via web services as via
+        download service. The license terms and descriptions can be found from
+        <a href="/web/paituli/metadata">Metadata </a>page.
+      </p>
+    
+      <p>The web services are available from these connection URLs:</p>
+    
+      <h4>Open datasets</h4>
+    
+      <table>
+        <tbody>
+          <tr>
+            <td><strong>Standard</strong></td>
+            <td><strong>Connection URL</strong></td>
+          </tr>
+          <tr>
+            <td>WMS</td>
+            <td>http://avaa.tdata.fi/geoserver/paituli/wms?</td>
+          </tr>
+          <tr>
+            <td>WMTS</td>
+            <td>http://avaa.tdata.fi/geoserver/paituli/gwc/service/wmts?</td>
+          </tr>
+          <tr>
+            <td>WFS</td>
+            <td>http://avaa.tdata.fi/geoserver/paituli/wfs?</td>
+          </tr>
+          <tr>
+            <td>WCS</td>
+            <td>http://avaa.tdata.fi/geoserver/paituli/wcs?</td>
+          </tr>
+        </tbody>
+      </table>
+    
+      <h4>
+        Datasets, that are available for students and personnel of Finnish
+        universities for academic use
+      </h4>
+    
+      <div id="paituli_protected_message" style="display: block;">
+        Description of protected web services is available only for
+        <a href="https://avaa.tdata.fi/c/portal/login">logged in</a> users..
+      </div>
+    
+      <div id="paituli_protected_div" style="display: none">
+        <table>
+          <tbody>
+            <tr>
+              <td><strong>Service</strong></td>
+              <td><strong>URL</strong></td>
+            </tr>
+            <tr>
+              <td>WMS</td>
+              <td>http://avaa.tdata.fi/geoserver/paituli_protected/wms?</td>
+            </tr>
+            <tr>
+              <td>WMTS</td>
+              <td>
+                http://avaa.tdata.fi/geoserver/paituli_protected/gwc/service/wmts?
+              </td>
+            </tr>
+            <tr>
+              <td>WFS</td>
+              <td>http://avaa.tdata.fi/geoserver/paituli_protected/wfs?</td>
+            </tr>
+            <tr>
+              <td>WCS</td>
+              <td>http://avaa.tdata.fi/geoserver/paituli_protected/wcs?</td>
+            </tr>
+            <tr>
+              <td>Username</td>
+              <td>
+                <div id="username">&nbsp;</div>
+              </td>
+            </tr>
+            <tr>
+              <td>Password</td>
+              <td>
+                <div id="pwd">&nbsp;</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    
+      <p>
+        WMTS-service's gridsets: ERTS-TM35-FIN (EPSG:3067,
+        <a
+          href="http://docs.jhs-suositukset.fi/jhs-suositukset/JHS180_liite1/JHS180_liite1.html#H7"
+          >JHS180</a
+        >) and Spherical Mercator (EPSG:3857).
+      </p>
+    
+      <h4>Guidelines</h4>
+    
+      <ul>
+        <li>
+          <a href="https://research.csc.fi/gis-guidelines">Guidelines</a> for using
+          web services.
+        </li>
+        <li>
+          Examples of using AVAA web services with OpenLayers library, can be found
+          on AVAA <a href="/openstreetmap">OpenStreetMap</a> page.
+        </li>
+      </ul>
+    
+      <h4>Datasets available as web services</h4>
+    </div>`,
+      en: `<div class="content-article">
+      <h1>Paituli web services</h1>
+    
+      <p>
+        Several Paituli datasets are available as OGC web services: WMS, WFS, WMTS.
+        WFS service is available only for vector datasets. All datasets available
+        via web services are listed at the end of this page.
+      </p>
+    
+      <p>
+        The license terms are the same for data downloaded via web services as via
+        download service. The license terms and descriptions can be found from
+        <a href="/web/paituli/metadata">Metadata </a>page.
+      </p>
+    
+      <p>The web services are available from these connection URLs:</p>
+    
+      <h4>Open datasets</h4>
+    
+      <table>
+        <tbody>
+          <tr>
+            <td><strong>Standard</strong></td>
+            <td><strong>Connection URL</strong></td>
+          </tr>
+          <tr>
+            <td>WMS</td>
+            <td>http://avaa.tdata.fi/geoserver/paituli/wms?</td>
+          </tr>
+          <tr>
+            <td>WMTS</td>
+            <td>http://avaa.tdata.fi/geoserver/paituli/gwc/service/wmts?</td>
+          </tr>
+          <tr>
+            <td>WFS</td>
+            <td>http://avaa.tdata.fi/geoserver/paituli/wfs?</td>
+          </tr>
+          <tr>
+            <td>WCS</td>
+            <td>http://avaa.tdata.fi/geoserver/paituli/wcs?</td>
+          </tr>
+        </tbody>
+      </table>
+    
+      <h4>
+        Datasets, that are available for students and personnel of Finnish
+        universities for academic use
+      </h4>
+    
+      <div id="paituli_protected_message" style="display: block;">
+        Description of protected web services is available only for
+        <a href="https://avaa.tdata.fi/c/portal/login">logged in</a> users..
+      </div>
+    
+      <div id="paituli_protected_div" style="display: none">
+        <table>
+          <tbody>
+            <tr>
+              <td><strong>Service</strong></td>
+              <td><strong>URL</strong></td>
+            </tr>
+            <tr>
+              <td>WMS</td>
+              <td>http://avaa.tdata.fi/geoserver/paituli_protected/wms?</td>
+            </tr>
+            <tr>
+              <td>WMTS</td>
+              <td>
+                http://avaa.tdata.fi/geoserver/paituli_protected/gwc/service/wmts?
+              </td>
+            </tr>
+            <tr>
+              <td>WFS</td>
+              <td>http://avaa.tdata.fi/geoserver/paituli_protected/wfs?</td>
+            </tr>
+            <tr>
+              <td>WCS</td>
+              <td>http://avaa.tdata.fi/geoserver/paituli_protected/wcs?</td>
+            </tr>
+            <tr>
+              <td>Username</td>
+              <td>
+                <div id="username">&nbsp;</div>
+              </td>
+            </tr>
+            <tr>
+              <td>Password</td>
+              <td>
+                <div id="pwd">&nbsp;</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    
+      <p>
+        WMTS-service's gridsets: ERTS-TM35-FIN (EPSG:3067,
+        <a
+          href="http://docs.jhs-suositukset.fi/jhs-suositukset/JHS180_liite1/JHS180_liite1.html#H7"
+          >JHS180</a
+        >) and Spherical Mercator (EPSG:3857).
+      </p>
+    
+      <h4>Guidelines</h4>
+    
+      <ul>
+        <li>
+          <a href="https://research.csc.fi/gis-guidelines">Guidelines</a> for using
+          web services.
+        </li>
+        <li>
+          Examples of using AVAA web services with OpenLayers library, can be found
+          on AVAA <a href="/openstreetmap">OpenStreetMap</a> page.
+        </li>
+      </ul>
+    
+      <h4>Datasets available as web services</h4>
+    </div>
+    `,
     },
   },
 }

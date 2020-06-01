@@ -15,6 +15,7 @@ import 'bootstrap-table/dist/bootstrap-table.min.css'
 import 'jquery-ui-bundle/jquery-ui.css'
 import 'ol/ol.css'
 import 'ol-layerswitcher/src/ol-layerswitcher.css'
+import '../../css/main.css'
 import '../../css/metadata.css'
 
 const filterControlPlaceholder = translate('metadataTable.filter')
@@ -23,7 +24,7 @@ $('#table').bootstrapTable({
   url: `${URL.METADATA_API}/${getCurrentLocale()}`,
   filterControl: true,
   locale: 'en-US',
-  showMultiSort: true,
+  showMultiSort: false,
   sortPriority: [
     {
       sortName: 'org',
@@ -117,4 +118,5 @@ $('#table').bootstrapTable({
 
 $(function () {
   $('#header').load('header.html')
+  $('.content-placeholder').html(translate('metadata.content'))
 })

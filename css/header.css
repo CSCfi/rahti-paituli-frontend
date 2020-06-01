@@ -1,17 +1,28 @@
 .navbar {
   height: 160px;
-  margin-bottom: 20px;
+  padding-bottom: 0px;
+  margin-bottom: 30px;
   border-bottom: 4px solid #dfe1e3;
 }
 
 .navbar-wrapper {
   position: relative;
-  width: 90%;
+  width: 1300px;
   margin: 0 auto;
 }
 
 .top-links {
+  position: absolute;
+  bottom: 10px;
+  right: 0px;
   list-style: none;
+}
+.top-links a {
+  padding-left: 10px;
+}
+
+.top-links a:hover {
+  color: #7e888d;
 }
 
 .search-wrapper {
@@ -21,11 +32,35 @@
 }
 
 .nav-link {
+  padding-left: 0 !important;
+  padding-right: 2rem !important;
   font-size: 16px;
   color: #7e888d;
 }
 
-.navbar-brand {
+.nav-link:hover {
+  color: #36b645;
+  text-decoration: None;
+}
+
+.paituli-logo {
+  position: absolute;
+  font-weight: bold;
+  bottom: 55px;
+  left: 160px;
   color: #00b5ec;
   font-size: 48px;
+}
+
+.paituli-logo:hover {
+  color: #00b5ec;
+}
+
+.navbar-header {
+  height: 100px;
+}
+
+.avaa-logo {
+  position: absolute;
+  bottom: 70px;
 }

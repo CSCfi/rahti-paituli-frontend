@@ -26,7 +26,7 @@ function init() {
   let dlButton = $('#download-button')
   if (!dlButton.length) {
     dlButton = $('<button>', {
-      class: 'btn btn-default',
+      class: 'btn btn-light',
       id: 'download-button',
     })
   }
@@ -43,7 +43,7 @@ function init() {
   let dlListButton = $('#download-list-button')
   if (!dlListButton.length) {
     dlListButton = $('<button>', {
-      class: 'btn btn-default',
+      class: 'btn btn-light',
       id: 'download-list-button',
     })
   }
@@ -62,7 +62,7 @@ function init() {
   if (!licenseHeader.length) {
     licenseHeader = $('<h5>', {
       id: 'download-license-header',
-      class: 'download-tab-header',
+      class: 'tab-content-header ',
     })
   }
   licenseHeader.text(translate('info.documents'))
@@ -98,7 +98,7 @@ function init() {
 
   const downloadFilesHeader = $('<h5>', {
     id: 'download-file-header',
-    class: 'download-tab-header',
+    class: 'tab-content-header ',
   })
   downloadFilesHeader.text(translate('info.files'))
 
