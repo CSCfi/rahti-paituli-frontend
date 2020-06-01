@@ -13,6 +13,7 @@ import { getCurrentLocale } from '../shared/translations'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-table/dist/bootstrap-table.min.css'
 import 'jquery-ui-bundle/jquery-ui.css'
+
 import '../../css/main.css'
 import '../../css/webservices.css'
 
@@ -70,4 +71,5 @@ $('#table').bootstrapTable({
 $(function () {
   $('#header').load('header.html')
   $('.content-placeholder').html(translate('webservices.content'))
+
 })
