@@ -1,0 +1,32 @@
+#footer {
+  width: 100%;
+  bottom: 0px;
+  background: #efefef;
+  padding: 10px 0 10px;
+}
+
+#footer-col-right {
+  font-size: 16px;
+  text-align: center;
+}
+
+#footer-col-left {
+  text-align: center;
+}
+
+.footer-logo {
+  padding-right: 30px;
+}
+
+#footer-text {
+  margin-bottom: 0;
+  margin-top: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+#avoin-logo {
+  height: 98px;
+}

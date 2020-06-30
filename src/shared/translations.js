@@ -1692,6 +1692,22 @@ const translations = {
     `,
     },
   },
+  footer: {
+    text: {
+      fi:
+        'ATT-hanke on opetus- ja kulttuuriministeriön rahoittama hanke, jonka tavoitteena on, että vuoteen 2017 mennessä Suomi nousee yhdeksi johtavista maista tieteen ja tutkimuksen avoimuudessa.',
+      en:
+        'Open science and research is an initiative funded by the Ministry of Education and Culture with the target of making Finland one of the leading countries in openness of science and research by the year 2017.',
+    },
+    ministryLogo: {
+      fi: './okm-logo-fi.gif',
+      en: '../okm-logo-en.png',
+    },
+    avoinLogo: {
+      fi: './ATT_pos_pysty_RGB_FI_transparent.png',
+      en: './ATT_pos_pysty_RGB_EN_transparent.png',
+    },
+  },
 }
 
 const byString = (o, s) => {

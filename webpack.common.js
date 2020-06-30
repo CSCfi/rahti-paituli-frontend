@@ -12,6 +12,7 @@ module.exports = {
     help: './src/help/help.js',
     webservices: './src/webservices/webservices.js',
     opendata: './src/opendata/opendata.js',
+    footer: './src/shared/footer.js',
   },
   output: {
     filename: '[name].js',
@@ -23,6 +24,18 @@ module.exports = {
         test: /\.css$/,
         use: ['style-loader', 'css-loader?url=false'],
       },
+      {
+        test: /\.(gif|png|jpe?g)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+            },
+          },
+        ],
+      },
+
       {
         test: /\.m?js$/,
         exclude: /node_modules/,
@@ -40,6 +53,9 @@ module.exports = {
       {
         from: 'html/*.html',
         flatten: true,
+      },
+      {
+        from: 'img',
       },
     ]),
   ],
