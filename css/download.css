@@ -1,9 +1,9 @@
-#download-container {
+.container {
   font-size: 12px;
   height: 900px;
 }
 @media (min-width: 1200px) {
-  #download-container {
+  .container {
     max-width: 1300px;
   }
 }
