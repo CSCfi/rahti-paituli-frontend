@@ -1454,23 +1454,21 @@ const translations = {
   webservices: {
     content: {
       fi: `<div class="content-article">
-      <h1>Paituli web services</h1>
+      <h1>Paitulin rajapintapalvelut</h1>
     
       <p>
-        Several Paituli datasets are available as OGC web services: WMS, WFS, WMTS.
-        WFS service is available only for vector datasets. All datasets available
-        via web services are listed at the end of this page.
+        Monet Paitulin aineistot ovat saatavilla OGC:n mukaisista rajapintapalveluista: WMS, WFS, WMTS.
+        WFS rajapintapalvelu on saatavilla vain vektoriaineistolle. Rajapinnoista saatavilla olevat aineistot ovat listattuna alla.
       </p>
     
       <p>
-        The license terms are the same for data downloaded via web services as via
-        download service. The license terms and descriptions can be found from
-        <a href="/web/paituli/metadata">Metadata </a>page.
+        Rajapinta-aineistojen lisenssiehdot ovat vastaavat kuin latauspalvelun kautta ladatuissa aineistoissa.
+        Lisenssiehdot löytyvät <a href="/metadata">Metadata </a>sivulta.
       </p>
     
-      <p>The web services are available from these connection URLs:</p>
+      <p>Löydät rajapintapalvelut alla olevista URL-osoitteista:</p>
     
-      <h4>Open datasets</h4>
+      <h4>Avoimet aineistot</h4>
     
       <table>
         <tbody>
@@ -1496,16 +1494,6 @@ const translations = {
           </tr>
         </tbody>
       </table>
-    
-      <h4>
-        Datasets, that are available for students and personnel of Finnish
-        universities for academic use
-      </h4>
-    
-      <div id="paituli_protected_message" style="display: block;">
-        Description of protected web services is available only for
-        <a href="https://avaa.tdata.fi/c/portal/login">logged in</a> users..
-      </div>
     
       <div id="paituli_protected_div" style="display: none">
         <table>
@@ -1549,27 +1537,26 @@ const translations = {
       </div>
     
       <p>
-        WMTS-service's gridsets: ERTS-TM35-FIN (EPSG:3067,
+        WMTS-palveluiden ruudukot: ERTS-TM35-FIN (EPSG:3067,
         <a
           href="http://docs.jhs-suositukset.fi/jhs-suositukset/JHS180_liite1/JHS180_liite1.html#H7"
           >JHS180</a
-        >) and Spherical Mercator (EPSG:3857).
+        >) ja Spherical Mercator (EPSG:3857).
       </p>
     
-      <h4>Guidelines</h4>
+      <h4>Ohjeet</h4>
     
       <ul>
         <li>
-          <a href="https://research.csc.fi/gis-guidelines">Guidelines</a> for using
-          web services.
+          <a href="https://research.csc.fi/gis-guidelines">Ohjeita</a> rajapintapalveluiden käyttöön
         </li>
         <li>
-          Examples of using AVAA web services with OpenLayers library, can be found
-          on AVAA <a href="/openstreetmap">OpenStreetMap</a> page.
+          Esimerkkejä AVAA-rajapintapalveluiden käytöstä OpenLayers kirjastolla löytyy
+           <a href="https://avaa.tdata.fi/openstreetmap">OpenStreetMap</a> sivulta.
         </li>
       </ul>
     
-      <h4>Datasets available as web services</h4>
+      <h4>Saatavilla olevat aineistot</h4>
     </div>`,
       en: `<div class="content-article">
       <h1>Paituli web services</h1>
