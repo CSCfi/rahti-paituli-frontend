@@ -71,5 +71,5 @@ $('#table').bootstrapTable({
 $(function () {
   $('#header').load('header.html')
   $('.content-placeholder').html(translate('webservices.content'))
-
+  $('#footer').load('footer.html')
 })

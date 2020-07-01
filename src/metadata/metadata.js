@@ -119,4 +119,5 @@ $('#table').bootstrapTable({
 $(function () {
   $('#header').load('header.html')
   $('.content-placeholder').html(translate('metadata.content'))
+  $('#footer').load('footer.html')
 })

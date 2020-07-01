@@ -9,4 +9,5 @@ import '../../css/ftpsync.css'
 $(function () {
   $('#header').load('header.html')
   $('.row').html(translate('ftprsync.content'))
+  $('#footer').load('footer.html')
 })

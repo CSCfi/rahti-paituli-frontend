@@ -9,4 +9,5 @@ import '../../css/main.css'
 $(function () {
   $('#header').load('header.html')
   $('.row').html(translate('contact.content'))
+  $('#footer').load('footer.html')
 })

@@ -10,4 +10,5 @@ import '../../css/main.css'
 $(function () {
   $('#header').load('header.html')
   $('.row').html(translate('help.content'))
+  $('#footer').load('footer.html')
 })
