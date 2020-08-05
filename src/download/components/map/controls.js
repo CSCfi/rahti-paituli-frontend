@@ -35,6 +35,7 @@ function toggleVisibility(numberOfMapSheets) {
     clearSelectContainer.hide()
     drawSelectContainer.hide()
   }
+  console.log(datasets.getCurrent())
   // If layers has feature info, show info tool and container for results
   if (datasets.hasFeatureInfo()) {
     infoSelectContainer.show()

@@ -15,7 +15,7 @@ function fetch() {
 const getAll = () => datasets
 const getById = (id) => datasets.find((dataset) => dataset.data_id === id)
 const hasCurrent = () => !$.isEmptyObject(currentDataset)
-const hasFeatureInfo = () => currentDataset.data_url !== null
+const hasFeatureInfo = () => typeof currentDataset.data_url !== 'undefined'
 const getCurrent = () => currentDataset
 const setCurrent = (id) => (currentDataset = getById(id))
 const clearCurrent = () => (currentDataset = {})

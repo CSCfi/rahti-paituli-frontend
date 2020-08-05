@@ -11,4 +11,5 @@ $(function () {
   $('#header').load('header.html')
   $('.row').html(translate('home.content'))
   $('#footer').load('footer.html')
+  $('body').show()
 })
