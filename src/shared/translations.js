@@ -338,8 +338,8 @@ const translations = {
       en: 'Download',
     },
     access: {
-      fi: 'Avoin',
-      en: 'Open',
+      fi: 'Lataa',
+      en: 'Download',
     },
     filter: {
       fi: 'Rajaa tuloksia',
