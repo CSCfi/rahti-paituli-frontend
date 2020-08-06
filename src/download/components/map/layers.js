@@ -15,7 +15,7 @@ let indexLabelLayer = null
 
 function init() {
   loadIndexLayer()
-  loadIndexLabelLayer()
+  // loadIndexLabelLayer()
   loadDataLayer()
 
   if (indexLabelLayer !== null) {
@@ -61,6 +61,19 @@ function loadDataLayer() {
   }
 }
 
+let indexStyleFunction = function (feature) {
+  return new style.Style({
+    stroke: new style.Stroke({
+      color: 'rgba(0, 0, 255, 1.0)',
+      width: 2,
+    }),
+    text: new style.Text({
+      text: feature.get('label'),
+      stroke: new style.Stroke({ width: 0.6 }),
+    }),
+  })
+}
+
 function loadIndexLayer() {
   if (datasets.hasCurrent()) {
     const url = URL.WFS_INDEX_MAP_LAYER.replace('!key!', 'data_id').replace(
@@ -87,37 +100,32 @@ function loadIndexLayer() {
       title: translate('map.indexmap'),
       source: indexSource,
       visible: true,
-      style: new style.Style({
-        stroke: new style.Stroke({
-          color: 'rgba(0, 0, 255, 1.0)',
-          width: 2,
-        }),
-      }),
+      style: indexStyleFunction,
     })
   } else {
     indexLayer = null
   }
 }
 
-function loadIndexLabelLayer() {
-  if (datasets.hasCurrent()) {
-    const url = URL.WMS_INDEX_MAP_LABEL_LAYER.replace(
-      '!value!',
-      datasets.getCurrent().data_id
-    )
-    const src = new source.ImageWMS({
-      url: url,
-      params: { VERSION: '1.1.1' },
-      serverType: 'geoserver',
-    })
-    indexLabelLayer = new layer.Image({
-      source: src,
-      visible: true,
-    })
-  } else {
-    indexLabelLayer = null
-  }
-}
+// function loadIndexLabelLayer() {
+//   if (datasets.hasCurrent()) {
+//     const url = URL.WMS_INDEX_MAP_LABEL_LAYER.replace(
+//       '!value!',
+//       datasets.getCurrent().data_id
+//     )
+//     const src = new source.ImageWMS({
+//       url: url,
+//       params: { VERSION: '1.1.1' },
+//       serverType: 'geoserver',
+//     })
+//     indexLabelLayer = new layer.Image({
+//       source: src,
+//       visible: true,
+//     })
+//   } else {
+//     indexLabelLayer = null
+//   }
+// }
 
 const getDataLayer = () => dataLayer
 const getIndexLayer = () => indexLayer
