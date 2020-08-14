@@ -1,41 +1,33 @@
 import $ from 'jquery'
 import * as style from 'ol/style'
-import { Collection } from 'ol'
-import * as layer from 'ol/layer'
-import * as source from 'ol/source'
-
-import map from './map'
 import layers from './layers'
+import controls from './controls'
 
-const highlighted_style = new style.Style({
-  stroke: new style.Stroke({
-    color: 'rgba(255, 51, 204,1)',
-    width: 8,
-  }),
-  fill: new style.Fill({
-    color: [255, 255, 255, 0.8],
-  }),
-})
-
-const highlightCollection = new Collection()
-const highlightOverlay = new layer.Vector({
-  map: map.getMap(),
-  source: new source.Vector({
-    features: highlightCollection,
-    useSpatialIndex: false, // optional, might improve performance
-  }),
-  style: highlighted_style,
-  updateWhileAnimating: true, // optional, for instant visual feedback
-  updateWhileInteracting: true, // optional, for instant visual feedback
-})
+var highlightStyleFunction = function (feature) {
+  return [
+    new style.Style({
+      stroke: new style.Stroke({
+        color: 'rgba(255, 51, 204,1)',
+        width: 4,
+      }),
+      fill: new style.Fill({
+        color: [255, 255, 255, 0.4],
+      }),
+      text: new style.Text({
+        text: feature.get('label'),
+        stroke: new style.Stroke({ width: 0.6 }),
+      }),
+      zIndex: 100,
+    }),
+  ]
+}
 
 function addHighlight(event) {
-  highlightOverlay.getSource().clear()
   const olId = layers
     .getIndexLayer()
     .getSource()
     .getFeatureById($(event.target).attr('ol_id'))
-  highlightOverlay.getSource().addFeature(olId)
+  olId.setStyle(highlightStyleFunction)
 }
 
 function removeHighlight(event) {
@@ -43,13 +35,10 @@ function removeHighlight(event) {
     .getIndexLayer()
     .getSource()
     .getFeatureById($(event.target).attr('ol_id'))
-  highlightOverlay.getSource().removeFeature(olId)
+  olId.setStyle(controls.getSelectedStyleFunction)
 }
-
-const clear = () => highlightOverlay.getSource().clear()
 
 export default {
   addHighlight,
   removeHighlight,
-  clear,
 }

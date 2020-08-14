@@ -48,28 +48,32 @@ function toggleVisibility(numberOfMapSheets) {
   }
 }
 
-const selected_style = new style.Style({
-  stroke: new style.Stroke({
-    color: 'rgba(102, 178, 255, 1.0)',
-    width: 3,
-  }),
-  fill: new style.Fill({
-    color: [255, 255, 255, 0.4],
-  }),
-  image: new style.Circle({
-    radius: 4,
-    fill: new style.Fill({
-      color: 'rgba(102, 178, 255, 1.0)',
+const getSelectedStyleFunction = function (feature) {
+  return [
+    new style.Style({
+      stroke: new style.Stroke({
+        color: 'rgba(102, 178, 255, 1.0)',
+        width: 3,
+      }),
+      fill: new style.Fill({
+        color: [255, 255, 255, 0.4],
+      }),
+      text: new style.Text({
+        text: feature.get('label'),
+        stroke: new style.Stroke({ width: 0.6 }),
+      }),
+      zIndex: 50,
     }),
-  }),
-})
+  ]
+}
 
 // a normal select interaction to handle click
 const featureSelectInteraction = new interaction.Select({
   toggleCondition: condition.always,
-  style: selected_style,
+  style: getSelectedStyleFunction,
   multi: true, //Select several, if overlapping
 })
+
 featureSelectInteraction.on('select', () => tabs.setInfoContent('download'))
 map.addInteraction(featureSelectInteraction)
 
@@ -127,7 +131,7 @@ let draw
 draw = new interaction.Draw({
   source: drawingSource,
   type: 'Polygon',
-  style: selected_style,
+  style: null,
 })
 map.addInteraction(draw)
 
@@ -261,4 +265,5 @@ export default {
   setSelectedFeatures,
   clearFeatureSelection,
   toggleVisibility,
+  getSelectedStyleFunction,
 }

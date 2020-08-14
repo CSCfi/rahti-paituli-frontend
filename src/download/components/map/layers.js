@@ -11,22 +11,10 @@ import { translate } from '../../../shared/translations'
 
 let dataLayer = null
 let indexLayer = null
-let indexLabelLayer = null
 
 function init() {
   loadIndexLayer()
-  // loadIndexLabelLayer()
   loadDataLayer()
-
-  if (indexLabelLayer !== null) {
-    indexLayer.on('change:visible', () => {
-      if (indexLayer.getVisible()) {
-        indexLabelLayer.setVisible(true)
-      } else {
-        indexLabelLayer.setVisible(false)
-      }
-    })
-  }
 }
 
 function loadDataLayer() {
@@ -107,33 +95,11 @@ function loadIndexLayer() {
   }
 }
 
-// function loadIndexLabelLayer() {
-//   if (datasets.hasCurrent()) {
-//     const url = URL.WMS_INDEX_MAP_LABEL_LAYER.replace(
-//       '!value!',
-//       datasets.getCurrent().data_id
-//     )
-//     const src = new source.ImageWMS({
-//       url: url,
-//       params: { VERSION: '1.1.1' },
-//       serverType: 'geoserver',
-//     })
-//     indexLabelLayer = new layer.Image({
-//       source: src,
-//       visible: true,
-//     })
-//   } else {
-//     indexLabelLayer = null
-//   }
-// }
-
 const getDataLayer = () => dataLayer
 const getIndexLayer = () => indexLayer
-const getIndexLabelLayer = () => indexLabelLayer
 
 export default {
   init,
   getDataLayer,
   getIndexLayer,
-  getIndexLabelLayer,
 }

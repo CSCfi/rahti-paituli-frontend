@@ -14,7 +14,6 @@ let numberOfMapSheets = 0
 
 function update() {
   map.removeLayer(layers.getIndexLayer())
-  map.removeLayer(layers.getIndexLabelLayer())
   map.removeLayer(layers.getDataLayer())
   locationSearch.clear()
   controls.clearFeatureSelection()
@@ -27,7 +26,6 @@ function update() {
 
     layers.init()
     const indexLayer = layers.getIndexLayer()
-    const indexLabelLayer = layers.getIndexLabelLayer()
     const dataLayer = layers.getDataLayer()
 
     if (indexLayer !== null) {
@@ -65,9 +63,6 @@ function update() {
         notifications.setDataAvailabilityWarning()
       }
       map.addLayer(indexLayer)
-      if (indexLabelLayer !== null) {
-        map.addLayer(indexLabelLayer)
-      }
     }
     tabs.show()
   } else {
@@ -83,7 +78,6 @@ const setSelectedFeatures = (value) => controls.setSelectedFeatures(value)
 const clearFeatureSelection = () => controls.clearFeatureSelection()
 const addHighlight = (event) => highlightOverlay.addHighlight(event)
 const removeHighlight = (event) => highlightOverlay.removeHighlight(event)
-const clearHighlights = () => highlightOverlay.clear()
 const resetView = () => map.resetView()
 const getView = () => map.getView()
 
@@ -96,7 +90,6 @@ export default {
   clearFeatureSelection,
   addHighlight,
   removeHighlight,
-  clearHighlights,
   getView,
   resetView,
 }

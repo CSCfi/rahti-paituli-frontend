@@ -14,8 +14,6 @@ let filePaths = []
 let fileLabels = []
 
 function init() {
-  map.clearHighlights()
-
   // Download and download list buttons are inside wrappers so that
   // tooltips can be attached to wrappers instead of buttons. This way
   // tooltips retain constant style even when buttons are disabled.
