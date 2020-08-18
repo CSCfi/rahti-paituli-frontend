@@ -19,54 +19,58 @@ import '../../css/webservices.css'
 
 const filterControlPlaceholder = translate('metadataTable.filter')
 
-$('#table').bootstrapTable({
-  url: `${URL.METADATA_API}/${getCurrentLocale()}`,
-  responseHandler: (res) => {
-    return res.filter((data) => data.data_url != null)
-  },
-  locale: 'en-US',
-  filterControl: true,
-  showMultiSort: false,
-  sortPriority: [
-    {
-      sortName: 'name',
-      sortOrder: 'asc',
+$('#table')
+  .bootstrapTable({
+    url: `${URL.METADATA_API}/${getCurrentLocale()}`,
+    responseHandler: (res) => {
+      return res.filter((data) => data.data_url != null)
     },
-  ],
-  columns: [
-    {
-      field: 'data_url',
-      title: translate('webservicesTable.dataUrl'),
-      sortable: true,
-      filterControl: 'input',
-      filterControlPlaceholder: filterControlPlaceholder,
-    },
-    {
-      field: 'name',
-      title: translate('webservicesTable.layerName'),
-      sortable: true,
-      filterControl: 'input',
-      filterControlPlaceholder: filterControlPlaceholder,
-      formatter: (value, row) =>
-        value != null
-          ? row.org_abbreviation +
-            ', ' +
-            row.name +
-            ', ' +
-            row.scale +
-            ', ' +
-            row.year
-          : '-',
-    },
-    {
-      field: 'data_max_scale',
-      title: translate('webservicesTable.scaleLimit'),
-      sortable: true,
-      filterControl: 'input',
-      filterControlPlaceholder: filterControlPlaceholder,
-    },
-  ],
-})
+    locale: 'en-US',
+    filterControl: true,
+    showMultiSort: false,
+    sortPriority: [
+      {
+        sortName: 'name',
+        sortOrder: 'asc',
+      },
+    ],
+    columns: [
+      {
+        field: 'data_url',
+        title: translate('webservicesTable.dataUrl'),
+        sortable: true,
+        filterControl: 'input',
+        filterControlPlaceholder: filterControlPlaceholder,
+      },
+      {
+        field: 'name',
+        title: translate('webservicesTable.layerName'),
+        sortable: true,
+        filterControl: 'input',
+        filterControlPlaceholder: filterControlPlaceholder,
+        formatter: (value, row) =>
+          value != null
+            ? row.org_abbreviation +
+              ', ' +
+              row.name +
+              ', ' +
+              row.scale +
+              ', ' +
+              row.year
+            : '-',
+      },
+      {
+        field: 'data_max_scale',
+        title: translate('webservicesTable.scaleLimit'),
+        sortable: true,
+        filterControl: 'input',
+        filterControlPlaceholder: filterControlPlaceholder,
+      },
+    ],
+  })
+  .on('load-success.bs.table', function () {
+    $('.table').show()
+  })
 
 $(function () {
   $('#header').load('header.html')

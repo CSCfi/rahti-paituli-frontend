@@ -21,4 +21,10 @@ module.exports = merge(common, {
       path: './.env.development',
     }),
   ],
+
+  performance: {
+    hints: 'warning',
+    maxAssetSize: 200000,
+    maxEntrypointSize: 400000,
+  },
 })

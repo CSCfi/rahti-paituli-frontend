@@ -6,10 +6,17 @@ import { getCurrentLocale } from '../shared/translations'
 let datasets = []
 let currentDataset = {}
 
-function fetch() {
-  return $.getJSON(`${URL.METADATA_API}/${getCurrentLocale()}`, (response) => {
-    datasets = response
-  })
+// OLD
+// function fetch() {
+//   return $.getJSON(`${URL.METADATA_API}/${getCurrentLocale()}`, (response) => {
+//     datasets = response
+//   })
+// }
+
+const executeQuery = async () => {
+  let response = await fetch(`${URL.METADATA_API}/${getCurrentLocale()}`)
+  datasets = await response.json()
+  return response
 }
 
 const getAll = () => datasets
@@ -21,7 +28,7 @@ const setCurrent = (id) => (currentDataset = getById(id))
 const clearCurrent = () => (currentDataset = {})
 
 export default {
-  fetch,
+  executeQuery,
   getById,
   getAll,
   hasCurrent,

@@ -15,7 +15,6 @@ import 'ol/ol.css'
 import 'ol-layerswitcher/src/ol-layerswitcher.css'
 import '../../css/main.css'
 import '../../css/download.css'
-
 let pageDataIdParam = getUrlParameter('data_id')
 
 function getUrlParameter(param) {
@@ -29,46 +28,31 @@ function getUrlParameter(param) {
   }
   return null
 }
+// OLD
+// function fetchDatasets() {
+//   datasets.fetch().done(() => {
+//     if (pageDataIdParam === null || pageDataIdParam.length == 0) {
+//       init()
+//     } else {
+//       const selectedData = datasets.getById(pageDataIdParam)
+//       if (
+//         selectedData != null &&
+//         selectedData.access == 2 &&
+//         !auth.loggedIn()
+//       ) {
+//         window.location.replace('/')
+//       } else {
+//         init()
+//       }
+//     }
+//   })
+// }
 
-/* TODO Haka login
-
-let geoserver_username = ''
-let geoserver_password = ''
-
-// If the user is logged in with HAKA, let's set ready GeoServer's username and
-// password for paituli_protected datasets
-function checkAccessRights() {
-  hakaUser = Liferay.ThemeDisplay.isSignedIn()
-  if (hakaUser) {
-    $.ajax({
-      url: '/secure/files/geoserverp.txt',
-      dataType: 'json',
-      success: (result) => {
-        geoserver_username = result.username
-        geoserver_password = result.pwd
-        let testurl =
-          'https://avaa.tdata.fi/geoserver/paituli_protected/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=paituli_protected:il_temp_monthly_stat&maxFeatures=1&outputFormat=application%2Fjson'
-
-        $.ajax({
-          password: geoserver_password,
-          username: geoserver_username,
-          url: testurl,
-          type: 'GET',
-          success: () => console.log('log in success'),
-          error: (err) => console.err('log in not successful', err),
-        })
-      },
-    })
-  } else {
-    hakaUser = false
-    geoserver_username = ''
-    geoserver_password = ''
-  }
-}
-*/
-
-function fetchDatasets() {
-  datasets.fetch().done(() => {
+const fetchDatasets = async () => {
+  const result = await datasets.executeQuery()
+  if (result.ok) {
+    $('#application_area').fadeIn(500)
+    console.log(datasets.getAll())
     if (pageDataIdParam === null || pageDataIdParam.length == 0) {
       init()
     } else {
@@ -78,13 +62,12 @@ function fetchDatasets() {
         selectedData.access == 2 &&
         !auth.loggedIn()
       ) {
-        // TODO: redirect user to login page
         window.location.replace('/')
       } else {
         init()
       }
     }
-  })
+  }
 }
 
 function setTranslations() {
@@ -112,7 +95,6 @@ function init() {
   map.resetView()
 }
 
-// checkAccessRights();
 fetchDatasets()
 
 $(function () {
