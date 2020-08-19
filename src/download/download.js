@@ -51,7 +51,7 @@ function getUrlParameter(param) {
 const fetchDatasets = async () => {
   const result = await datasets.executeQuery()
   if (result.ok) {
-    $('#application_area').fadeIn(500)
+    // $('.body_container').fadeIn(200)
     console.log(datasets.getAll())
     if (pageDataIdParam === null || pageDataIdParam.length == 0) {
       init()
@@ -99,5 +99,7 @@ fetchDatasets()
 
 $(function () {
   $('#header').load('header.html')
-  $('#footer').load('footer.html')
+  $('#footer').load('footer.html', function () {
+    $('.body_container').show()
+  })
 })

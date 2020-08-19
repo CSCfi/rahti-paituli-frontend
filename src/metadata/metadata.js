@@ -123,5 +123,7 @@ $('#table')
 $(function () {
   $('#header').load('header.html')
   $('.content-placeholder').html(translate('metadata.content'))
-  $('#footer').load('footer.html')
+  $('#footer').load('footer.html', function () {
+    $('.body_container').show()
+  })
 })

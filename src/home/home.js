@@ -10,5 +10,7 @@ import '../../css/main.css'
 $(function () {
   $('#header').load('header.html')
   $('.row').html(translate('home.content'))
-  $('#footer').load('footer.html')
+  $('#footer').load('footer.html', function () {
+    $('.body_container').show()
+  })
 })
