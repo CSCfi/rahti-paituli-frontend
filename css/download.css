@@ -199,27 +199,27 @@ legend,
 }
 
 #resetview-button {
-  background-image: url('http://avaa.tdata.fi/commonjs/images/paituli/finland.png');
+  background-image: url('./finland.png');
 }
 
 #panselection-button {
-  background-image: url('http://avaa.tdata.fi/commonjs/images/paituli/pan_NB.png');
+  background-image: url('./pan_NB.png');
 }
 
 #selectselection-button {
-  background-image: url('http://avaa.tdata.fi/commonjs/images/paituli/rectangle_select_NB.png');
+  background-image: url('./rectangle_select_NB.png');
 }
 
 #clearselection-button {
-  background-image: url('http://avaa.tdata.fi/commonjs/images/paituli/unselect_NB.png');
+  background-image: url('./unselect_NB.png');
 }
 
 #infoselection-button {
-  background-image: url('http://avaa.tdata.fi/commonjs/images/paituli/query.gif');
+  background-image: url('./query.gif');
 }
 
 #drawselection-button {
-  background-image: url('http://avoin-test.csc.fi/commonjs/images/paituli/draw_select_NB.png');
+  background-image: url('./draw_select_NB.png');
 }
 
 #notification-container {
@@ -330,6 +330,10 @@ legend,
   display: inline;
 }
 
+.ui-dialog {
+  font-size: 17px !important;
+}
+
 .ui-dialog .ui-state-error {
   padding: 0.3em;
 }
@@ -428,4 +432,8 @@ body .ui-tooltip {
 
 .ui-tabs .ui-tabs-panel {
   padding: 1.4em 1.2em;
+}
+
+.ui-icon-close {
+  background-image: url('./baseline_close_black_18dp.png');
 }
