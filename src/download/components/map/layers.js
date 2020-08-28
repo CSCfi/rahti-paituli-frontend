@@ -1,7 +1,7 @@
-// import $ from 'jquery'
+import $ from 'jquery'
 import * as source from 'ol/source'
 import * as layer from 'ol/layer'
-// import * as ol_format from 'ol/format'
+import * as ol_format from 'ol/format'
 import * as style from 'ol/style'
 
 import datasets from '../../datasets'
@@ -11,7 +11,6 @@ import { translate } from '../../../shared/translations'
 
 let dataLayer = null
 let indexLayer = null
-let flatgeobuf = null
 
 function init() {
   loadIndexLayer()
@@ -69,41 +68,22 @@ function loadIndexLayer() {
       '!value!',
       datasets.getCurrent().data_id
     )
-    console.log(
-      url +
-        '&outputFormat=application/flatgeobuf&format_options=callback:loadIndexMapFeatures'
-    )
-
-    // const indexSource = new source.Vector({
-    //   format: new ol_format.GeoJSON(),
-    //   loader: () => {
-    //     $.ajax({
-    //       jsonpCallback: 'loadIndexMapFeatures',
-    //       dataType: 'jsonp',
-    //       url:
-    //         url +
-    //         '&outputFormat=text/javascript&format_options=callback:loadIndexMapFeatures',
-
-    //       success: (response) => {
-    //         const features = indexSource.getFormat().readFeatures(response)
-    //         indexSource.addFeatures(features)
-    //       },
-    //     })
-    //   },
-    // })
-
     const indexSource = new source.Vector({
-      loader: async function () {
-        const response = await fetch(
-          url +
-            '&outputFormat=application/flatgeobuf&format_options=callback:loadIndexMapFeatures'
-        )
-        for await (let feature of flatgeobuf.deserialize(response.body)) {
-          this.addFeature(feature)
-        }
+      format: new ol_format.GeoJSON(),
+      loader: () => {
+        $.ajax({
+          jsonpCallback: 'loadIndexMapFeatures',
+          dataType: 'jsonp',
+          url:
+            url +
+            '&outputFormat=text/javascript&format_options=callback:loadIndexMapFeatures',
+          success: (response) => {
+            const features = indexSource.getFormat().readFeatures(response)
+            indexSource.addFeatures(features)
+          },
+        })
       },
     })
-
     indexLayer = new layer.Vector({
       title: translate('map.indexmap'),
       source: indexSource,
