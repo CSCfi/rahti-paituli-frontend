@@ -87,7 +87,7 @@ function init() {
       checked: 'checked',
       id: dlLicInputId,
       type: 'checkbox',
-      value: cutLicenseURL(licenseUrl),
+      value: licenseUrl.split('geodata/')[1],
       class: 'download-checkbox',
     })
     dlLicInput.appendTo(dlLicContainer)
@@ -287,14 +287,6 @@ function updateDownloadListButton(dlListButton, dlLicInput) {
   } else {
     dlListButton.prop('disabled', true)
   }
-}
-
-function cutLicenseURL(urn) {
-  if (urn != null) {
-    const arr = urn.split('geodata/')
-    urn = arr[1]
-  }
-  return urn
 }
 
 function addFile(event) {

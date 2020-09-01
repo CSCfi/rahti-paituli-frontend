@@ -51,8 +51,6 @@ function getUrlParameter(param) {
 const fetchDatasets = async () => {
   const result = await datasets.executeQuery()
   if (result.ok) {
-    // $('.body_container').fadeIn(200)
-    console.log(datasets.getAll())
     if (pageDataIdParam === null || pageDataIdParam.length == 0) {
       init()
     } else {
