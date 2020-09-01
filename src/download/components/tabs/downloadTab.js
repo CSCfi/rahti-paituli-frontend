@@ -66,33 +66,36 @@ function init() {
   licenseHeader.text(translate('info.documents'))
 
   //http://www.nic.funet.fi/index/geodata/mml/NLS_terms_of_use.pdf -> crop after geodata/
-  const licenseUrl = datasets.getCurrent().license_url
-  const dlLicInputId = 'download-license-input'
+  let licenseUrl = datasets.getCurrent().license_url
+  let dlLicInputId = 'download-license-input'
   let dlLicContainer = $('#download-license-container')
   let dlLicInput = $('#' + dlLicInputId)
   let dlLicLabelLink = $('#download-license-link')
-  if (!dlLicInput.length) {
-    dlLicContainer = $('<div>', {
-      id: 'download-license-container',
-    })
-    dlLicLabelLink = $('<a>', {
-      id: 'download-license-link',
-      href: licenseUrl,
-      target: '_blank',
-      class: 'download-license-link',
-      'data-value': translate('info.license'),
-    })
-    dlLicLabelLink.text(translate('info.license'))
-    dlLicInput = $('<input>', {
-      checked: 'checked',
-      id: dlLicInputId,
-      type: 'checkbox',
-      value: licenseUrl.split('geodata/')[1],
-      class: 'download-checkbox',
-    })
-    dlLicInput.appendTo(dlLicContainer)
-    dlLicLabelLink.appendTo(dlLicContainer)
-  }
+  console.log(dlLicInput.length)
+  // if (!dlLicInput.length) {
+  dlLicContainer = $('<div>', {
+    id: 'download-license-container',
+  })
+  dlLicLabelLink = $('<a>', {
+    id: 'download-license-link',
+    href: licenseUrl,
+    target: '_blank',
+    class: 'download-license-link',
+    'data-value': translate('info.license'),
+  })
+  dlLicLabelLink.text(translate('info.license'))
+  dlLicInput = $('<input>', {
+    checked: 'checked',
+    id: dlLicInputId,
+    type: 'checkbox',
+    value: cutLicenseURL(licenseUrl),
+    class: 'download-checkbox',
+  })
+  dlLicInput.appendTo(dlLicContainer)
+  dlLicLabelLink.appendTo(dlLicContainer)
+  // }
+
+  console.log(cutLicenseURL(licenseUrl))
 
   const downloadFilesHeader = $('<h5>', {
     id: 'download-file-header',
@@ -298,6 +301,14 @@ function removeFile(event) {
   if (deleteIdx > -1) {
     fileLabels.splice(deleteIdx, 1)
   }
+}
+
+function cutLicenseURL(urn) {
+  if (urn != null) {
+    const arr = urn.split('geodata/')
+    urn = arr[1]
+  }
+  return urn
 }
 
 export default {
