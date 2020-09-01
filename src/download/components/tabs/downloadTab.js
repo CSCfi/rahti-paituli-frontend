@@ -71,8 +71,7 @@ function init() {
   let dlLicContainer = $('#download-license-container')
   let dlLicInput = $('#' + dlLicInputId)
   let dlLicLabelLink = $('#download-license-link')
-  console.log(dlLicInput.length)
-  // if (!dlLicInput.length) {
+
   dlLicContainer = $('<div>', {
     id: 'download-license-container',
   })
@@ -93,9 +92,6 @@ function init() {
   })
   dlLicInput.appendTo(dlLicContainer)
   dlLicLabelLink.appendTo(dlLicContainer)
-  // }
-
-  console.log(cutLicenseURL(licenseUrl))
 
   const downloadFilesHeader = $('<h5>', {
     id: 'download-file-header',
