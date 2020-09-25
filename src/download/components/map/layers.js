@@ -5,7 +5,6 @@ import * as ol_format from 'ol/format'
 import * as style from 'ol/style'
 
 import datasets from '../../datasets'
-import map from './map'
 import { URL } from '../../../shared/urls'
 import { translate } from '../../../shared/translations'
 
@@ -38,11 +37,9 @@ function loadDataLayer() {
           params: { LAYERS: dataUrl, VERSION: '1.1.1' },
           serverType: 'geoserver',
         }),
+        maxResolution: datasets.getCurrent().data_max_scale / 2835,
         visible: true,
       })
-    }
-    if (map.getMaxResolution() !== null) {
-      dataLayer.setMaxResolution(map.getMaxResolution())
     }
   } else {
     dataLayer = null
