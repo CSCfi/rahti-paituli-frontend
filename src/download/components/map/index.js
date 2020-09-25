@@ -50,7 +50,6 @@ function update() {
 
       const maxScale = datasets.getCurrent().data_max_scale
       const maxResolution = maxScale !== null ? parseInt(maxScale) / 2835 : null
-      console.log(maxScale, maxResolution)
       map.setMaxResolution(maxResolution)
       if (maxResolution != null) {
         notifications.setMaxResolutionWarning()
