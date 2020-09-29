@@ -8,8 +8,6 @@ import '../../css/main.css'
 import '../../css/header.css'
 
 const languageSelector = $('#language-selector')
-// const contactInitiator = $('#contact-initiator')
-// const loginInitiator = $('#login-initiator')
 
 const homeLink = $('#home-link')
 const metadataLink = $('#metadata-link')
@@ -28,7 +26,6 @@ function setTranslations() {
   $('#ftp-link').text(translate('header.ftpPage'))
   $('#open-data-link').text(translate('header.openDataPage'))
   $('#contact-info-link').text(translate('header.contactPage'))
-  $('#contact-initiator').text(translate('header.contact'))
   $('#language-selector').text(translate('header.language'))
   $('#search-form').attr('placeholder', translate('header.searchPlaceholder'))
   $('#header-search-button').text(translate('header.searchButton'))
