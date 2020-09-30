@@ -74,7 +74,7 @@ $('#table')
 
 $(function () {
   $('#header').load('header.html')
-  $('.content-placeholder').html(translate('webservices.content'))
+  $('.content-placeholder').load(translate('webservices.contentFile'))
   $('#footer').load('footer.html', function () {
     $('.body_container').show()
   })

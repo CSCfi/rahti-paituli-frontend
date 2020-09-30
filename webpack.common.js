@@ -52,7 +52,11 @@ module.exports = {
   plugins: [
     new CopyPlugin([
       {
-        from: 'html/*.html',
+        from: 'html/skeleton/*.html',
+        flatten: true,
+      },
+      {
+        from: 'html/content/*.html',
         flatten: true,
       },
       {

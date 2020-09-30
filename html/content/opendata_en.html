@@ -1,0 +1,125 @@
+<h1>Open your spatial data</h1>
+
+<p>
+  Students and personnel of Finnish universities have possibility to
+  publish&nbsp;their own spatial data in Paituli. It could be data that has been
+  gathered for a scientific study or a course project. This data could be about
+  Finland or any other region in the world. For publishing your data please
+  follow the steps below.
+</p>
+
+<p>
+  After publishing anybody can download your data. Datasets suitable for
+  <a href="http://docs.geoserver.org/latest/en/user/">GeoServer </a>can also be
+  previewed on download page and they will be available also as standard OGC web
+  services (WMS, WMTS or WFS). Annually CSC generates a report about Paituli
+  usage, including number of downloads for each dataset. This report will be
+  sent to all data providers.
+</p>
+
+<p>
+  CSC publishes data free of charge and will not get any rights for the data.
+</p>
+
+<h3>Steps for publishing your data</h3>
+
+<ol>
+  <li>
+    <p>
+      <strong
+        ><span style="font-size: 16px;"
+          >Make sure the data can be published</span
+        ></strong
+      ><span style="font-size: 16px;"
+        >. You should either own the data or be granted the right to publish the
+        data by the data owner. No contractual or intellectual property rights
+        should prohibit opening the data. The data should be licensed with a
+        license allowing reuse.&nbsp;AVAA recommends
+        <a href="https://creativecommons.org/licenses/by/4.0/"
+          >Creative Commons BY 4.0</a
+        >
+        license.</span
+      >
+    </p>
+  </li>
+  <li>
+    <p>
+      <span style="font-size: 16px;"><strong>Describe the data</strong>.</span
+      ><span style="font-size: 16px;">
+        A description of the data is required in order to publish and the reuse
+        the data. This includes information such as what the data contains, how
+        it was gathered, who owns it etc. The description can be made in
+        <a href="http://etsin.avointiede.fi/en/"
+          >Etsin research data finder service</a
+        >. There is no special field for accuracy (scale) and coordinate system,
+        please write these to the "Free description" field on front page. Please
+        fill in also Format and Temporal coverage fields on tab "4. Additional
+        information". If you have more detailed metadata as a file or webpage,
+        also these can be linked to Etsin.</span
+      >
+    </p>
+  </li>
+  <li>
+    <strong>Package your data</strong>&nbsp;for download, technical
+    recommendations
+    <ul>
+      <br />
+      <li>
+        Format: Compressed Geotiff or JPG2000 for raster, Shape or PostGIS dump
+        for vector data, LAZ for laser scanning data.
+      </li>
+      <li>
+        Coordinate system: ETRS-TM35FIN (EPSG:3067) for data about Finland,
+        WGS-84 (EPGS:4326) for global data.
+      </li>
+      <li>Maximum file size 2 Gb.</li>
+      <li>
+        Divide data to map sheets if needed, if you have map sheet index as a
+        separate file, include that to data package
+      </li>
+      <li>Make a .zip file of all the files.</li>
+      <li>
+        These are only recommendations, if you feel some other option would suit
+        your data better, please consult with CSC.
+      </li>
+      <br />
+    </ul>
+  </li>
+  <li>
+    Optional. If you want to use a specific&nbsp;<strong>style</strong>&nbsp;for
+    visualizing your data in WMS and WMTS services, make a style description
+    file in
+    <a href="http://docs.geoserver.org/latest/en/user/styling/sld-cookbook/"
+      >SLD</a
+    >
+    format and add it to the data package. If you are not familiar with SLD,
+    also styles suitable for ArcGIS or QGIS may be submitted.
+  </li>
+  <li>
+    Write&nbsp;<strong>metadata</strong>&nbsp;about your data to
+    <a href="https://etsin.avointiede.fi/">Etsin</a>. For spatial datasets
+    please include also data about scale, format and coordinate system in the
+    free description part. Also filling in the "Temporal coverage" field is
+    important. If you have metadata as a document or webpage, add it also to
+    Etsin.
+  </li>
+  <li>
+    <strong>Send the data and Etsin URN</strong> to&nbsp;<a
+      class="external-link"
+      href="mailto:giscoord@csc.fi"
+      rel="nofollow"
+      style="
+        text-decoration: underline;
+        color: rgb(0, 109, 175);
+        outline: none;
+      "
+      >giscoord@csc.fi</a
+    >. Smaller datasets may be sent as attachments, for bigger files
+    <a href="https://filesender.funet.fi/">FUNET FileSender</a> is better.
+    FileSender can accept files up to 200 Gb, if your data is bigger or if you
+    have problems with uploading, please contact CSC.
+  </li>
+  <li>CSC will publish your data to Paituli in a week or two.</li>
+</ol>
+
+<p>If you have any questions, please contact CSC, giscoord@csc.fi</p>

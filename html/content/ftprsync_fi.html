@@ -1,0 +1,220 @@
+<h1>Http:n, ftp:n ja rsyncin yli lataaminen</h1>
+
+<p>
+  Paitulista ladattavan zip paketin enimmäiskoko on 2Gb, joten isompien
+  aineistojen osalta on ollut mahdollista ladata vain muutamia karttalehtiä
+  kerrallaan. Tämän rajoituksen poistamiseksi Paituliin on nyt lisätty
+  mahdollisuus ladata avoimmella lisenssillä (useimmiten CC-BY-4.0 lisenssi)
+  jaettavia aineistoja myös HTTP:n, FTP:n tai rsyncin avulla nic.funet.fi
+  palvelusta. Aineistojen käyttöehdot löytyvät
+  <a href="/web/paituli/metadata">Metadata </a>sivulta.
+</p>
+
+<p>Protokollien juurihakemistot ovat:</p>
+
+<ul>
+  <li>
+    HTTP:<a href="http://www.nic.funet.fi/index/geodata/"
+      >http://www.nic.funet.fi/index/geodata/</a
+    >
+  </li>
+  <li>
+    FTP:
+    <a href="ftp://ftp.funet.fi/pub/sci/geo/geodata/"
+      >ftp://ftp.funet.fi/pub/sci/geo/geodata/</a
+    >
+  </li>
+  <li>rsync: rsync://rsync.nic.funet.fi/ftp/pub/sci/geo/geodata/</li>
+</ul>
+
+<h3>Suositeltavat ohjelmistot</h3>
+
+<p>
+  FTP ja rsync ovat molemmat hyviä vaihtoehtoja alihakemistoja sisältävien
+  hakemistojen lataamiseen. Molempia käytettäessä voi helposti valita vain
+  ylimmän kansion ja ladata kaikki alikansiot sisältöineen automaattisesti.
+</p>
+
+<ul>
+  <li>
+    Helpoin tapa käyttää FTP:tä Windowsissa on ladata tähän tarkoitukseen tehty
+    ohjelmisto, esimerkiksi
+    <a href="https://filezilla-project.org/">Filezilla</a> tai
+    <a href="https://winscp.net/eng/download.php">WinSCP</a>
+  </li>
+  <li>
+    Komentorivityökaluista suosittelemme <strong>rsync </strong>ohjelmaa. Se
+    tarjoaa mahdollisuuden jatkaa keskeytynyttä latausta, joten se on parempi
+    vaihtoehto todella isojen (n. 100 Gb +) aineistojen lataamiseen. rsyncin
+    pitäisi tulla useimpien Linux jakeluiden mukana valmiiksi asennettuna.
+    Windows ympäristössä se tulee asentaa itse esimerkiksi
+    <a href="http://itefix.net/cwrsync">täältä</a>.
+  </li>
+  <li>
+    Jos rsync ei ole käytettävissä, seuraava vaihtoehto on
+    <strong>wget</strong>.
+  </li>
+</ul>
+
+<h3>Aineiston löytäminen</h3>
+
+<p>
+  Paituli sisältää noin 7Tb (=7000Gb) dataa, joten useimmiten on tarpeen ladata
+  vain pieni osa Paitulin sisällöstä.
+</p>
+
+<p><strong>Kokonaisen aineiston lataaminen:</strong></p>
+
+<p>
+  Paitulin hakemistoja on helppo selata HTTP tai FTP osoitteiden kautta.
+  Aineistot on tallennettu loogisiin alihakemistoihin, joten halutun aineiston
+  löytäminen pitäisi olla kohtuullisen helppoa. Hakemistopuussa tulee ensin
+  valita aineiston tuottaja, sitten itse aineisto, ja lopuksi vuosiversio (sekä
+  mahdollisesti muita vaihtoehtoja).
+</p>
+
+<p>Toinen vaihtoehto on katsoa aineistojen polut Latauspalvelusta:</p>
+
+<ol>
+  <li>
+    Avaa<span> <a href="/web/paituli/latauspalvelu">Latauspalvelu</a></span
+    >,
+  </li>
+  <li>Valitse haluamasi aineisto</li>
+  <li>Valitse "Linkit" välilehti vasemmasta alakulmassa.</li>
+  <li>Käytä jotain FTP työkalua TAI rsynciä aineiston lataamiseksi:</li>
+</ol>
+
+<div class="codeBlock">
+  rsync -a rsync://rsync.nic.funet.fi/ftp/pub/sci/geo/geodata/<b
+    style="color: blue;"
+    >mml/hallintorajat_milj_tk/2017/ folder_to_save/</b
+  >
+</div>
+
+<ul>
+  <li>
+    Vaihda komennossa siniset osat vastaamaan valitsemaasi aineistoa ja
+    tallennushakemistoasi.
+  </li>
+  <li>
+    -a käytä arkisto tilaa, mm. säilyttää alkuperäiset aikaleimat ja lataa
+    kaikki alihakemistot
+  </li>
+</ul>
+
+<p><strong>Vain tiettyjen karttalehtien lataaminen:</strong></p>
+
+<ol>
+  <li>
+    Avaa<span> <a href="/web/paituli/latauspalvelu">Latauspalvelu</a></span
+    >,
+  </li>
+  <li>Valitse haluamasi aineisto</li>
+  <li>Valitse karttalehdet kartalta tai haulla</li>
+  <li>Klikkaa "Lataa tiedostolista" painiketta.</li>
+  <li>
+    Saat tiedostolistauksen sähköpostiisi, lataa listaus omalle koneelle.<br />
+    (Vaihtoehtoisesti voi tiedostolistauksen muodostaa hyödyntämällä
+    indeksikartan path sarakkeen tietoja. Indeksikartta on saatavilla Linkit
+    välilehdeltä
+    <a href="/web/paituli/latauspalvelu">Latasupalvelu </a>sivulla.)
+  </li>
+  <li>Käytä rsynciä aineiston lataamiseksi:</li>
+</ol>
+
+<div class="codeBlock">
+  rsync -a --files-from=<b style="color: blue;">file_list.txt</b>
+  rsync://rsync.nic.funet.fi/ftp/pub/sci/geo
+  <b style="color: blue;">folder_to_save/ </b>
+</div>
+
+<p><strong>wget käyttö aineiston lataamiseksi</strong></p>
+
+<p>
+  Joskus organisaation palomuuri voi estää ftp ja rsync:n käytön. Silloin on
+  parasta käyttää wget työkalua http:n kanssa. wget:lla on paljon asetuksia,
+  yksi toimiva tapa on seuraava:
+</p>
+
+<div class="codeBlock">
+  wget -r -l inf -N -np -nH -x -E -R html --cut-dirs=
+  http://www.nic.funet.fi/index/geodata/<b style="color: blue;"
+    >mml/hallintorajat_milj_tk/2017/</b
+  >
+</div>
+
+<div>-r, lataa rekursiivisesti alihakemistot.</div>
+
+<div>
+  -l inf, miten syvälle rekursiivinen lataus lähtee, oletuksena 5, tässä
+  laitettu loputtomaksi
+</div>
+
+<div>
+  -N, vain päivitys, jo olemassa olevia tiedostoja ei ladata uudestaan, tämä on
+  tärkeä, jos lataus keskeytyy tai jos päivitetään jo aikaisemmin ladattua
+  aineistoa.
+</div>
+
+<div>-np, estää ylähakemistojen latautumisen</div>
+
+<div>-nH, poistaa palvelimen nimen</div>
+
+<div>-x, kopioi hakemistorakenne</div>
+
+<div>
+  -cuts-dirs, leikkaa hakemistoja polun alusta, että hakemistopuu ei olisi liian
+  pitkä, säätä tätä arvoa tarpeen mukaan
+</div>
+
+<div>
+  -E, lisää html tiedostoille .html tiedonimen loppuun, muuten luodaan
+  tiedostoja, jolla ei ole tiedostopäätettä (ei tarvetta, jos käytetään ftp:tä)
+</div>
+
+<div>
+  -R html, älä tallenna html tiedostoja (ei tarvetta, jos käytetään ftp:tä)
+</div>
+
+<ul>
+  <li>
+    Jos mahdollista, käytä ftp palvelua, käyttämällä HTTP protokolla, saat
+    ylimääräisiä index.* tiedostoja.
+  </li>
+  <li>
+    Jos haluat ladata tiedostolistauksen avulla, lisää -i optio komentoon. Lisää
+    myös juurihakemisto tiedostolistaukseen jokaiselle riville. Juurihakemistot
+    on annettu tämän sivun alussa.
+  </li>
+</ul>
+
+<h3>FTP mountin tekeminen</h3>
+
+<p>
+  Voit myös mountata paitulin FTP hakemiston omalle koneellesi. Tämä
+  mahdollistaa tiedostojen selaamisen ja avaamisen suoraan GIS ohjelmilla (esim.
+  qgis) ilman erillistä latausvaihetta. Tiedostot täytyy kuitenkin tietysti
+  ladata, vaikka tämä tapahtuukin automaattisesti niitä avatessa, joten
+  avaaminen FTP:n ylitse on hitaampaa kuin paikallisen tiedoston avaaminen.
+</p>
+
+<ul>
+  <li>
+    Linuxin käyttäjät voivat käyttää esim.<span> </span
+    ><a
+      href="http://curlftpfs.sourceforge.net/"
+      style="
+        margin: 0px;
+        padding: 0px;
+        color: rgb(54, 182, 69) !important;
+        text-decoration: none;
+      "
+      >curlFtpFS</a
+    >.
+  </li>
+  <li>
+    Windows käyttäjille ilmeisesti ei ole saatavilla vastaavaa ilmaista
+    ohjelmistoa, joka toimisi järkevällä nopeudella.
+  </li>
+</ul>

@@ -9,7 +9,7 @@ import '../../css/main.css'
 
 $(function () {
   $('#header').load('header.html')
-  $('.row').html(translate('help.content'))
+  $('.content-article').load(translate('help.contentFile'))
   $('#footer').load('footer.html', function () {
     $('.body_container').show()
   })
