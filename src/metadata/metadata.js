@@ -25,7 +25,7 @@ $('#table')
     url: `${URL.METADATA_API}/${getCurrentLocale()}`,
     filterControl: true,
     locale: 'en-US',
-    showMultiSort: false,
+    showMultiSort: true,
     sortPriority: [
       {
         sortName: 'org',

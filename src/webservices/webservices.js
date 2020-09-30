@@ -27,10 +27,10 @@ $('#table')
     },
     locale: 'en-US',
     filterControl: true,
-    showMultiSort: false,
+    showMultiSort: true,
     sortPriority: [
       {
-        sortName: 'name',
+        sortName: 'data_url',
         sortOrder: 'asc',
       },
     ],
