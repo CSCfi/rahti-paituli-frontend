@@ -8,7 +8,7 @@
         <h1 id="dl-service-header"></h1>
       </div>
       <div class="row" id="application_area">
-        <div class="col" id="column-left">
+        <div id="column-left">
           <div id="data-form">
             <fieldset>
               <legend></legend>
@@ -56,37 +56,48 @@
             </div>
           </div>
         </div>
-        <div class="col-8" id="column-right">
-          <section id="map-controls-container">
-            <div class="button-wrapper">
-              <div class="control-item-container" id="resetview-container">
-                <div class="control-button" id="resetview-button"></div>
-              </div>
-              <div class="control-item-container" id="panselection-container">
-                <div class="control-button" id="panselection-button"></div>
+        <div id="column-right">
+          <div id="map-container">
+            <div id="map-controls-container">
+              <div class="button-wrapper">
+                <div class="control-item-container" id="resetview-container">
+                  <div class="control-button" id="resetview-button"></div>
+                </div>
+                <div class="control-item-container" id="panselection-container">
+                  <div class="control-button" id="panselection-button"></div>
+                </div>
+                <div
+                  class="control-item-container"
+                  id="selectselection-container"
+                >
+                  <div class="control-button" id="selectselection-button"></div>
+                </div>
+                <div
+                  class="control-item-container"
+                  id="drawselection-container"
+                >
+                  <div class="control-button" id="drawselection-button"></div>
+                </div>
+                <div
+                  class="control-item-container"
+                  id="clearselection-container"
+                >
+                  <div class="control-button" id="clearselection-button"></div>
+                </div>
+                <div
+                  class="control-item-container"
+                  id="infoselection-container"
+                >
+                  <div class="control-button" id="infoselection-button"></div>
+                </div>
               </div>
               <div
                 class="control-item-container"
-                id="selectselection-container"
+                id="location-search-container"
               >
-                <div class="control-button" id="selectselection-button"></div>
-              </div>
-              <div class="control-item-container" id="drawselection-container">
-                <div class="control-button" id="drawselection-button"></div>
-              </div>
-              <div class="control-item-container" id="clearselection-container">
-                <div class="control-button" id="clearselection-button"></div>
-              </div>
-              <div class="control-item-container" id="infoselection-container">
-                <div class="control-button" id="infoselection-button"></div>
+                <input type="text" id="location-search-input" />
               </div>
             </div>
-            <div class="control-item-container" id="location-search-container">
-              <input type="text" id="location-search-input" />
-            </div>
-          </section>
-
-          <div id="map-container">
             <div id="notification-container"></div>
           </div>
           <div id="map-overview-container">&nbsp;</div>
