@@ -86,6 +86,7 @@ map.on('moveend', () => notifications.setMaxResolutionWarning())
 map.addControl(overviewMap)
 map.addControl(layerSwitcher)
 map.addControl(scaleLineControl)
+overviewMap.render()
 
 function registerProj4() {
   proj4.defs([
