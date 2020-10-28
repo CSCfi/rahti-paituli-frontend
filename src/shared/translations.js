@@ -67,7 +67,7 @@ const translations = {
     },
     downloadlist: {
       fi: 'Lataa tiedostolista',
-      en: 'Download list of files',
+      en: 'Download file list',
     },
     downloadTooltip: {
       fi:
