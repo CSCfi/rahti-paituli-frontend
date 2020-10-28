@@ -17,6 +17,7 @@ module.exports = merge(common, {
       path: './html/partials/analytics.html',
       location: 'head',
       priority: 'high',
+      template_filename: '*',
     }),
   ],
 })
