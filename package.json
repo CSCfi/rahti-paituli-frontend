@@ -18,8 +18,8 @@
     "bootstrap-table": "^1.16.0",
     "jquery": "^3.5.0",
     "jquery-ui-bundle": "^1.12.1",
-    "ol": "^6.3.1",
-    "ol-layerswitcher": "^3.6.0",
+    "ol": "^6.4.3",
+    "ol-layerswitcher": "^3.7.0",
     "proj4": "^2.6.1",
     "serialize-javascript": ">=3.1.0",
     "node-forge": ">=0.10.0"
