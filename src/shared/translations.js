@@ -62,8 +62,8 @@ const translations = {
   },
   info: {
     download: {
-      fi: 'Lataa aineisto zip tiedostona',
-      en: 'Download dataset as zip file',
+      fi: 'Lataa zip tiedostona',
+      en: 'Download as zip file',
     },
     downloadlist: {
       fi: 'Lataa tiedostolista',
@@ -347,6 +347,10 @@ const translations = {
     },
   },
   header: {
+    homePage: {
+      fi: 'Koti',
+      en: 'Home',
+    },
     metadataPage: {
       fi: 'Metatiedot',
       en: 'Metadata',
@@ -368,15 +372,15 @@ const translations = {
       en: 'FTP and rsync',
     },
     openDataPage: {
-      fi: 'Avaa aineistosi',
-      en: 'Open your data',
+      fi: 'Jaa aineistosi',
+      en: 'Share your data',
     },
     contactPage: {
       fi: 'Yhteystiedot',
       en: 'Contact',
     },
     contact: {
-      fi: 'Ota yhteyttä',
+      fi: 'Yhteystiedot',
       en: 'Contact',
     },
     language: {
