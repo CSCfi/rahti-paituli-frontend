@@ -44,10 +44,11 @@ table td {
 }
 
 a {
-  color: #36b645;
+  color: #03881c;
 }
 
 a:hover {
+  color: #026c16;
   text-decoration: none;
 }
 
