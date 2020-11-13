@@ -4,44 +4,22 @@
   If you would like to download bigger amounts of Paituli data, using the
   traditional download as .zip file might be quite limiting. To overcome that we
   have now added the option of downloading data over HTTP, FTP and rsync from
-  nic.funet.fi service. In this way only data with open license (in most cases
-  CC-BY-4.0 license) is available, each datasets accessibility can be seen from
-  <a href="metadata.html">Metadata </a>page.
+  nic.funet.fi service. In the data folder of each dataset is a Readme-file, 
+  that includes the basic infomation and link to Etsin, where full dataset 
+  descriptions are available.
 </p>
 
 <p>The root paths for each protocal are:</p>
 
 <ul>
   <li>
-    HTTP:
-    <span class="Object" id="OBJ_PREFIX_DWT3345_com_zimbra_url" role="link"
-      ><span class="Object" id="OBJ_PREFIX_DWT3357_com_zimbra_url" role="link"
-        ><a
-          class="moz-txt-link-freetext"
-          href="http://www.nic.funet.fi/index/geodata/"
-          target="_blank"
-          >http://www.nic.funet.fi/index/geodata/</a
-        ></span
-      ></span
-    >
+    <strong>HTTP</strong>: <a href="http://www.nic.funet.fi/index/geodata/" target="_blank">http://www.nic.funet.fi/index/geodata/</a>
   </li>
   <li>
-    <span class="Object" role="link"
-      ><span class="Object" role="link">FTP: </span></span
-    ><span class="Object" id="OBJ_PREFIX_DWT3346_com_zimbra_url" role="link"
-      ><span class="Object"
-        ><a
-          class="moz-txt-link-freetext"
-          href="ftp://ftp.funet.fi/pub/sci/geo/geodata/"
-          >ftp://ftp.funet.fi/pub/sci/geo/geodata/</a
-        ></span
-      ></span
-    >
+    <strong>FTP</strong>: <a href="ftp://ftp.funet.fi/pub/sci/geo/geodata/" target="_blank">ftp://ftp.funet.fi/pub/sci/geo/geodata/</a>
   </li>
   <li>
-    <span class="Object" role="link"
-      ><span class="Object" role="link">rsync: </span></span
-    >rsync://rsync.nic.funet.fi/ftp/pub/sci/geo/geodata/
+    <strong>rsync</strong>: rsync://rsync.nic.funet.fi/ftp/pub/sci/geo/geodata/
   </li>
 </ul>
 
@@ -64,15 +42,15 @@
     Of command line tools we recommend <strong>rsync</strong>. It has the
     ability to continue a download, if it has frozen for some reason and can
     preserve the original modification date. rsync should be included in most
-    Linux distributions by default. In Windows you have to add it, for example
-    from <a href="https://itefix.net/cwrsync">here</a>.
+    Linux distributions by default. In Windows you have to add it manually, for example
+    <a href="https://itefix.net/cwrsync">cwRsync</a>.
   </li>
   <li>If rsync is not suitable, try <strong>wget</strong>.</li>
 </ul>
 <h3>Finding the data</h3>
 
 <p>
-  Paituli includes in total 7 Tb (= 7000 Gb) of data, so in most cases it should
+  Paituli includes in total 12 Tb (= 12 000 Gb) of data, so in most cases it should
   be enough to download only some parts of it.
 </p>
 
@@ -86,11 +64,11 @@
 </p>
 
 <p>
-  The other option is to find the dataset spesific paths from Download page:
+  The other option is to find the dataset spesific paths from Download data page:
 </p>
 
 <ol>
-  <li>Open the <a href="download.html">Download </a>page,</li>
+  <li>Open the <a href="download.html">Download data</a> page,</li>
   <li>Select the dataset you are interested</li>
   <li>Open the "Links" tab in lower left corner.</li>
   <li>
@@ -100,10 +78,7 @@
 </ol>
 
 <div class="codeBlock">
-  rsync -a rsync://rsync.nic.funet.fi/ftp/pub/sci/geo/geodata/<b
-    style="color: blue;"
-    >mml/hallintorajat_milj_tk/2017 /folder_to_save/</b
-  >
+  rsync -a rsync://rsync.nic.funet.fi/ftp/pub/sci/geo/geodata/<b style="color: blue;">mml/hallintorajat_milj_tk/2017/folder_to_save/</b>
 </div>
 
 <ul>
@@ -121,7 +96,7 @@
 </p>
 
 <ol>
-  <li>Open the <a href="download.html">Download </a>page.</li>
+  <li>Open the <a href="download.html">Download data</a> page.</li>
   <li>Select the dataset you are interested</li>
   <li>
     Select the mapsheets you need from the map or find them with the search.
@@ -132,15 +107,13 @@
     file.<br />
     (Alternatively you can make a custom file using the paths given in index
     map, which is available for each dataset in
-    <a href="download.html">Download </a>page Links tab.)
+    <a href="download.html">Download data</a> page Links tab.)
   </li>
   <li>Use rsync for downloading the data:</li>
 </ol>
 
 <div class="codeBlock">
-  rsync -a --files-from=<b style="color: blue;">file_list.txt</b>
-  rsync://rsync.nic.funet.fi/ftp/pub/sci/geo
-  <b style="color: blue;">folder_to_save/</b>
+  rsync -a --files-from=<b style="color: blue;">file_list.txt</b> rsync://rsync.nic.funet.fi/ftp/pub/sci/geo <b style="color: blue;">folder_to_save/</b>
 </div>
 
 <h3>Using wget for download</h3>
@@ -152,10 +125,7 @@
 </p>
 
 <div class="codeBlock">
-  wget -r -l inf -N -np -nH -x -E -R html --cut-dirs=
-  http://www.nic.funet.fi/index/geodata/<b style="color: blue;"
-    >mml/hallintorajat_milj_tk/2017/</b
-  >
+  wget -r -l inf -N -np -nH -x -E -R html --cut-dirs=http://www.nic.funet.fi/index/geodata/<b style="color: blue;">mml/hallintorajat_milj_tk/2017/</b>
 </div>
 
 <div>-r, recursive download</div>

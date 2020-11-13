@@ -1,174 +1,139 @@
-<h1>Help</h1>
-
-<ul>
-  <li>
-    <a href="https://research.csc.fi/gis-guidelines"
-      >Guidelines for using spatial data, </a
-    >inc. changing format and coordinate system.
-  </li>
-  <li>
-    <a href="https://research.csc.fi/open-gis-data"
-      >List of open spatial datasets</a
-    >, From Finland and globally, as files and as web services.
-  </li>
-</ul>
-<h2>Paituli download service help</h2>
-
-<p>
-  <b>Map tools</b>:<br />
-  <br />
-  <img
-    align="middle"
-    src="./finland.png"
-    style="width: 30px; height: 30px; margin: 2px;"
-  />
-  <i>Whole Finland</i> tool allows you to reset the map window<br />
-  <img
-    align="middle"
-    src="./pan_NB.png"
-    style="width: 30px; height: 30px; margin: 2px;"
-  />
-  <i>Pan</i> tool allows you to move the map<br />
-  <img align="middle" src="./S_zoom.png" style="width: 25px; height: 45px;" />
-  <i>Zoom in and out</i> tool allows you to zoom the map in or out<br />
-  <img
-    align="middle"
-    src="./rectangle_select_NB.png"
-    style="width: 30px; height: 30px; margin: 2px;"
-  />
-  <i>Select the download area</i> tool allows you to choose map sheets or
-  areas<br />
-  <img align="middle" src="style" ="width: 30px; height: 30px;" />
-  <em>Deselect all map sheets</em><br />
-  <img
-    alt=""
-    src="./query.gif"
-    style="width: 30px; height: 30px; margin: 2px;"
-  /><em>Info</em> tool, check the attribute values, which are displayed on the
-  left in Feature info tab after clicking on map<br />
-  <img
-    alt=""
-    src="./layerswitch.png"
-    style="width: 30px; height: 30px; margin: 2px;"
-  /><em>Layer control</em>. Choose which layers are displayed on map, by default
-  are displayed background map, map sheets and if available the selected
-  dataset. Optionally you can add Finnish municipality borders and drainage
-  areas.
+<h1>Guidelines for the Download data page</h1>
+<h3>General map tools</h3>
+<img align="middle" src="./finland.png" style="width: 30px; height: 30px; margin: 2px;"/>
+<i>Whole Finland</i> tool - reset the map window to show all Finland<br/>
+<img align="middle" src="./pan_NB.png" style="width: 30px; height: 30px; margin: 2px;"/>
+<i>Pan</i> tool - move the map with dragging<br/>
+<img align="middle" src="./S_zoom.png" style="width: 25px; height: 45px;"/>
+<i>Zoom in and out</i> tool - change map scale. Alternatively use mouse wheel OR double-click and Shift+double-click OR Shift+drag rectangle for zooming.<br/>
+<img alt="" src="./layerswitch.png" style="width: 30px; height: 30px; margin: 2px;"/>
+<em>Layer control</em> - choose which layers are displayed on map, by default
+are displayed background map, map sheets and if available the selected
+dataset. Optionally add Finnish municipality borders and drainage
+areas.
 </p>
-
 <ul>
-  <li>
-    Index map in the bottom&nbsp;left corner of the map window shows the area in
-    which you have zoomed in
-  </li>
-  <li>
-    <em>Place name search</em> is above the map. It uses OpenStreetMap data and
-    finds globally place names and also addresses available in OSM.
-  </li>
+	<li>
+		<em>Index map</em> in the bottom left corner of the map window shows the area in
+		which you have zoomed in
+	</li>
+	<li>
+		<em>Place name search</em> above the map enables
+		finding globally place names and addresses available in OpenStreetMap.
+	</li>
 </ul>
-
-<h3>Downloading data from Paituli</h3>
-
+<h3>Download data from Paituli</h3>
 <ol>
-  <li>
-    <b>Select the dataset</b> from the drop-down menus in the upper left corner
-    of Download data page or from
-    <a href="/web/paituli/metadata">Metadata</a> page. Select data producer,
-    dataset, scale, year, format and coordinate system.
-
-    <ul>
-      <li>
-        Note that if a drop-down menu is white, it has several options, if it is
-        gray, it has only one option available for the selected dataset.
-      </li>
-      <li>
-        In the Files for download tab are displayed the name of data file and
-        license term OR if the dataset is divided to map sheets, tip for
-        selecting the map sheets. On the map is displayed the area of selected
-        dataset and map sheets.
-      </li>
-    </ul>
-  </li>
-  <li>
-    If need <b>select map sheets </b>from the map with the
-    <i>Select map sheets</i> tool
-    <img src="./rectangle_select_NB.png" style="width: 20px; height: 20px;" />
-    or using the map sheet search<b>.</b>&nbsp;
-    <ul>
-      <li>
-        From the map you can choose the map sheets with either drawing a
-        rectangle or clicking.
-      </li>
-      <li>
-        The selected map sheets are listed in the Files for download tab on the
-        left.
-      </li>
-      <li>
-        If new map sheets are selected from the map they are added to the
-        existing selection.
-      </li>
-      <li>
-        If selecting an already selected map sheet it will be removed from the
-        selection.
-      </li>
-      <li>
-        It is possible to deselect map sheets also with clicking them in the
-        Files for download tab.
-      </li>
-      <li>
-        For deselecting all map sheets use the Deselect all map sheets tool:
-        <img
-          alt=""
-          src="./unselect_NB.png"
-          style="width: 20px; height: 20px;"
-        />
-      </li>
-
-      <li>
-        <em>Map sheets search</em> uses the file names of selected dataset and
-        removes earlier selected files from selection.
-      </li>
-    </ul>
-  </li>
-  <li>
-    <b>Start</b> the data download by pressing
-    <i>Download dataset</i> button.<em> Download order </em>window is displayed.
-  </li>
-  <li><b>Read</b> the terms of data use and accept them</li>
-  <li><b>Write you e-mail</b></li>
-  <li>
-    Click <strong><em>Send download order</em></strong
-    >-button.
-    <ul>
-      <li>
-        Then the selected files will be zipped to one file and the download link
-        will be sent to the given e-mail. The generation time of the download
-        link depends on size of selected data and load of service, but should
-        normally be a couple of minutes.
-      </li>
-    </ul>
-  </li>
-</ol>
-
-<h3>Previewing data</h3>
-
-<p>
-  Several of the datasets can also be previewed on the Download data page. The
-  data preview is available by default, after the dataset has been selected.
-</p>
-
-<ul>
-  <li>
-    Some of the datasets are displayed only in bigger scales, then there is a
-    notice about zooming in in the upper left corner of the map.
-  </li>
-  <li>
-    You can remove the data preview layer from the map from the layer control.
-  </li>
-  <li>
-    The attribute data can be shown by choosing Info tool
-    <img alt="" src="./query.gif" style="width: 20px; height: 20px;" />
-    and clicking on the map. The attribute values are shown on the left in
-    Feature info tab.
-  </li>
-</ul>
+	<li>
+		<b>Select the dataset</b> from the drop-down menus in the upper left corner
+		of <a href="download.html">Download data</a> page or from
+		<a href="metadata">Metadata</a> page. Select data producer,
+		dataset, scale, year, format and coordinate system.
+		<ul>
+			<li>
+				Note that if a drop-down menu is white, it has several options, if it is
+				gray, it has only one option available for the selected dataset.
+			</li>
+			<li>
+				In the Files for download tab are displayed:
+				<ul>
+					<li>Link to license terms</li>
+					<li>Selected files (map sheets) for download</li>
+					<li>If the dataset is divided into map sheets, then first a tip for
+						selecting the map sheets. </li>
+				</ul>
+			</li>
+			<li>
+				On the map is displayed the area of selected dataset and its map sheets.
+			</li>
+		</ul>
+	</li>
+	<li>
+		If the dataset is divided to map sheets, <b>select map sheets </b>from the map or use the map sheet search:
+		<ul>
+			<li>
+				Choose the map sheets From the map with:
+				<ul>
+					<li>
+						<img align="middle" src="./rectangle_select_NB.png" style="width: 20px; height: 20px; margin: 2px;"/>
+						<i>Select the download area by point or rectangle</i> tool - choose map sheets with clicking or dragging a rectangle
+					</li>
+					<li>
+						<img align="middle" src="./draw_select_NB.png" style="width: 20px; height: 20px; margin: 2px;"/>
+						<i>Select the download area by polygon </i> tool - choose map sheets with drawing a polygon
+					</li>
+					<li>
+						If new map sheets are selected from the map they are added to the
+						existing selection.
+					</li>
+				</ul>
+			</li>
+			<li>
+				<em>Map sheets search</em> uses the file names of selected dataset and
+				removes earlier selected files from selection.
+			</li>
+			<li>
+				<strong>Unselect map sheets</strong>:
+				<ul>
+					<li>
+						<img align="middle" src="style"="width: 20px; height: 20px;"/>
+						<em>Unselect all map sheets</em>
+					</li>
+					<li>
+						If selecting again an already selected map sheet from the map or the Files for download tab it will be removed from the
+						selection.
+					</li>
+				</ul>
+			</ul>
+		</li>
+		<li>
+			<b>Start</b> the data download by clicking the
+			<i>Download dataset as zip file</i> button.<em> Send data download link to my e-mail </em>window is displayed.
+		</li>
+		<li>
+			<b>Read</b> the terms of data use and accept them</li>
+		<li>
+			<b>Write your e-mail address</b>
+		</li>
+		<li>
+			Click <em>Send data download link to my e-mail</em>-button.
+			<ul>
+				<li>
+					The service zips the selected files to one file and sends the download link
+					to the given e-mail. The generation time of the download
+					link depends on the size of the selected data and the load of the service, but should
+					normally be a couple of minutes.
+				</li>
+				<li>
+					The most common reasons for not recieving the e-mail are mistakes in e-mail address or sometimes the e-mail might be directed to Spam.
+				</li>
+			</ul>
+		</li>
+	</ol>
+	<h3>Preview data</h3>
+	<p>
+		Several of the datasets can also be previewed on the Download data page. The
+		data preview is available by default, after the dataset has been selected.
+	</p>
+	<ul>
+		<li>
+			Some of the datasets are displayed only in bigger scales, then there is a
+			notice about zooming in in the upper left corner of the map.
+		</li>
+		<li>
+			Change the visibility of the data preview layer with the map layer control tool.
+		</li>
+		<li>
+			<img alt="" src="./query.gif" style="width: 20px; height: 20px; margin: 2px;"/>
+			<em>Info</em> tool - check the attribute values of vector features or values of raster pixel. The results are displayed on the left in Feature info tab after clicking on the map.<br/>
+		</li>
+	</ul>
+	<h2>Additional guidelines</h2>
+	<ul>
+		<li>
+			<a href="https://research.csc.fi/gis-guidelines">Guidelines for using spatial data</a>, inc. changing format and coordinate system.
+		</li>
+		<li>
+			<a href="https://research.csc.fi/open-gis-data">List of open spatial datasets</a>, from Finland and globally, as files and as web services.
+		</li>
+	</ul>
