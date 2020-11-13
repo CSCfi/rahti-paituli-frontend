@@ -62,8 +62,8 @@ const translations = {
   },
   info: {
     download: {
-      fi: 'Lataa aineisto zip tiedostona',
-      en: 'Download dataset as zip file',
+      fi: 'Lataa zip tiedostona',
+      en: 'Download as zip file',
     },
     downloadlist: {
       fi: 'Lataa tiedostolista',
