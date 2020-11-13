@@ -317,7 +317,7 @@ legend,
   height: 100%;
 }
 #info-container a {
-  color: #36b645;
+  color: #03881c;
 }
 
 .ol-overviewmap {
@@ -433,7 +433,7 @@ legend,
 
 #license-checkbox-label a,
 #license-list-checkbox-label a {
-  color: #36b645 !important;
+  color: #03881c !important;
 }
 
 #email-modal-form legend {

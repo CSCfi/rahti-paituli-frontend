@@ -59,7 +59,7 @@ const catchmentLayer = new layer.Tile({
 })
 
 const overviewMap = new control.OverviewMap({
-  collapsed: false,
+  collapsed: true,
   layers: [new layer.Tile(osmLayerOptions)],
 })
 
