@@ -19,6 +19,7 @@ const openDataLink = $('#open-data-link')
 const contactInfoLink = $('#contact-info-link')
 
 function setTranslations() {
+  $('#home-link').text(translate('header.homePage'))
   $('#metadata-link').text(translate('header.metadataPage'))
   $('#download-link').text(translate('header.downloadPage'))
   $('#help-link').text(translate('header.helpPage'))
