@@ -18,9 +18,9 @@ registerProj4()
 const osmLayerOptions = {
   title: translate('map.basemap'),
   source: new source.TileWMS({
-    url: 'http://ows.terrestris.de/osm/service?',
+    url: 'https://ows.terrestris.de/osm/service?',
     attributions:
-      'Background map: © <a target="_blank" href="http://ows.terrestris.de/dienste.html">terrestris</a>. Data: © <a target="_blank" href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>',
+      'Background map: © <a target="_blank" href="https://ows.terrestris.de/dienste.html">terrestris</a>. Data: © <a target="_blank" href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>',
     params: {
       LAYERS: 'OSM-WMS',
       VERSION: '1.1.0',
