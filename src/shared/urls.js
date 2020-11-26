@@ -4,8 +4,8 @@ const GEOSERVER_BASE = process.env.GEOSERVER_BASE
 const ETSIN_BASE = process.env.ETSIN_BASE
 
 export const LAYER = {
-  INDEX_LAYER: 'paituli:index',
-  MUNICIPALITIES_LAYER: 'paituli:mml_hallinto_2014_100k',
+  INDEX_LAYER: 'paituli:index_wgs84',
+  MUNICIPALITIES_LAYER: 'paituli:mml_hallinto_2020_100k',
   CATCHMENT_AREAS_LAYER: 'paituli:syke_valuma_maa',
 }
 
