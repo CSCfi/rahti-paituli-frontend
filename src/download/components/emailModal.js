@@ -1,5 +1,4 @@
 import $ from 'jquery'
-
 import datasets from '../datasets'
 import { getCurrentLocale, translate } from '../../shared/translations'
 import { DOWNLOAD_TYPE } from '../../shared/constants'

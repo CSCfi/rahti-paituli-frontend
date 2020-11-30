@@ -32,3 +32,11 @@ td {
 .content-article {
   margin: 30px 0px 0px 0px !important;
 }
+
+.btn-secondary {
+  display: none;
+}
+
+.fixed-table-toolbar {
+  display: none;
+}
