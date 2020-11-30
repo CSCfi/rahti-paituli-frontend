@@ -9,6 +9,7 @@ import { translate } from '../shared/translations'
 import { flipURN } from '../shared/utils'
 import { URL } from '../shared/urls'
 import { getCurrentLocale } from '../shared/translations'
+import { toggleTabActivation } from '../shared/header'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-table/dist/bootstrap-table.min.css'
@@ -125,5 +126,6 @@ $(function () {
   $('.content-placeholder').load(translate('metadata.contentFile'))
   $('#footer').load('footer.html', function () {
     $('.body_container').show()
+    toggleTabActivation('#metadata-link')
   })
 })

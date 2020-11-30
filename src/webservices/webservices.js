@@ -9,6 +9,7 @@ import 'bootstrap-table/dist/extensions/filter-control/bootstrap-table-filter-co
 import { translate } from '../shared/translations'
 import { URL } from '../shared/urls'
 import { getCurrentLocale } from '../shared/translations'
+import { toggleTabActivation } from '../shared/header'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-table/dist/bootstrap-table.min.css'
@@ -74,8 +75,9 @@ $('#table')
 
 $(function () {
   $('#header').load('header.html')
-  $('.content-placeholder').load(translate('webservices.contentFile'))
+  $('.content-article').load(translate('webservices.contentFile'))
   $('#footer').load('footer.html', function () {
     $('.body_container').show()
+    toggleTabActivation('#webservices-link')
   })
 })

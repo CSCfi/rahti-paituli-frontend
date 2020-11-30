@@ -4,8 +4,8 @@
   If you would like to download bigger amounts of Paituli data, using the
   traditional download as .zip file might be quite limiting. To overcome that we
   have now added the option of downloading data over HTTP, FTP and rsync from
-  nic.funet.fi service. In the data folder of each dataset is a Readme-file, 
-  that includes the basic infomation and link to Etsin, where full dataset 
+  nic.funet.fi service. In the data folder of each dataset is a Readme-file,
+  that includes the basic infomation and link to Etsin, where full dataset
   descriptions are available.
 </p>
 
@@ -13,10 +13,16 @@
 
 <ul>
   <li>
-    <strong>HTTP</strong>: <a href="http://www.nic.funet.fi/index/geodata/" target="_blank">http://www.nic.funet.fi/index/geodata/</a>
+    <strong>HTTP</strong>:
+    <a href="http://www.nic.funet.fi/index/geodata/" target="_blank"
+      >http://www.nic.funet.fi/index/geodata/</a
+    >
   </li>
   <li>
-    <strong>FTP</strong>: <a href="ftp://ftp.funet.fi/pub/sci/geo/geodata/" target="_blank">ftp://ftp.funet.fi/pub/sci/geo/geodata/</a>
+    <strong>FTP</strong>:
+    <a href="ftp://ftp.funet.fi/pub/sci/geo/geodata/" target="_blank"
+      >ftp://ftp.funet.fi/pub/sci/geo/geodata/</a
+    >
   </li>
   <li>
     <strong>rsync</strong>: rsync://rsync.nic.funet.fi/ftp/pub/sci/geo/geodata/
@@ -42,16 +48,16 @@
     Of command line tools we recommend <strong>rsync</strong>. It has the
     ability to continue a download, if it has frozen for some reason and can
     preserve the original modification date. rsync should be included in most
-    Linux distributions by default. In Windows you have to add it manually, for example
-    <a href="https://itefix.net/cwrsync">cwRsync</a>.
+    Linux distributions by default. In Windows you have to add it manually, for
+    example <a href="https://itefix.net/cwrsync">cwRsync</a>.
   </li>
   <li>If rsync is not suitable, try <strong>wget</strong>.</li>
 </ul>
 <h3>Finding the data</h3>
 
 <p>
-  Paituli includes in total 12 Tb (= 12 000 Gb) of data, so in most cases it should
-  be enough to download only some parts of it.
+  Paituli includes in total 12 Tb (= 12 000 Gb) of data, so in most cases it
+  should be enough to download only some parts of it.
 </p>
 
 <p><strong>If you want to download the whole dataset</strong></p>
@@ -64,7 +70,8 @@
 </p>
 
 <p>
-  The other option is to find the dataset spesific paths from Download data page:
+  The other option is to find the dataset spesific paths from Download data
+  page:
 </p>
 
 <ol>
@@ -78,7 +85,10 @@
 </ol>
 
 <div class="codeBlock">
-  rsync -a rsync://rsync.nic.funet.fi/ftp/pub/sci/geo/geodata/<b style="color: blue;">mml/hallintorajat_milj_tk/2017/folder_to_save/</b>
+  rsync -a rsync://rsync.nic.funet.fi/ftp/pub/sci/geo/geodata/<b
+    style="color: blue;"
+    >mml/hallintorajat_milj_tk/2017/folder_to_save/</b
+  >
 </div>
 
 <ul>
@@ -113,7 +123,9 @@
 </ol>
 
 <div class="codeBlock">
-  rsync -a --files-from=<b style="color: blue;">file_list.txt</b> rsync://rsync.nic.funet.fi/ftp/pub/sci/geo <b style="color: blue;">folder_to_save/</b>
+  rsync -a --files-from=<b style="color: blue;">file_list.txt</b>
+  rsync://rsync.nic.funet.fi/ftp/pub/sci/geo
+  <b style="color: blue;">folder_to_save/</b>
 </div>
 
 <h3>Using wget for download</h3>
@@ -125,7 +137,10 @@
 </p>
 
 <div class="codeBlock">
-  wget -r -l inf -N -np -nH -x -E -R html --cut-dirs=http://www.nic.funet.fi/index/geodata/<b style="color: blue;">mml/hallintorajat_milj_tk/2017/</b>
+  wget -r -l inf -N -np -nH -x -E -R html
+  --cut-dirs=http://www.nic.funet.fi/index/geodata/<b style="color: blue;"
+    >mml/hallintorajat_milj_tk/2017/</b
+  >
 </div>
 
 <div>-r, recursive download</div>

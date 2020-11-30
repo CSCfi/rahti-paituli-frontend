@@ -8,6 +8,7 @@ import featureSearch from './components/featureSearch'
 import locationSearch from './components/locationSearch'
 import map from './components/map'
 import { translate } from '../shared/translations'
+import { toggleTabActivation } from '../shared/header'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'jquery-ui-bundle/jquery-ui.css'
@@ -28,25 +29,6 @@ function getUrlParameter(param) {
   }
   return null
 }
-// OLD
-// function fetchDatasets() {
-//   datasets.fetch().done(() => {
-//     if (pageDataIdParam === null || pageDataIdParam.length == 0) {
-//       init()
-//     } else {
-//       const selectedData = datasets.getById(pageDataIdParam)
-//       if (
-//         selectedData != null &&
-//         selectedData.access == 2 &&
-//         !auth.loggedIn()
-//       ) {
-//         window.location.replace('/')
-//       } else {
-//         init()
-//       }
-//     }
-//   })
-// }
 
 const fetchDatasets = async () => {
   const result = await datasets.executeQuery()
@@ -99,5 +81,6 @@ $(function () {
   $('#header').load('header.html')
   $('#footer').load('footer.html', function () {
     $('.body_container').show()
+    toggleTabActivation('#download-link')
   })
 })
