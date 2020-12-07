@@ -41,15 +41,15 @@
   <li>
     The easiest way for using an FTP service is to download an suitable
     graphical tool, for example
-    <a href="https://filezilla-project.org/">Filezilla </a>or
-    <a href="https://winscp.net/eng/download.php">WinSCP</a>.
+    <a href="https://filezilla-project.org/" target="_blank">Filezilla </a>or
+    <a href="https://winscp.net/eng/download.php" target="_blank">WinSCP</a>.
   </li>
   <li>
     Of command line tools we recommend <strong>rsync</strong>. It has the
     ability to continue a download, if it has frozen for some reason and can
     preserve the original modification date. rsync should be included in most
     Linux distributions by default. In Windows you have to add it manually, for
-    example <a href="https://itefix.net/cwrsync">cwRsync</a>.
+    example <a href="https://itefix.net/cwrsync" target="_blank">cwRsync</a>.
   </li>
   <li>If rsync is not suitable, try <strong>wget</strong>.</li>
 </ul>
@@ -118,8 +118,7 @@
   <li>Use rsync for downloading the data:</li>
 </ol>
 
-<div class="codeBlock">rsync -a --files-from=<b style="color: blue;">file_list.txt</b> rsync://rsync.nic.funet.fi/ftp/pub/sci/geo <b style="color: blue;">folder_to_save/</b>
-</div>
+<div class="codeBlock">rsync -a --files-from=<b style="color: blue;">file_list.txt</b> rsync://rsync.nic.funet.fi/ftp/pub/sci/geo <b style="color: blue;">folder_to_save/</b></div>
 
 <h3>Using wget for download</h3>
 
@@ -129,8 +128,8 @@
   combination is this:
 </p>
 
-<div class="codeBlock">wget -r -l inf -N -np -nH -x -E -R html --cut-dirs=http://www.nic.funet.fi/index/geodata/<b style="color: blue;">mml/hallintorajat_milj_tk/2017/</b>
-</div>
+
+<div class="codeBlock">wget -r -l inf -N -np -nH -x -E -R html --cut-dirs=http://www.nic.funet.fi/index/geodata/<b style="color: blue;">mml/hallintorajat_milj_tk/2017/</b></div>
 
 <div>-r, recursive download</div>
 
@@ -188,7 +187,7 @@
 <ul>
   <li>
     Linux users can use for example
-    <a href="http://curlftpfs.sourceforge.net/">curlFtpFS</a>.
+    <a href="http://curlftpfs.sourceforge.net/" target="_blank">curlFtpFS</a>.
   </li>
   <li>
     For Windows there does not seem to be any such free software that would work
