@@ -74,11 +74,7 @@
   <li>Valitse "Linkit" välilehti vasemmasta alakulmassa.</li>
   <li>Käytä jotain FTP työkalua TAI rsynciä aineiston lataamiseksi:</li>
 </ol>
-<div class="codeBlock">
-  rsync -a rsync://rsync.nic.funet.fi/ftp/pub/sci/geo/geodata/<b
-    style="color: blue;"
-    >mml/hallintorajat_milj_tk/2017/folder_to_save/</b
-  >
+<div class="codeBlock">rsync -a rsync://rsync.nic.funet.fi/ftp/pub/sci/geo/geodata/<b style="color: blue;">mml/hallintorajat_milj_tk/2017/folder_to_save/</b>
 </div>
 <ul>
   <li>
@@ -107,11 +103,7 @@
   </li>
   <li>Käytä rsynciä aineiston lataamiseksi:</li>
 </ol>
-<div class="codeBlock">
-  rsync -a --files-from=<b style="color: blue;">file_list.txt</b>
-  rsync://rsync.nic.funet.fi/ftp/pub/sci/geo/<b style="color: blue;"
-    >folder_to_save/
-  </b>
+<div class="codeBlock">rsync -a --files-from=<b style="color: blue;">file_list.txt</b> rsync://rsync.nic.funet.fi/ftp/pub/sci/geo/<b style="color: blue;">folder_to_save/</b>
 </div>
 <p>
   <strong>wget käyttö aineiston lataamiseksi</strong>
@@ -121,11 +113,7 @@
   parasta käyttää wget työkalua http:n kanssa. wget:lla on paljon asetuksia,
   yksi toimiva tapa on seuraava:
 </p>
-<div class="codeBlock">
-  wget -r -l inf -N -np -nH -x -E -R html
-  --cut-dirs=http://www.nic.funet.fi/index/geodata/<b style="color: blue;"
-    >mml/hallintorajat_milj_tk/2017/</b
-  >
+<div class="codeBlock">wget -r -l inf -N -np -nH -x -E -R html --cut-dirs=http://www.nic.funet.fi/index/geodata/<b style="color: blue;">mml/hallintorajat_milj_tk/2017/</b>
 </div>
 <div>-r, lataa rekursiivisesti alihakemistot.</div>
 <div>
