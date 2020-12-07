@@ -110,7 +110,7 @@ $('#table')
           value != null
             ? '<a href="http://urn.fi/' +
               flipURN(value) +
-              '">' +
+              ' " target="_blank">' +
               translate('metadataTable.description') +
               '</a>'
             : '-',
