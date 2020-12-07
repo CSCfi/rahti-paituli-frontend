@@ -50,6 +50,6 @@
   },
   "lint-staged": {
     "*.js": "eslint",
-    "*.{js,css,md,html}": "prettier --write"
+    "*.{js,css,md}": "prettier --write"
   }
 }
