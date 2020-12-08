@@ -51,16 +51,13 @@ function update() {
       const maxScale = datasets.getCurrent().data_max_scale
       const maxResolution = maxScale !== null ? parseInt(maxScale) / 2835 : null
       map.setMaxResolution(maxResolution)
-      if (maxResolution != null) {
-        notifications.setMaxResolutionWarning()
-      }
 
       if (dataLayer !== null) {
         map.insertDataLayer(dataLayer)
-        notifications.clearWarning()
-      } else {
-        notifications.setDataAvailabilityWarning()
       }
+
+      notifications.setNotifications()
+
       map.addLayer(indexLayer)
     }
     tabs.show()
