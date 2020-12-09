@@ -102,4 +102,5 @@ export default {
   init,
   getDataLayer,
   getIndexLayer,
+  indexStyleFunction,
 }

@@ -30,12 +30,26 @@ function addHighlight(event) {
   olId.setStyle(highlightStyleFunction)
 }
 
+function changeStyleBack(feature) {
+  var selectedFeatures = controls.getSelectedFeatures()
+  var style = layers.indexStyleFunction
+
+  selectedFeatures.forEach(function (f) {
+    if (f.values_.label == feature.values_.label) {
+      style = controls.getSelectedStyleFunction
+    }
+  })
+
+  feature.setStyle(style)
+}
+
 function removeHighlight(event) {
   const olId = layers
     .getIndexLayer()
     .getSource()
     .getFeatureById($(event.target).attr('ol_id'))
-  olId.setStyle(controls.getSelectedStyleFunction)
+
+  changeStyleBack(olId)
 }
 
 export default {
