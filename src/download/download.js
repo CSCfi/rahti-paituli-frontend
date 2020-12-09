@@ -51,7 +51,6 @@ const fetchDatasets = async () => {
 }
 
 function setTranslations() {
-  $('#dl-service-header').text(translate('appHeader'))
   $('#data-form legend').text(translate('data.header'))
   $('#resetview-button').attr('title', translate('map.reset'))
   $('#clearselection-button').attr('title', translate('map.clearSelection'))
