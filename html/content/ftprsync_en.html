@@ -84,11 +84,7 @@
   </li>
 </ol>
 
-<div class="codeBlock">
-  rsync -a rsync://rsync.nic.funet.fi/ftp/pub/sci/geo/geodata/<b
-    style="color: blue;"
-    >mml/hallintorajat_milj_tk/2017/folder_to_save/</b
-  >
+<div class="codeBlock">rsync -a rsync://rsync.nic.funet.fi/ftp/pub/sci/geo/geodata/<bstyle="color: blue;">mml/hallintorajat_milj_tk/2017/folder_to_save/</b>
 </div>
 
 <ul>
@@ -122,11 +118,7 @@
   <li>Use rsync for downloading the data:</li>
 </ol>
 
-<div class="codeBlock">
-  rsync -a --files-from=<b style="color: blue;">file_list.txt</b>
-  rsync://rsync.nic.funet.fi/ftp/pub/sci/geo
-  <b style="color: blue;">folder_to_save/</b>
-</div>
+<div class="codeBlock">rsync -a --files-from=<b style="color: blue;">file_list.txt</b> rsync://rsync.nic.funet.fi/ftp/pub/sci/geo <b style="color: blue;">folder_to_save/</b></div>
 
 <h3>Using wget for download</h3>
 
@@ -136,12 +128,8 @@
   combination is this:
 </p>
 
-<div class="codeBlock">
-  wget -r -l inf -N -np -nH -x -E -R html
-  --cut-dirs=http://www.nic.funet.fi/index/geodata/<b style="color: blue;"
-    >mml/hallintorajat_milj_tk/2017/</b
-  >
-</div>
+
+<div class="codeBlock">wget -r -l inf -N -np -nH -x -E -R html --cut-dirs=http://www.nic.funet.fi/index/geodata/<b style="color: blue;">mml/hallintorajat_milj_tk/2017/</b></div>
 
 <div>-r, recursive download</div>
 

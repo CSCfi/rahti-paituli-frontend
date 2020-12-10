@@ -145,6 +145,7 @@ function init() {
         class: 'download-checkbox',
         ol_id: feature.getId(),
       })
+
       dlInput.on('change', () => {
         updateSelectedFeatures(feature, dlInput)
         updateDownloadFileList(
@@ -154,16 +155,15 @@ function init() {
           dlLicInput
         )
       })
-      dlLabel.hover(
-        (event) => {
-          map.addHighlight(event)
-          dlLabel.css('font-weight', 'bold')
-        },
-        (event) => {
-          map.removeHighlight(event)
-          dlLabel.css('font-weight', 'normal')
-        }
-      )
+
+      dlLabel.on('mouseenter', function (e) {
+        map.addHighlight(e)
+      })
+
+      dlLabel.on('mouseleave', function (e) {
+        map.removeHighlight(e)
+      })
+
       dlLabel.append(dlInput)
       dlLabel.append(label)
       dlLabelList.push(dlLabel)

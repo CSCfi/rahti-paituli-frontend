@@ -82,7 +82,7 @@ const layerSwitcher = new LayerSwitcher({
 
 const scaleLineControl = new control.ScaleLine()
 
-map.on('moveend', () => notifications.setMaxResolutionWarning())
+map.on('moveend', () => notifications.setNotifications())
 map.addControl(overviewMap)
 map.addControl(layerSwitcher)
 map.addControl(scaleLineControl)

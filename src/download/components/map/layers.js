@@ -52,6 +52,9 @@ let indexStyleFunction = function (feature) {
       color: 'rgba(0, 0, 255, 1.0)',
       width: 2,
     }),
+    fill: new style.Fill({
+      color: 'rgba(0, 0, 255, 0)',
+    }),
     text: new style.Text({
       text: feature.get('label'),
       stroke: new style.Stroke({ width: 0.6 }),
@@ -99,4 +102,5 @@ export default {
   init,
   getDataLayer,
   getIndexLayer,
+  indexStyleFunction,
 }
