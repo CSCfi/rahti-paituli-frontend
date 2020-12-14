@@ -82,10 +82,16 @@ const layerSwitcher = new LayerSwitcher({
 
 const scaleLineControl = new control.ScaleLine()
 
+const zoomControl = new control.Zoom({
+  target: 'map-controls-container',
+})
+
 map.on('moveend', () => notifications.setNotifications())
+map.addControl(zoomControl)
 map.addControl(overviewMap)
 map.addControl(layerSwitcher)
 map.addControl(scaleLineControl)
+
 overviewMap.render()
 
 function registerProj4() {

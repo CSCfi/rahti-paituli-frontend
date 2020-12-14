@@ -16,7 +16,7 @@ export const URL = {
   // Links tab
   FTP_LINKS_BASE: 'ftp://ftp.funet.fi/index/geodata/',
   HTTP_LINKS_BASE: 'http://www.nic.funet.fi/index/geodata/',
-  INFO_LINK: 'https://avaa.tdata.fi/web/paituli/ftp-/-rsync',
+  INFO_LINK: 'https://paituli.csc.fi/ftprsync.html',
 
   // Etsin
   ETSIN_METADATA_BASE: 'http://urn.fi/',
