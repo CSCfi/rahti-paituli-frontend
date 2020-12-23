@@ -14,9 +14,6 @@ let filePaths = []
 let fileLabels = []
 
 function init() {
-  // Download and download list buttons are inside wrappers so that
-  // tooltips can be attached to wrappers instead of buttons. This way
-  // tooltips retain constant style even when buttons are disabled.
   let dlButtonWrapper = $('#dl-button-wrapper')
   if (!dlButtonWrapper.length) {
     dlButtonWrapper = $('<a>', { id: 'dl-button-wrapper' })
@@ -35,9 +32,9 @@ function init() {
   if (!dlListWrapper.length) {
     dlListWrapper = $('<a>', {
       id: 'dl-list-wrapper',
-      title: translate('info.dlListTooltip'),
     })
   }
+
   let dlListButton = $('#download-list-button')
   if (!dlListButton.length) {
     dlListButton = $('<button>', {
@@ -45,7 +42,11 @@ function init() {
       id: 'download-list-button',
     })
   }
+
   dlListButton.text(translate('info.downloadlist'))
+  dlListButton.attr('data-toggle', 'buttonTooltip')
+  dlListButton.attr({ title: translate('info.dlListTooltip') })
+  dlListButton.tooltip()
   dlListButton.appendTo(dlListWrapper)
 
   // Hide files list download option, if HAKA-dataset, these are not in FTP.
