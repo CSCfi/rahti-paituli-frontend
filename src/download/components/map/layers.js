@@ -33,7 +33,7 @@ function loadDataLayer() {
       dataLayer = new layer.Tile({
         title: translate('map.datamap'),
         source: new source.TileWMS({
-          url: URL.WMS_PAITULI_BASE_GWC,
+          url: URL.WMS_PAITULI_BASE,
           params: { LAYERS: dataUrl, VERSION: '1.1.1' },
           serverType: 'geoserver',
         }),
