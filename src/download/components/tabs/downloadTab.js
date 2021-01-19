@@ -48,7 +48,7 @@ function init() {
   dlListButton.appendTo(dlListWrapper)
   // dlListWrapper.attr('data-toggle', 'buttonTooltip')
   dlListWrapper.attr({ title: translate('info.dlListTooltip') })
-  dlListWrapper.tooltip({ hide: { effect: 'explode', duration: 1000 } })
+  dlListWrapper.tooltip({})
 
   // Hide files list download option, if HAKA-dataset, these are not in FTP.
   const dataAccess = datasets.getCurrent().access
