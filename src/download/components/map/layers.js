@@ -19,28 +19,18 @@ function init() {
 function loadDataLayer() {
   if (datasets.hasCurrent() && datasets.getCurrent().data_url != null) {
     const dataUrl = datasets.getCurrent().data_url
-    if (dataUrl.indexOf('protected') > -1) {
-      dataLayer = new layer.Image({
-        title: translate('map.datamap'),
-        source: new source.ImageWMS({
-          url: URL.WMS_PAITULI_BASE,
-          params: { LAYERS: dataUrl, VERSION: '1.1.1' },
-          serverType: 'geoserver',
-        }),
-        visible: true,
-      })
-    } else {
-      dataLayer = new layer.Tile({
-        title: translate('map.datamap'),
-        source: new source.TileWMS({
-          url: URL.WMS_PAITULI_BASE,
-          params: { LAYERS: dataUrl, VERSION: '1.1.1' },
-          serverType: 'geoserver',
-        }),
-        maxResolution: datasets.getCurrent().data_max_scale / 2835,
-        visible: true,
-      })
-    }
+
+    dataLayer = new layer.Tile({
+      title: translate('map.datamap'),
+      source: new source.TileWMS({
+        url: URL.WMS_PAITULI_BASE_GWC,
+        params: { LAYERS: dataUrl, VERSION: '1.1.1' },
+        hidpi: false,
+        serverType: 'geoserver',
+      }),
+      maxResolution: datasets.getCurrent().data_max_scale / 2835,
+      visible: true,
+    })
   } else {
     dataLayer = null
   }

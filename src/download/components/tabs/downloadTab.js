@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import 'jquery-ui-bundle/jquery-ui'
 
 import datasets from '../../datasets'
 import emailModal from '../emailModal'
@@ -45,9 +46,9 @@ function init() {
 
   dlListButton.text(translate('info.downloadlist'))
   dlListButton.appendTo(dlListWrapper)
-  dlListWrapper.attr('data-toggle', 'buttonTooltip')
+  // dlListWrapper.attr('data-toggle', 'buttonTooltip')
   dlListWrapper.attr({ title: translate('info.dlListTooltip') })
-  dlListWrapper.tooltip()
+  dlListWrapper.tooltip({})
 
   // Hide files list download option, if HAKA-dataset, these are not in FTP.
   const dataAccess = datasets.getCurrent().access
