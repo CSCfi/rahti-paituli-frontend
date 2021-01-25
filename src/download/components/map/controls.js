@@ -56,7 +56,7 @@ const getSelectedStyleFunction = function (feature) {
         width: 3,
       }),
       fill: new style.Fill({
-        color: [255, 255, 255, 0.1],
+        color: [255, 255, 255, 0.4],
       }),
       text: new style.Text({
         text: feature.get('label'),
