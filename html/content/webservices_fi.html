@@ -3,13 +3,19 @@
 <p>
   Monet Paitulin aineistot ovat saatavilla OGC:n mukaisista
   rajapintapalveluista: WMS, WCS, WFS, WMTS. Rajapinnoista saatavilla olevat aineistot ovat listattuna
-  alla.
+  alla. OGC rajapintapalvelut mahdollistavat datan latauksen suoraan netti-, työpöytäsovellukseen tai
+  aineiston analyysiskriptiin, näin että dataa ei ladata ensin paikalliselle koneelle tiedostona.
+  Tämä mahdollistaa aina ajan tasalla olevan datan käytön. Rajapintapalvelun käyttö on työpöytäsovelluksissa
+  samanlainen kuin paikallisella levyllä olevan datan käyttö, rajapintapalveluun otetaan yhteyttä 
+  vastaavasta valikosta. Yhteyden muodostamiseksi tarvitaan palvelun URL osoite. 
+  Yhteyden muodostamisen jälkeen käyttäjälle listataan kaikki palvelusta saatavilla olevat karttatasot.
 </p>
 
 <p>
   Rajapinta-aineistojen lisenssiehdot ovat vastaavat kuin latauspalvelun kautta
   ladatuissa aineistoissa. Lisenssiehdot löytyvät
-  <a href="metadata.html">Metadata</a> sivulta.
+  <a href="metadata.html">Metadata</a> sivulta. 
+  Jos Paitulin rajapintoja käytetään nettisovelluksessa myös Paituli on mainittava.
 </p>
 
 <p>Löydät rajapintapalvelut alla olevista URL-osoitteista:</p>
@@ -18,26 +24,35 @@
   <tbody>
     <tr>
       <th><strong>Standard</strong></th>
-      <th><strong>Connection URL</strong></th>
+	  <th><strong>Pyynnön palaute</strong></th>
+      <th><strong>Palvelun URL</strong></th>
     </tr>
     <tr>
-      <td>WMS</td>
+      <td><b>WMS</b>, Web Map Service</td>
+	  <td>Karttakuva katsomiseksi</td>	 
       <td>https://paituli.csc.fi/geoserver/paituli/wms?</td>
     </tr>
     <tr>
-      <td>WMTS</td>
+      <td><b>WMTS</b>, Web Map Tile Service</td>
+	  <td>Karttakuvan tiili katsomiseksi</td>
       <td>https://paituli.csc.fi/geoserver/paituli/gwc/service/wmts?</td>
     </tr>
     <tr>
-      <td>WFS</td>
+      <td><b>WFS</b>, Web Feature Service</td>
+	  <td>Vektoriaineisto</td>
       <td>https://paituli.csc.fi/geoserver/paituli/wfs?</td>
     </tr>
     <tr>
-      <td>WCS</td>
+      <td><b>WCS</b>, Web Coverage Service</td>
+	  <td>Rasteriaineisto</td>
       <td>https://paituli.csc.fi/geoserver/paituli/wcs?</td>
     </tr>
   </tbody>
 </table>
+
+<p>
+WMTS palvelussa karttatiilit ovat saatavilla vain etukäteen määritetyissä mittakaavoissa ja koossa. WMS palvelussa kartan koko ja mittakaava voidaan valita vapaasti. WMTS palvelu on yleensä  nopeampi, sillä karttatiilet ovat usein jo palvelun välimuistissa valmiina. Karttatasosta voidaan pyytä myös vain osa käyttämällä suodattimia, esim. BBOX määrittele pyydettävän maantietteellisen alueen.
+</p>
 
 <p>
   WMTS-palveluiden ruudukot: ERTS-TM35-FIN (EPSG:3067,
@@ -47,12 +62,13 @@
   >) ja Spherical Mercator (EPSG:3857).
 </p>
 
-<h4>Ohjeet</h4>
-
-<ul>
-  <li>
-    <a href="https://research.csc.fi/gis-guidelines" target="_blank">Ohjeita rajapintapalveluiden käyttöön</a>
-  </li>
-</ul>
+<h4>OGC rajapintapalveluiden käyttöohjeita:</h4>
+<ul> 
+<li><a href="https://docs.qgis.org/3.16/en/docs/training_manual/online_resources/wms.html">QGIS koulutusohje: Web mapping services</a>
+<li><a href="https://pro.arcgis.com/en/pro-app/latest/help/data/services/ogc-services.htm">ArcGIS Pro käyttöohje: About using OGC service layers</a>
+<li><a href="http://www.stat.fi/static/media/uploads/org/avoindata/rajapintapalveluiden_kayttoonotto_qgis.pdf">Tilastokeskuksen rajapintapalveluiden käyttöönotto QGIS-ohjelmistossa</a></li>
+<li><a href="http://docs.geoserver.org/latest/en/user/services/index.html">GeoServerin käyttöohje</a></li> 
+<li><a href="https://wiki.state.ma.us/display/massgis/GeoServer+-+WFS+-+Examples">MassGIS WMS ja WFS käyttöohje</a></li> 
+</ul> 
 
 <h4>Saatavilla olevat aineistot</h4>
