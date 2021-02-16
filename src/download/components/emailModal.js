@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import 'jquery-ui-bundle/jquery-ui'
 import datasets from '../datasets'
 import { getCurrentLocale, translate } from '../../shared/translations'
 import { DOWNLOAD_TYPE } from '../../shared/constants'
@@ -25,6 +26,7 @@ const modal = $('#email-modal').dialog({
     emailForm[0].reset()
     emailInput.removeClass('ui-state-error')
     licenseCheckbox.removeClass('ui-state-error')
+    $('#download-button').trigger('focus')
   },
 })
 

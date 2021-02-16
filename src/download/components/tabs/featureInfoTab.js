@@ -15,8 +15,8 @@ function init(event) {
       .getSource()
       .getFeatureInfoUrl(event.coordinate, resolution, 'EPSG:3857', {
         INFO_FORMAT: 'text/plain',
-        outputFormat: 'text/javascript',
       })
+      .replace('/gwc/service', '')
     if (url) {
       const iframe =
         '<iframe id="feature-info-iframe" seamless src="' + url + '"></iframe>'

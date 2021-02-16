@@ -64,7 +64,7 @@ function getMetadataFileLinksFromMetax(rawMetadata) {
       metadata.title != null &&
       metadata.download_url.identifier
         .toLowerCase()
-        .includes('latauspalvelu') === false
+        .includes('paituli.csc.fi/download') === false
     const toHtmlLink = (metadata) =>
       '<li><a href="' +
       metadata.download_url.identifier +
@@ -85,7 +85,7 @@ function getMetadataFileLinksFromMetax(rawMetadata) {
       )
     }
   }
-  return null
+  return ''
 }
 
 function getMetadataDescriptionFromMetax(rawMetadata) {
