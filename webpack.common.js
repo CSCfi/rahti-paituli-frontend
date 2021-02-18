@@ -13,6 +13,7 @@ module.exports = {
     webservices: './src/webservices/webservices.js',
     opendata: './src/opendata/opendata.js',
     footer: './src/shared/footer.js',
+    accessibility: './src/accessibility/accessibility.js',
   },
   output: {
     filename: '[name].js',

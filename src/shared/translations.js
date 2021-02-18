@@ -456,6 +456,12 @@ const translations = {
       en: `webservices_en.html`,
     },
   },
+  accessibility: {
+    contentFile: {
+      fi: `accessibility_fi.html`,
+      en: `accessibility_en.html`,
+    },
+  },
   footer: {
     ministryLogo: {
       fi: './okm-logo-fi.gif',
