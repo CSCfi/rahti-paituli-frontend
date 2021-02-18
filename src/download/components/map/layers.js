@@ -23,10 +23,10 @@ function loadDataLayer() {
     dataLayer = new layer.Tile({
       title: translate('map.datamap'),
       source: new source.TileWMS({
-        url: URL.WMS_PAITULI_BASE,
+        url: URL.WMS_PAITULI_BASE_GWC,
         params: { LAYERS: dataUrl, VERSION: '1.1.1' },
         hidpi: false,
-        // serverType: 'geoserver',
+        serverType: 'geoserver',
       }),
       maxResolution: datasets.getCurrent().data_max_scale / 2835,
       visible: true,
