@@ -13,6 +13,6 @@ $(function () {
   $('.content-article').load(translate('accessibility.contentFile'))
   $('#footer').load('footer.html', function () {
     $('.body_container').show()
-    toggleTabActivation('#help-link')
+    toggleTabActivation('')
   })
 })

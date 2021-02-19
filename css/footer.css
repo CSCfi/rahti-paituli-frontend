@@ -6,7 +6,7 @@
 }
 
 .footer-container {
-  width: 600px;
+  width: 800px;
   margin: 0 auto;
 }
 
@@ -49,7 +49,12 @@
 }
 
 .footer-contact {
-  /* color: #6F6F6F; */
   padding-top: 18px;
   padding-left: 3px;
+}
+
+.footer-privacy {
+  padding-top: 18px;
+  padding-left: 24px;
+  font-weight: bold;
 }

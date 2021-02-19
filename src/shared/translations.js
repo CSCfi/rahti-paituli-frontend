@@ -475,6 +475,10 @@ const translations = {
       fi: 'Saavutettavuus',
       en: 'Accessibility',
     },
+    privacyLink: {
+      fi: 'Tietosuoja',
+      en: 'Privacy',
+    },
   },
 }
 
