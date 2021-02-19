@@ -471,6 +471,10 @@ const translations = {
       fi: './ATT_pos_pysty_RGB_FI_transparent.png',
       en: './ATT_pos_pysty_RGB_EN_transparent.png',
     },
+    accessibilityLink: {
+      fi: 'Saavutettavuus',
+      en: 'Accessibility',
+    },
   },
 }
 
