@@ -423,6 +423,8 @@ legend,
   margin-top: 10px;
 }
 
+#privacy-checkbox,
+#privacy-checkbox-label,
 #license-checkbox,
 #license-checkbox-label,
 #license-list-checkbox,
@@ -436,6 +438,7 @@ legend,
 }
 
 #license-checkbox-label a,
+#privacy-checkbox-label a,
 #license-list-checkbox-label a {
   color: #03881c !important;
 }

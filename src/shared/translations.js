@@ -260,9 +260,14 @@ const translations = {
     },
     licensefield: {
       fi:
-        "Hyväksyn aineiston <a href='!license!' target='_blank'>käyttöehdot</a>",
-      en: "I accept the <a href='!license!' target='_blank'>license terms</a>",
+        "Hyväksyn <a href='!license!' target='_blank'>aineiston käyttöehdot</a>",
+      en: "I accept the <a href='!license!' target='_blank'>dataset's license terms</a>",
     },
+    privacylabel: {
+      fi:
+        "Hyväksyn <a href='privacy.html' target='_blank'>Paitulin käyttöehdot</a>",
+      en: "I accept <a href='privacy.html' target='_blank'>Paituli Privacy Policy</a>",
+    },    
     info: {
       fi:
         'Lähetettyäsi tilauksen saat hetken kuluttua sähköpostiisi latauslinkin.',
@@ -299,6 +304,10 @@ const translations = {
       fi: 'Käyttöehtojen hyväksyminen on pakollista',
       en: 'Accepting the license terms is mandatory',
     },
+    errorPrivacyCheckboxChecked: {
+      fi: 'Tietoturvaselosteen hyväksyminen on pakollista',
+      en: 'Accepting the privacy notification is mandatory',
+    },    
   },
   metadataTable: {
     producer: {
@@ -461,6 +470,12 @@ const translations = {
       fi: `accessibility_fi.html`,
       en: `accessibility_en.html`,
     },
+  },
+  privacy: {
+    contentFile: {
+      fi: `privacy_fi.html`,
+      en: `privacy_en.html`,
+    },    
   },
   footer: {
     ministryLogo: {

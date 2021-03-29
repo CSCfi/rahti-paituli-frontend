@@ -12,6 +12,7 @@ let downloadType = ''
 const emailRegexp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
 const emailInput = $('#email-input')
 const licenseCheckbox = $('#license-checkbox')
+const privacyCheckbox = $('#privacy-checkbox')
 const tips = $('#email-modal-tips')
 
 const modal = $('#email-modal').dialog({
@@ -26,6 +27,7 @@ const modal = $('#email-modal').dialog({
     emailForm[0].reset()
     emailInput.removeClass('ui-state-error')
     licenseCheckbox.removeClass('ui-state-error')
+    privacyCheckbox.removeClass('ui-state-error')
     $('#download-button').trigger('focus')
   },
 })
@@ -40,6 +42,7 @@ $('#email-input-label').text(translate('email.emailfield'))
 $('#email-input').attr('placeholder', translate('email.emailfieldPlaceholder'))
 $('#email-modal-form fieldset legend').text(translate('email.inputsheader'))
 $('#email-instructions').text(translate('email.info'))
+$('#privacy-checkbox-label').html(translate('email.privacylabel'))
 
 function sendEmail() {
   const valid = validate()
@@ -76,7 +79,8 @@ function sendEmail() {
 function validate() {
   emailInput.removeClass('ui-state-error')
   licenseCheckbox.removeClass('ui-state-error')
-  return checkLength() && checkRegexp() && checkLicenseIsChecked()
+  privacyCheckbox.removeClass('ui-state-error')
+  return checkLength() && checkRegexp() && checkLicenseIsChecked() && checkPrivacyIsChecked()
 }
 
 function checkLength() {
@@ -92,6 +96,18 @@ function checkLength() {
 function checkRegexp() {
   if (!emailRegexp.test(emailInput.val())) {
     displayValidationError(emailInput, translate('email.errorEmailFormat'))
+    return false
+  } else {
+    return true
+  }
+}
+
+function checkPrivacyIsChecked() {
+  if (!privacyCheckbox.prop('checked')) {
+    displayValidationError(
+      privacyCheckbox,
+      translate('email.errorPrivacyCheckboxChecked')
+    )
     return false
   } else {
     return true

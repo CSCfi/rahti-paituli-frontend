@@ -14,6 +14,7 @@ module.exports = {
     opendata: './src/opendata/opendata.js',
     footer: './src/shared/footer.js',
     accessibility: './src/accessibility/accessibility.js',
+    privacy: './src/privacy/privacy.js',    
   },
   output: {
     filename: '[name].js',
