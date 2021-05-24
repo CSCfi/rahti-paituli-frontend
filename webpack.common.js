@@ -58,11 +58,11 @@ module.exports = {
 			[  
 			  {
 				from: 'html/skeleton/*.html',
-				flatten: true,
+				to: "[name][ext]",
 			  },
 			  {
 				from: 'html/content/*.html',
-				flatten: true,
+				to: "[name][ext]",
 			  },
 			  {
 				from: 'img',
