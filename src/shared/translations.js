@@ -265,8 +265,8 @@ const translations = {
     },
     privacylabel: {
       fi:
-        "Hyväksyn <a href='privacy.html' target='_blank'>Paitulin käyttöehdot</a>",
-      en: "I accept <a href='privacy.html' target='_blank'>Paituli Privacy Policy</a>",
+        "Olen tutustunut <a href='privacy.html' target='_blank'>Paitulin tietosuojaselosteeseen</a> ja annan suostumukseni henkilötietojeni käsittelyyn siinä kuvatulla tavalla.",
+      en: "I have read <a href='privacy.html' target='_blank'>Paituli Privacy Policy</a> and give consent to processing of my personal data.",
     },    
     info: {
       fi:
