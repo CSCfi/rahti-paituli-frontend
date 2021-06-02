@@ -429,7 +429,7 @@ legend,
 #license-checkbox-label,
 #license-list-checkbox,
 #license-list-checkbox-label {
-  display: inline-block;
+  display: inline;
 }
 
 .modal-content-block {
