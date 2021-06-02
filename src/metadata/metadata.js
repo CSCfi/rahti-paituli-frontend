@@ -24,9 +24,10 @@ const filterControlPlaceholder = translate('metadataTable.filter')
 $('#table')
   .bootstrapTable({
     url: `${URL.METADATA_API}/${getCurrentLocale()}`,
-    filterControl: true,
     locale: 'en-US',
     showMultiSort: true,
+    showMultiSortButton: false,
+    filterControl: true,
     sortPriority: [
       {
         sortName: 'org',
@@ -39,7 +40,7 @@ $('#table')
       {
         sortName: 'year',
         sortOrder: 'asc',
-      },
+      }
     ],
     columns: [
       {

@@ -35,7 +35,7 @@ table td {
 }
 
 .content-article {
-  margin: 30px 0px 50px 0px;
+  margin: 30px 0px 0px 0px;
   color: #555;
   width: 900px;
   font-family: Arial, sans-serif;
@@ -43,13 +43,17 @@ table td {
   line-height: 20px;
 }
 
+.container {
+  padding-bottom: 50px; 
+}
+
 a {
   color: #03881c;
+  text-decoration: none;
 }
 
 a:hover {
   color: #026c16;
-  text-decoration: none;
 }
 
 .content-article p {
