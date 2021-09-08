@@ -24,10 +24,14 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-		options: {
-          url: false,
-        },
+        use: ['style-loader', 
+		  {
+            loader: 'css-loader',
+            options: {
+              url: false,
+            },
+          },
+		],
       },
 
       {
