@@ -135,7 +135,7 @@ const translations = {
       fi:
         "Aineiton pysyvä ID: <a href='!metadata_url!' target='_blank'>!metadata_url!</a>",
       en:
-        "Dataset's permanent ID: <a href='!metadata_url!' target='_blank'>!metadata_url!</a>",,
+        "Dataset's permanent ID: <a href='!metadata_url!' target='_blank'>!metadata_url!</a>",
     },	
     metadatacontentheader: {
       fi: '<h6 class="tab-content-header">Aineiston kuvaus</h6>',
