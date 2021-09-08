@@ -6,7 +6,7 @@ import 'bootstrap-table/dist/extensions/multiple-sort/bootstrap-table-multiple-s
 import 'bootstrap-table/dist/extensions/filter-control/bootstrap-table-filter-control'
 
 import { translate } from '../shared/translations'
-import { flipURN } from '../shared/utils'
+#import { flipURN } from '../shared/utils'
 import { URL } from '../shared/urls'
 import { getCurrentLocale } from '../shared/translations'
 import { toggleTabActivation } from '../shared/header'
@@ -110,7 +110,7 @@ $('#table')
         formatter: (value) =>
           value != null
             ? '<a href="http://urn.fi/' +
-              flipURN(value) +
+              value +
               ' " target="_blank">' +
               translate('metadataTable.description') +
               '</a>'

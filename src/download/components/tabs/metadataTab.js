@@ -1,7 +1,7 @@
 import $ from 'jquery'
 
 import datasets from '../../datasets'
-import { flipURN } from '../../../shared/utils'
+#import { flipURN } from '../../../shared/utils'
 import { getCurrentLocale, translate } from '../../../shared/translations'
 import { LOCALE } from '../../../shared/constants'
 import { URL } from '../../../shared/urls'
@@ -20,11 +20,24 @@ function init() {
     infoLabel.append(
       translate('info.metadatainfo').replace(
         '!metadata_url!',
-        URL.ETSIN_METADATA_BASE + flipURN(urn)
+        URL.ETSIN_METADATA_BASE + urn
       )
     )
     rootElem.append(infoLabel)
   }
+  
+	const pidDiv = $('<div>', {
+		id: 'metadata-pid',
+	  })
+	  if (urn !== null) {
+		pidDiv.append(
+		  translate('info.pid').replaceAll(
+			'!metadata_url!',
+			URL.ETSIN_METADATA_BASE + urn
+		  )
+		)
+		rootElem.append(pidDiv)
+	  }  
 
   const notesDiv = $('<div>', {
     id: 'metadata-notesDiv',
@@ -35,7 +48,7 @@ function init() {
 
 function fetchMetadataDescription(urn, notesDiv) {
   $.ajax({
-    url: URL.ETSIN_METADATA_JSON_BASE + flipURN(urn),
+    url: URL.ETSIN_METADATA_JSON_BASE + urn,
     success: (data) => {
       const notesHtml = getMetadataDescriptionFromMetax(data)
       const linksHtml = getMetadataFileLinksFromMetax(data)
