@@ -17,7 +17,7 @@ function init() {
   })
   if (urn !== null) {
     infoLabel.append(
-      translate('info.metadatainfo').replace(
+      translate('info.metadatainfo').replaceAll(
         '!metadata_url!',
         URL.ETSIN_METADATA_BASE + urn
       )
@@ -30,19 +30,6 @@ function init() {
   })
 
   fetchMetadataDescription(urn, notesDiv)
-  
-	const pidDiv = $('<div>', {
-		id: 'metadata-pid',
-	  })
-	  if (urn !== null) {
-		pidDiv.append(
-		  translate('info.pid').replaceAll(
-			'!metadata_url!',
-			URL.ETSIN_METADATA_BASE + urn
-		  )
-		)
-		rootElem.append(pidDiv)
-	  }   
 }
 
 function fetchMetadataDescription(urn, notesDiv) {
@@ -58,9 +45,9 @@ function fetchMetadataDescription(urn, notesDiv) {
           translate('info.metadatacontentheader') + notesHtml + linksHtml
         )
       }
-      // if (rootElem.children().length >= 2) {
-        // rootElem.children().last().remove()
-      // }
+      if (rootElem.children().length >= 2) {
+        rootElem.children().last().remove()
+      }
       rootElem.append(notesDiv)
     },
     error: () => {

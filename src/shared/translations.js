@@ -126,17 +126,11 @@ const translations = {
     },
     metadatainfo: {
       fi:
-        "Tämän aineiston <b>kaikki metatiedot</b> löytyvät <a href='!metadata_url!' target='_blank'>" +
-        'Etsin-hakupalvelusta</a>.',
+        "Tämän aineiston <b>kaikki metatiedot</b> löytyvät Etsin-hakupalvelusta pysyvällä tunnisteella: <a href='!metadata_url!' target='_blank'>!metadata_url!</a>" +
+        '</a>.',
       en:
-        "<b>All metadata</b> for this dataset is available from <a href='!metadata_url!' target='_blank'>Etsin metadata service</a>.",
+        "<b>All metadata</b> for this dataset is available from Etsin metadata service with permanent ID: <a href='!metadata_url!' target='_blank'>!metadata_url!</a>",
     },
-    pid: {
-      fi:
-        '<h6 class="tab-content-header">Aineiton pysyvä ID</h6> <a href="!metadata_url!" target="_blank">!metadata_url!</a>',
-      en:
-        '<h6 class="tab-content-header">Dataset permanent ID</h6> <a href="!metadata_url!" target="_blank">!metadata_url!</a>',
-    },	
     metadatacontentheader: {
       fi: '<h6 class="tab-content-header">Aineiston kuvaus</h6>',
       en: '<h6 class="tab-content-header">Description of dataset</h6>',
