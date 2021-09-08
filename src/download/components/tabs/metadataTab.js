@@ -58,7 +58,7 @@ function fetchMetadataDescription(urn, notesDiv) {
           translate('info.metadatacontentheader') + notesHtml + linksHtml
         )
       }
-      if (rootElem.children().length >= 2) {
+      if (rootElem.children().length >= 3) {
         rootElem.children().last().remove()
       }
       rootElem.append(notesDiv)
