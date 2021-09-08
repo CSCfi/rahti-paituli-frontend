@@ -133,9 +133,9 @@ const translations = {
     },
     pid: {
       fi:
-        "Aineiton pysyvä ID: <a href='!metadata_url!' target='_blank'>!metadata_url!</a>",
+        "<h6 class="tab-content-header">Aineiton pysyvä ID</h6> <a href='!metadata_url!' target='_blank'>!metadata_url!</a>",
       en:
-        "Dataset's permanent ID: <a href='!metadata_url!' target='_blank'>!metadata_url!</a>",
+        "<h6 class="tab-content-header">Dataset's permanent ID</h6> <a href='!metadata_url!' target='_blank'>!metadata_url!</a>",
     },	
     metadatacontentheader: {
       fi: '<h6 class="tab-content-header">Aineiston kuvaus</h6>',
