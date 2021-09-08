@@ -25,6 +25,12 @@ function init() {
     rootElem.append(infoLabel)
   }
   
+  const notesDiv = $('<div>', {
+    id: 'metadata-notesDiv',
+  })
+
+  fetchMetadataDescription(urn, notesDiv)
+  
 	const pidDiv = $('<div>', {
 		id: 'metadata-pid',
 	  })
@@ -36,13 +42,7 @@ function init() {
 		  )
 		)
 		rootElem.append(pidDiv)
-	  }  
-
-  const notesDiv = $('<div>', {
-    id: 'metadata-notesDiv',
-  })
-
-  fetchMetadataDescription(urn, notesDiv)
+	  }   
 }
 
 function fetchMetadataDescription(urn, notesDiv) {
@@ -58,7 +58,7 @@ function fetchMetadataDescription(urn, notesDiv) {
           translate('info.metadatacontentheader') + notesHtml + linksHtml
         )
       }
-      if (rootElem.children().length >= 3) {
+      if (rootElem.children().length >= 2) {
         rootElem.children().last().remove()
       }
       rootElem.append(notesDiv)
