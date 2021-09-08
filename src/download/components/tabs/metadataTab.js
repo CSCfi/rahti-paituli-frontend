@@ -58,9 +58,9 @@ function fetchMetadataDescription(urn, notesDiv) {
           translate('info.metadatacontentheader') + notesHtml + linksHtml
         )
       }
-      if (rootElem.children().length >= 2) {
-        rootElem.children().last().remove()
-      }
+      // if (rootElem.children().length >= 2) {
+        // rootElem.children().last().remove()
+      // }
       rootElem.append(notesDiv)
     },
     error: () => {
