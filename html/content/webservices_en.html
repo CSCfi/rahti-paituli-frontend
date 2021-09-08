@@ -1,7 +1,7 @@
 <h1>Paituli web services</h1>
 
 <p>
-  Several Paituli datasets are available as OGC web services: WMS, WFS, WCS and WMTS.
+  Several Paituli datasets are available as OGC web services: WMS, WFS, WCS and WMTS. Also new OGC API standards are supported.
   All datasets available via web services are listed at the end of this page. OGC web services 
   enable retrieving data from servers directly to a web application, desktop GIS or data analysis script, 
   without downloading first data as files to own computer. In such a way it is possible to use always 
@@ -12,6 +12,7 @@
 
 <p>Paituli provides these OGC web services:</p>
 
+<h4>Stable OGC standards</h4>
 <table>
   <tbody>
     <tr>
@@ -38,6 +39,35 @@
       <td><b>WCS</b>, Web Coverage Service</td>
 	  <td>Raster data</td>
       <td>https://paituli.csc.fi/geoserver/paituli/wcs?</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4>New OGC API standards</h4>
+
+<p> The new <a href="https://ogcapi.ogc.org/">OGC API standards</a> are still under development. Paituli supports them as much as GeoServer has implemented them. Also client side implementations are developing, for example QGIS and ArcGIS Pro currently support only OGC API Features. </p>
+
+<table>
+  <tbody>
+    <tr>
+      <th><strong>Standard</strong></th>
+	  <th><strong>Request result</strong></th>
+      <th><strong>Connection URL</strong></th>
+    </tr>
+    <tr>
+      <td><b>Maps</b>, similar to WMS</td>
+	  <td>Map image for viewing</td>
+      <td>https://paituli.csc.fi/geoserver/ogc/maps</td>
+    </tr>
+    <tr>
+      <td><b>Tiles</b>, similar to WMTS</td>
+	  <td>Map image tile for viewing</td>
+      <td>https://paituli.csc.fi/geoserver/ogc/tiles</td>
+    </tr>
+    <tr>
+      <td><b>Features</b>, similar to WFS</td>
+	  <td>Vector data</td>
+      <td>https://paituli.csc.fi/geoserver/ogc/features</td>
     </tr>
   </tbody>
 </table>

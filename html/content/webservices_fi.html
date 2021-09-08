@@ -2,7 +2,7 @@
 
 <p>
   Monet Paitulin aineistot ovat saatavilla OGC:n mukaisista
-  rajapintapalveluista: WMS, WCS, WFS, WMTS. Rajapinnoista saatavilla olevat aineistot ovat listattuna
+  rajapintapalveluista: WMS, WCS, WFS, WMTS. Myös uudet OCS API rajapinnat ovat käytettävissä. Rajapinnoista saatavilla olevat aineistot ovat listattuna
   alla. OGC rajapintapalvelut mahdollistavat datan latauksen suoraan netti-, työpöytäsovellukseen tai
   aineiston analyysiskriptiin, näin että dataa ei ladata ensin paikalliselle koneelle tiedostona.
   Tämä mahdollistaa aina ajan tasalla olevan datan käytön. Rajapintapalvelun käyttö on työpöytäsovelluksissa
@@ -20,6 +20,7 @@
 
 <p>Löydät rajapintapalvelut alla olevista URL-osoitteista:</p>
 
+<h4>Perinteiset OGC rajapinnat</h4>
 <table>
   <tbody>
     <tr>
@@ -46,6 +47,35 @@
       <td><b>WCS</b>, Web Coverage Service</td>
 	  <td>Rasteriaineisto</td>
       <td>https://paituli.csc.fi/geoserver/paituli/wcs?</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4>Uudet OGC API rajapinnat</h4>
+
+<p> <a href="https://ogcapi.ogc.org/">OGC API rajapinta-standardit</a> ovat vielä kehittymässä. Paitulissa OGC API rajapintojen saatavuus riippuu GeoServerin tarjottavista mahdollisuuksista. Myös asiakassovellukset ovat vielä kehittymässä, esimerkiksi QGIS ja ArcGIS Pro tukevat täällä hetkellä vain OGC API Features rajapintaa. </p>
+
+<table>
+  <tbody>
+    <tr>
+      <th><strong>Standard</strong></th>
+	  <th><strong>Pyynnön palaute</strong></th>
+      <th><strong>Palvelun URL</strong></th>
+    </tr>
+    <tr>
+      <td><b>Maps</b>, samankaltainen kuin WMS</td>
+	  <td>Karttakuva katsomiseksi</td>
+      <td>https://paituli.csc.fi/geoserver/ogc/maps</td>
+    </tr>
+    <tr>
+      <td><b>Tiles</b>, samankaltainen kuin WMTS</td>
+	  <td>Karttakuvan tiili katsomiseksi</td>
+      <td>https://paituli.csc.fi/geoserver/ogc/tiles</td>
+    </tr>
+    <tr>
+      <td><b>Features</b>, samankaltainen kuin WFS</td>
+	  <td>Vektoriaineisto</td>
+      <td>https://paituli.csc.fi/geoserver/ogc/features</td>
     </tr>
   </tbody>
 </table>
