@@ -7,6 +7,8 @@ import { LOCALE } from './constants'
 import '../../css/main.css'
 import '../../css/header.css'
 
+const MATOMO_TAG = process.env.MATOMO_TAG
+
 const languageSelector = $('#language-selector')
 const homeLink = $('#home-link')
 const metadataLink = $('#metadata-link')
@@ -15,6 +17,15 @@ const helpLink = $('#help-link')
 const webServicesLink = $('#webservices-link')
 const ftpLink = $('#ftp-link')
 const openDataLink = $('#open-data-link')
+
+function setMatomoTag() {
+	var meta = document.createElement('meta');
+	meta.name = "fdwe-environment";
+	meta.content = MATOMO_TAG;
+	document.head.appendChild(meta);
+}
+
+setMatomoTag()
 
 function setTranslations() {
   homeLink.text(translate('header.homePage'))
