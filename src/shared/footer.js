@@ -2,8 +2,6 @@ import $ from 'jquery'
 import 'jquery-ui-bundle/jquery-ui'
 
 import { translate } from './translations'
-
-import '../../css/main.css'
 import '../../css/footer.css'
 
 function setTranslations() {
