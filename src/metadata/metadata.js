@@ -13,9 +13,6 @@ import { toggleTabActivation } from '../shared/header'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-table/dist/bootstrap-table.min.css'
 import 'jquery-ui-bundle/jquery-ui.css'
-import 'ol/ol.css'
-import 'ol-layerswitcher/src/ol-layerswitcher.css'
-import '../../css/main.css'
 import '../../css/metadata.css'
 
 const filterControlPlaceholder = translate('metadataTable.filter')
