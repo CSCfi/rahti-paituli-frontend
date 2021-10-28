@@ -15,7 +15,6 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-table/dist/bootstrap-table.min.css'
 import 'jquery-ui-bundle/jquery-ui.css'
 
-import '../../css/main.css'
 import '../../css/webservices.css'
 
 const filterControlPlaceholder = translate('metadataTable.filter')
