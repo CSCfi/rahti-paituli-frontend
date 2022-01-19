@@ -4,11 +4,10 @@
   If you would like to download bigger amounts of Paituli data, using the
   traditional download as .zip file might be quite limiting (max 3 Gb). 
   To overcome that there is the option of downloading data over HTTP, FTP and rsync from
-  nic.funet.fi service. In the data folder of each dataset is a Readme-file,
-  that includes the basic infomation and link to Etsin, where full dataset
-  descriptions are available.
-</p>
+  nic.funet.fi service. 
+ </p> 
 
+  
 <p>The root paths for each protocal are:</p>
 
 <ul>
@@ -19,72 +18,62 @@
     >
   </li>
   <li>
-    <strong>FTP</strong>:
-    <a href="ftp://ftp.funet.fi/pub/sci/geo/geodata/" target="_blank"
-      >ftp://ftp.funet.fi/pub/sci/geo/geodata/</a
-    >
+    <strong>FTP</strong>: ftp://ftp.funet.fi/pub/sci/geo/geodata/
   </li>
   <li>
     <strong>rsync</strong>: rsync://rsync.nic.funet.fi/ftp/pub/sci/geo/geodata/
   </li>
 </ul>
 
-<h3>Recommended software</h3>
-
 <p>
-  FTP and rsync are both good options for downloading folders with subfolders,
-  as it is easy to just select the highest level folder and download all of its
-  contents.
+  In the data folder of each dataset is a Readme-file,
+  that includes the basic infomation and link to Etsin, where full dataset
+  descriptions are available.
 </p>
 
-<ul>
-  <li>
-    The easiest way for using an FTP service is to download an suitable
-    graphical tool, for example
-    <a href="https://filezilla-project.org/" target="_blank">Filezilla </a>or
-    <a href="https://winscp.net/eng/download.php" target="_blank">WinSCP</a>. If username or password is asked, leave the field empty.
-  </li>
-  <li>
-    Of command line tools we recommend <strong>rsync</strong>. It has the
-    ability to continue a download, if it has frozen for some reason and can
-    preserve the original modification date. rsync should be included in most
-    Linux distributions by default. In Windows you have to add it manually, for
-    example <a href="https://itefix.net/cwrsync" target="_blank">cwRsync</a>.
-  </li>
-  <li>If rsync is not suitable, try <strong>wget</strong> or <strong>curl</strong>.</li>
-</ul>
-<h3>Finding the data</h3>
+<p>Main options for bulk download:</p>
+	<ul>
+	  <li>Downloading a folder, possibly including subfolders. 
+	  </li>
+	  <li>Downloading a list of selected files. The file list can be created on <a href="download.html">Download data</a> page.
+	  </li>
+	  <li>Mounting FTP as local drive</li>
+	</ul>  
+
+	
+<h4>Downloading a folder</h4>
 
 <p>
-  Paituli includes in total 12 Tb (= 12 000 Gb) of data, so in most cases it
-  should be enough to download only some parts of it.
+This is a relativly easy option, if the download needs match with the folder structure. Each Paituli dataset has its own folder, so this suits well for downloading a full dataset. 
 </p>
 
-<p><strong>If you want to download the whole dataset</strong></p>
-
-<p>
-  You can browse the the directories in HTTP or FTP mode, the datasets have been
-  stored in quite logical structure, so you might find what you are looking for.
-  In the tree you have to first select the data producer, then dataset and then
-  year (and other options). The folders have mostly names in Finnish.
+<h5>Finding the path of the folder</h5>
+ For finding the folder you can simply browse the the directories in HTTP or FTP mode. The datasets have been stored in logical structure, so you might find what you are looking for. In the tree you have to first select the data producer, then dataset and then year (and other options). The folders have mostly names in Finnish.
 </p>
-
 <p>
-  The other option is to find the dataset spesific paths from Download data
-  page:
+  The other option is to find the dataset spesific path from <a href="download.html">Download data</a> page:
 </p>
 
 <ol>
-  <li>Open the <a href="download.html">Download data</a> page,</li>
   <li>Select the dataset you are interested</li>
-  <li>Open the "Links" tab in lower left corner.</li>
-  <li>
-    Navigate to the mentioned folder with some FTP tool OR use rsync for
-    downloading the data:
-  </li>
+  <li>Open the "Links" tab in lower left corner. The links for all 3 protocols are displayed.</li>
 </ol>
 
-<div class="codeBlock">rsync -a rsync://rsync.nic.funet.fi/ftp/pub/sci/geo/geodata/<bstyle="color: blue;">mml/hallintorajat_milj_tk/2017/folder_to_save/</b>
+<h5>Downloading the files of a folder and its possible subfolders</h5>
+<p>
+Different tools can be used downloading a folder. The listed options here download automatically subfolders and keep the same structure on local computer.
+<ol>
+  <li>The easiest could be FTP with a <strong>graphical FTP tool</strong> like FileZilla or WinSCP (see links to software pages at the end of this page). If username or password is asked, leave the field empty. In the FTP tool just connect to ftp://ftp.funet.fi/pub/sci/geo/geodata/ and navigate to the folder and drag it left for download. 
+  contents.</li>
+  <li><strong>rsync</strong> or <strong>wget</strong> commandline tools. In some places ftp and rsync are forbidden at firewall level, then you can use wget with http.</li>
+</ol>
+
+
+<p>
+rsync example:
+</p>
+
+<div class="codeBlock">rsync -a rsync://rsync.nic.funet.fi/ftp/pub/sci/geo/geodata/<b style="color: blue;">mml/hallintorajat_milj_tk/2017/ local_folder_to_save/</b>
 </div>
 
 <ul>
@@ -96,11 +85,38 @@
 </ul>
 
 <p>
-  <strong
-    >If you want to download only spesific mapsheets of some dataset</strong
-  >
+wget example, wget has a lot of different options, one well working combination is this:
 </p>
 
+<div class="codeBlock">wget -r -l inf -N -np -nH -x -E -R html -c --cut-dirs=5 http://www.nic.funet.fi/index/geodata/<b style="color: blue;">mml/hallintorajat_milj_tk/2017/ -P local_folder_to_save/</b></div>
+
+<ul>
+	<li>-r, recursive download</li>
+	<li>-l inf, how deep the requirsive search goes, default is 5, here set to infinite</li>
+	<li>-N, update only, do not download already existing files, this is important if
+  download was interrupted or updating already existing data.</li>
+	<li>-np, do not download parent directories</li>
+	<li>-nH, remove hostname</li>
+	<li>-x, make directories similarly to Paituli</li>
+	<li>-cuts-dirs, cut certain number of directories from the beginning to avoid too
+  deep directory trees</li>
+	<li>-E, makes html files to be named like .html, otherwise files without any
+  extention are created (not needed when using ftp)</li>
+	<li>-R html, do not save html files (not needed when using ftp)</li>	
+	<li>-c, continue broken download</li>		
+    <li>
+      Use the ftp protocol if possible, otherwise you might get some extra
+      index.* files.
+    </li>
+</ul>
+
+
+<h4>Downloading a list of files</h4>
+<p>
+  If you want to download only spesific mapsheets of some dataset you need to first create a list of files Paituli and then download the files with some tool. 
+</p>
+
+<h5>Creating the list of files</h5>
 <ol>
   <li>Open the <a href="download.html">Download data</a> page.</li>
   <li>Select the dataset you are interested</li>
@@ -111,71 +127,25 @@
   <li>
     You will receive the link to file list to your e-mail, download that
     file.<br />
-    (Alternatively you can make a custom file using the paths given in index
-    map, which is available for each dataset in
-    <a href="download.html">Download data</a> page Links tab.)
   </li>
-  <li>Use rsync for downloading the data:</li>
 </ol>
 
-<div class="codeBlock">rsync -a --files-from=<b style="color: blue;">file_list.txt</b> rsync://rsync.nic.funet.fi/ftp/pub/sci/geo <b style="color: blue;">folder_to_save/</b></div>
+<p>Alternatively you can make a custom file using the paths given in index map, which is available for each dataset in <a href="download.html">Download data</a> page Links tab.</p>
 
-<h3>Using wget for download</h3>
+<h5>Downloading the files with a list of files.</h5>
+<p>Unfortunatelly the graphical tools do not support downloading with a list of files, but both rsync and wget have this option.</p>
 
-<p>
-  In some places ftp and rsync are forbidden at firewall level, then you can use
-  wget with http. wget has a lot of different options, one well working
-  combination is this:
+<p>wget example, compared to previous example -i option is added to give the name of files list.
+      file
 </p>
 
+<div class="codeBlock">wget -r -l inf -N -np -nH -x -E -R html -c --cut-dirs=5 http://www.nic.funet.fi/index/geodata/<b style="color: blue;">mml/hallintorajat_milj_tk/2017/ -i file_list.txt -P local_folder_to_save/</b></div>
 
-<div class="codeBlock">wget -r -l inf -N -np -nH -x -E -R html --cut-dirs=http://www.nic.funet.fi/index/geodata/<b style="color: blue;">mml/hallintorajat_milj_tk/2017/</b></div>
+<p>rsync example. For rsync, remove from the beginning of each row 'http://www.nic.funet.fi/index/' in the file list.</p>
+<div class="codeBlock">rsync -a --files-from=<b style="color: blue;">file_list.txt</b> rsync://rsync.nic.funet.fi/ftp/pub/sci/geo <b style="color: blue;">local_folder_to_save/</b></div>
 
-<div>-r, recursive download</div>
 
-<div>
-  -l inf, how deep the requirsive search goes, default is 5, here set to
-  infinite
-</div>
-
-<div>
-  -N, update only, do not download already existing files, this is important if
-  download was interrupted or updating already existing data.
-</div>
-
-<div>-np, do not download parent directories</div>
-
-<div>-nH, remove hostname</div>
-
-<div>-x, make directories similarly to Paituli</div>
-
-<div>
-  -cuts-dirs, cut certain number of directories from the beginning to avoid too
-  deep directory trees
-</div>
-
-<div>
-  -E, makes html files to be named like .html, otherwise files without any
-  extention are created (not needed when using ftp)
-</div>
-
-<div>-R html, do not save html files (not needed when using ftp)</div>
-
-<div>
-  <ul>
-    <li>
-      Use the ftp protocol if possible, otherwise you might get some extra
-      index.* files.
-    </li>
-    <li>
-      If you want to file list, add the -i option with the name of files list
-      file. Add also the root path to each row. The root paths are given in the
-      beginning of this page.
-    </li>
-  </ul>
-</div>
-
-<h3>Mounting FTP as local drive</h3>
+<h4>Mounting FTP as local drive</h4>
 
 <p>
   It is possible to mount an FTP site as local drive. This would enable opening
@@ -194,3 +164,22 @@
     with reasonable speed.
   </li>
 </ul>
+
+<h4>Recommended software</h4>
+
+<ul>
+  <li> Graphical FTP tools:
+	<ul>
+		<li><a href="https://filezilla-project.org/" target="_blank">Filezilla </a></li>
+		<li><a href="https://winscp.net/eng/download.php" target="_blank">WinSCP</a>, only for Windows.</li>
+	</ul> 
+  </li>
+  <li> Commandline tools. Both can also continue interrupted download without downloading everything again. rsync or even FTP might be forbidden in some organizations. wget supports both HTTP and FTP. Both are included in most
+    Linux and Mac distributions by default. In Windows you could use Windows Subsystem for Linux or add the tools yourself.
+	<ul>
+		<li><a href="http://www.linuxguide.it/command_line/linux-manpage/do.php?file=rsync" target="_blank">rsync </a>. <a href="https://bobcares.com/blog/rsync-from-windows-to-linux-over-ssh target="_blank" rsync installation to Windows </a></li>
+		<li><a href="http://www.linuxguide.it/command_line/linux-manpage/do.php?file=wget" target="_blank">wget</a>. <a href="http://wget.addictivecode.org/FrequentlyAskedQuestions.html#download target="_blank" wget download for Windows </a></li>
+	</ul> 
+  </li>  
+</ul> 
+
