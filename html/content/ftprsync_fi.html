@@ -1,11 +1,11 @@
-<h1>Http:n, ftp:n ja rsyncin yli lataaminen</h1>
+<h1>HTTPS:n, FTP:n ja rsyncin yli lataaminen</h1>
 <p>
-  Paitulista ladattavan zip paketin enimmäiskoko on 2Gb, joten isompien
-  aineistojen osalta on ollut mahdollista ladata vain muutamia karttalehtiä
-  kerrallaan. Tämän rajoituksen poistamiseksi Paituliin on nyt lisätty
-  mahdollisuus ladata aineistoja myös HTTP:n, FTP:n tai rsyncin avulla
-  nic.funet.fi palvelusta. Jokaisen aineiston hakemistossa on Readme-tiedosto,
-  jossa aineiston perustiedojen lisäksi on linkki Etsimeen, josta löytyvät
+  Paitulin <a href="download.html">Lataussivu</a> mahdollistaa aineistojen latauksen .zip tiedostona, kerralla voi ladata max. 3 Gb. Tämä voi isompien aineistojen osalta olla hyvin rajoittavaa. Isompien latausten mahdollistamiseksi, Paitulin aineistot ovat saatavilla myös HTTPS, FTP ja rsync yli nic.funet.fi palvelussa. FTP ja rsync ovat yleensä helpompia käyttää, mutta niiden käyttö voi olla esim. Valtorin organisaatioissa olla estetty. HTTPS yleensä toimii.
+ </p> 
+ 
+<p>  
+  Jokaisen aineiston hakemistossa on Readme-tiedosto,
+  jossa aineiston perustietojen lisäksi on linkki Etsimeen, josta löytyvät
   laajemmat aineistokuvaukset.
 </p>
 <p>Protokollien juurihakemistot ovat:</p>
@@ -17,49 +17,29 @@
     >
   </li>
   <li>
-    <strong>FTP</strong>:
-    <a href="ftp://ftp.funet.fi/pub/sci/geo/geodata/" target="_blank"
-      >ftp://ftp.funet.fi/pub/sci/geo/geodata/</a
-    >
+    <strong>FTP</strong>: ftp://ftp.funet.fi/pub/sci/geo/geodata/
   </li>
   <li>
     <strong>rsync</strong>: rsync://rsync.nic.funet.fi/ftp/pub/sci/geo/geodata/
   </li>
 </ul>
-<h3>Suositeltavat ohjelmistot</h3>
+
+<p>Vaihtoehdot isompien aineistojen lataamiseksi:</p>
+	<ul>
+	  <li>Hakemiston lataus, mahdollisesti alihakemistojen kanssa. 
+	  </li>
+	  <li>Lataus tiedostolistauksen mukaisesti. Tiedostolistauksen voi muodostaa <a href="download.html">Lataussivulla</a>.
+	  </li>
+	  <li>FTP mountin tekeminen</li>
+	</ul>  
+
+<h2>Hakemiston lataus</h2>
+
 <p>
-  FTP ja rsync ovat molemmat hyviä vaihtoehtoja alihakemistoja sisältävien
-  hakemistojen lataamiseen. Molempia käytettäessä voi helposti valita vain
-  ylimmän kansion ja ladata kaikki alikansiot sisältöineen automaattisesti.
+Tämä on suhteellisen helppo tapa tiedostojen lataamiseksi, jos tarvittavat tiedostot ovat palvelimella samassa hakemistossa. Jokainen Paitulin aineisto on omassa hakemistossa, joten tämä sopii erittäin hyvin kokonaisen aineiston lataamiseksi.
 </p>
-<ul>
-  <li>
-    Helpoin tapa käyttää FTP:tä Windowsissa on ladata tähän tarkoitukseen tehty
-    ohjelmisto, esimerkiksi
-    <a href="https://filezilla-project.org/" target="_blank">Filezilla</a> tai
-    <a href="https://winscp.net/eng/download.php" target="_blank">WinSCP</a>. Jos ohjelmisto kysyy käyttäjätunnusta tai salasanaa, jätä kenttä tyhjäksi.
-  </li>
-  <li>
-    Komentorivityökaluista suosittelemme <strong>rsync </strong>ohjelmaa. Se
-    tarjoaa mahdollisuuden jatkaa keskeytynyttä latausta, joten se on parempi
-    vaihtoehto todella isojen (n. 100 Gb +) aineistojen lataamiseen. rsyncin
-    pitäisi tulla useimpien Linux jakeluiden mukana valmiiksi asennettuna.
-    Windows ympäristössä se tulee asentaa itse, esimerkiksi
-    <a href="http://itefix.net/cwrsync" target="_blank">cwRsync</a>.
-  </li>
-  <li>
-    Jos rsync ei ole käytettävissä, seuraava vaihtoehto on
-    <strong>wget</strong> tai <strong>curl</strong>.
-  </li>
-</ul>
-<h3>Aineiston löytäminen</h3>
-<p>
-  Paituli sisältää noin 12 Tb (= 12 000 Gb) dataa, joten useimmiten on tarpeen
-  ladata vain pieni osa Paitulin sisällöstä.
-</p>
-<p>
-  <strong>Kokonaisen aineiston lataaminen:</strong>
-</p>
+
+<h3>Hakemiston löytäminen</h3>
 <p>
   Paitulin hakemistoja on helppo selata HTTP tai FTP osoitteiden kautta.
   Aineistot on tallennettu loogisiin alihakemistoihin, joten halutun aineiston
@@ -67,14 +47,36 @@
   valita aineiston tuottaja, sitten itse aineisto, ja lopuksi vuosiversio (sekä
   mahdollisesti muita vaihtoehtoja).
 </p>
-<p>Toinen vaihtoehto on katsoa aineistojen polut Latauspalvelusta:</p>
+<p>Toinen vaihtoehto on katsoa aineistojen polut  <a href="download.html">Latauspalvelusta</a>:</p>
 <ol>
-  <li>Avaa <a href="download.html">Latauspalvelu</a>,</li>
   <li>Valitse haluamasi aineisto</li>
-  <li>Valitse "Linkit" välilehti vasemmasta alakulmassa.</li>
-  <li>Käytä jotain FTP työkalua TAI rsynciä aineiston lataamiseksi:</li>
+  <li>Valitse "Linkit" välilehti vasemmasta alakulmassa. Hakemistot kaikille kolmelle protokollalle näkyvät.</li>
 </ol>
-<div class="codeBlock">rsync -a rsync://rsync.nic.funet.fi/ftp/pub/sci/geo/geodata/<b style="color: blue;">mml/hallintorajat_milj_tk/2017/folder_to_save/</b>
+
+<h3>Hakemistossa olevien kaikkien tiedostojen ja alihakemistojen lataus</h3>
+
+<p>
+Hakemiston lataukseen voi käyttää ohjelmistoja, linkit työkalujen dokumentaatioon on listattu tämän sivun lopussa.
+Alla olevat esimerkit lataavat koko hakemiston ja sen alihakemistot, ja tallentavat tiedostot vastaavaan hakemistorakenteeseen paikallisella koneella.
+</p>
+
+<ol>
+  <li>Helppokäyttöisemmät ovat <strong>FTP ohjelmat</strong>, esim. FileZilla tai WinSCP. </li>
+  <li><strong>rsync</strong> tai <strong>wget</strong> komentorivityökalut. Joskus organisaation palomuuri voi estää FTP ja rsync:n käytön. Silloin on parasta käyttää wget työkalua HTTPS:n kanssa.</li>
+</ol>
+
+<h4>FTP ohjelmat</h4>
+<ol>
+  <li>Yhdistä palvelimeen. host name: ftp.funet.fi, protocol: FTP, port number: 21.</li>
+  <li>Jos käyttäjätunnusta tai salasanaa kysytään, jätä kenttä tyhjäksi.</li>
+  <li>Valitse oikealle hakemisto, mihin tarvitsemasi aineisto on tallennettu.</li>  
+  <li>Valitse vasemmalla hakemisto, mihin haluat ladata tiedostot.</li>    
+  <li>Vetää tiedostoja tai hakemistoja oikealta vasemmalle, että niiden lataus käynnistyisi. </li>
+</ol>
+
+<h4>rsync</h4>
+
+<div class="codeBlock">rsync -a rsync://rsync.nic.funet.fi/ftp/pub/sci/geo/geodata/<b style="color: blue;">mml/hallintorajat_milj_tk/2017/ local_folder_to_save/</b>
 </div>
 <ul>
   <li>
@@ -86,75 +88,98 @@
     kaikki alihakemistot
   </li>
 </ul>
+
+<h4>wget</h4>
+
 <p>
-  <strong>Vain tiettyjen karttalehtien lataaminen:</strong>
+   wget:lla on paljon asetuksia, yksi toimiva tapa on seuraava:
 </p>
+<div class="codeBlock">wget -r -l inf -N -np -nH -x -R html -c --cut-dirs=6 ftp://ftp.funet.fi/pub/sci/geo/geodata/<b style="color: blue;">mml/hallintorajat_milj_tk/2017/ -P local_folder_to_save/</b></div>
+
+<div class="codeBlock">wget -r -l inf -N -np -nH -x -R html -c --cut-dirs=4 https://www.nic.funet.fi/index/geodata/<b style="color: blue;">mml/hallintorajat_milj_tk/2017/ -P local_folder_to_save/</b></div>
+
+<ul>
+	<li>-r, lataa rekursiivisesti alihakemistot</li>
+	<li>-l inf, miten syvälle rekursiivinen lataus lähtee, oletuksena 5, tässä
+  laitettu loputtomaksi</li>
+	<li>-N, vain päivitys, jo olemassa olevia tiedostoja ei ladata uudestaan, tämä on
+  tärkeä, jos lataus keskeytyy tai jos päivitetään jo aikaisemmin ladattua
+  aineistoa</li>
+	<li>-np, estää ylähakemistojen latautumisen</li>
+	<li>-nH, poistaa palvelimen nimen</li>
+	<li>-x, kopioi hakemistorakenne</li>
+	<li>-cuts-dirs, leikkaa hakemistoja polun alusta, että hakemistopuu ei olisi liian
+  pitkä, säätä tätä arvoa tarpeen mukaan</li>
+	<li>-c, jatkaa katkennutta latausta</li>  
+	<li>-R html, älä tallenna html tiedostoja (ei tarvetta, jos käytetään ftp:tä)</li>		
+    <li>
+      Jos mahdollista, käytä ftp palvelua, käyttämällä HTTPS protokolla, saat
+    ylimääräisiä index.* tiedostoja.
+    </li>
+</ul>
+
+<h2>Lataus tiedostolistauksen mukaisesti</h2>
+
+<p>
+  Jos haluat ladata aineistosta vain tiettyjä karttalehtiä, pitää ensin muodostaa tiedostolistaus Paitulin käyttöliittymällä ja sitten ladata tiedostot komentorivityökaluilla.
+
+</p>
+
+<h3>Tiedostolistauksen muodostaminen</h3>
+
 <ol>
   <li>Avaa <a href="download.html">Latauspalvelu</a>,</li>
   <li>Valitse haluamasi aineisto</li>
   <li>Valitse karttalehdet kartalta tai haulla</li>
   <li>Klikkaa "Lataa tiedostolista" painiketta.</li>
-  <li>
-    Saat tiedostolistauksen sähköpostiisi, lataa listaus omalle koneelle.<br />
-    (Vaihtoehtoisesti voi tiedostolistauksen muodostaa hyödyntämällä
+  <li>Saat tiedostolistauksen sähköpostiisi, lataa listaus omalle koneelle.</li>
+</ol>
+
+<p>
+Vaihtoehtoisesti voi tiedostolistauksen muodostaa hyödyntämällä
     indeksikartan path sarakkeen tietoja. Indeksikartta on saatavilla Linkit
     välilehdeltä
-    <a href="download.html">Latasupalvelu</a> sivulla.)
-  </li>
-  <li>Käytä rsynciä aineiston lataamiseksi:</li>
+    <a href="download.html">Latauspalvelu</a> sivulla.
+</p>
+  
+  
+<h3>Lataus tiedostolistauksen mukaisesti</h3>
+
+<p> Valitettavasti FTP-ohjelmat eivät tue tiedostolistauksen käyttöä, joten tämä on mahdollista vain komentorivityökaluilla:
+</p>
+
+<h4>wget</h4>
+
+<p>
+Edelliseen esimerkkiin verrattuna tässä käytetään -i optiota tiedostolistauksen määrittelemiseksi.
+</p>
+
+<div class="codeBlock">wget -r -l inf -N -np -nH -x -R html -c --cut-dirs=4 <b style="color: blue;">-i file_list.txt -P local_folder_to_save/</b></div>
+
+  
+<h4>rsync</h4>
+<p>Ennen latausta poista tiedostolistauksesta jokaisen rivin alusta 'http://www.nic.funet.fi/index/'.</p>
+
+<div class="codeBlock">rsync -a --files-from=<b style="color: blue;">file_list.txt</b> rsync://rsync.nic.funet.fi/ftp/pub/sci/geo/<b style="color: blue;"> local_folder_to_save//</b>
+</div>
+
+<h6>Start-BitsTransfer Windows PowerShellissa</h6>
+
+<p>Start-BitsTransfer vaatii vähän valmisteluja:</p>
+<ol>
+  <li>Lisää tiedostolistauksen uusi ensimmäinen rivi: Source</li>
+  <li>Varmista, että local_folder_to_save/ on olemassa.</li>
 </ol>
-<div class="codeBlock">rsync -a --files-from=<b style="color: blue;">file_list.txt</b> rsync://rsync.nic.funet.fi/ftp/pub/sci/geo/<b style="color: blue;">folder_to_save/</b>
-</div>
-<p>
-  <strong>wget käyttö aineiston lataamiseksi</strong>
-</p>
-<p>
-  Joskus organisaation palomuuri voi estää ftp ja rsync:n käytön. Silloin on
-  parasta käyttää wget työkalua http:n kanssa. wget:lla on paljon asetuksia,
-  yksi toimiva tapa on seuraava:
-</p>
-<div class="codeBlock">wget -r -l inf -N -np -nH -x -E -R html --cut-dirs=http://www.nic.funet.fi/index/geodata/<b style="color: blue;">mml/hallintorajat_milj_tk/2017/</b>
-</div>
-<div>-r, lataa rekursiivisesti alihakemistot.</div>
-<div>
-  -l inf, miten syvälle rekursiivinen lataus lähtee, oletuksena 5, tässä
-  laitettu loputtomaksi
-</div>
-<div>
-  -N, vain päivitys, jo olemassa olevia tiedostoja ei ladata uudestaan, tämä on
-  tärkeä, jos lataus keskeytyy tai jos päivitetään jo aikaisemmin ladattua
-  aineistoa.
-</div>
-<div>-np, estää ylähakemistojen latautumisen</div>
-<div>-nH, poistaa palvelimen nimen</div>
-<div>-x, kopioi hakemistorakenne</div>
-<div>
-  -cuts-dirs, leikkaa hakemistoja polun alusta, että hakemistopuu ei olisi liian
-  pitkä, säätä tätä arvoa tarpeen mukaan
-</div>
-<div>
-  -E, lisää html tiedostoille .html tiedonimen loppuun, muuten luodaan
-  tiedostoja, jolla ei ole tiedostopäätettä (ei tarvetta, jos käytetään ftp:tä)
-</div>
-<div>
-  -R html, älä tallenna html tiedostoja (ei tarvetta, jos käytetään ftp:tä)
-</div>
-<ul>
-  <li>
-    Jos mahdollista, käytä ftp palvelua, käyttämällä HTTP protokolla, saat
-    ylimääräisiä index.* tiedostoja.
-  </li>
-  <li>
-    Jos haluat ladata tiedostolistauksen avulla, lisää -i optio komentoon. Lisää
-    myös juurihakemisto tiedostolistaukseen jokaiselle riville. Juurihakemistot
-    on annettu tämän sivun alussa.
-  </li>
-</ul>
-<h3>FTP mountin tekeminen</h3>
+<div class="codeBlock">Import-CSV .\<b style="color: blue;">file_list.txt</b> | Start-BitsTransfer -Destination  <b style="color: blue;">local_folder_to_save/</b></div>
+
+<p>Tämä versio komennosta tallentaa kaikki tiedostot yhteen hakemistoon. Jos haluat säilyttää alihakemistorakenteet, .csv tiedostoon tulee lisätä jokaiselle tiedostolle oikea tallennuspaikka, ks <a href="https://www.jesusninoc.com/10/08/start-bitstransfer-examples/" target="_blank">Start-BitsTransfer, Example 2.</a> Käytä esimerkiksi Exceliä .csv tiedoston valmisteluun. Myös kaikki alihakemistot pitää olla olemassa ennen Start-BitsTransfer komennon käynnistämistä.
+
+
+<h2>FTP mountin tekeminen</h2>
 <p>
   Voit myös mountata paitulin FTP hakemiston omalle koneellesi. Tämä
   mahdollistaa tiedostojen selaamisen ja avaamisen suoraan GIS ohjelmilla (esim.
-  qgis) ilman erillistä latausvaihetta. Tiedostot täytyy kuitenkin tietysti
+  QGIS) ilman erillistä latausvaihetta. Tiedostot täytyy kuitenkin tietysti
   ladata, vaikka tämä tapahtuukin automaattisesti niitä avatessa, joten
   avaaminen FTP:n ylitse on hitaampaa kuin paikallisen tiedoston avaaminen.
 </p>
@@ -168,3 +193,21 @@
     ohjelmistoa, joka toimisi järkevällä nopeudella.
   </li>
 </ul>
+
+<h2>Suositeltavat ohjelmistot</h2>
+
+<ul>
+  <li> FTP ohjelmistot: 
+	<ul>
+		<li><a href="https://filezilla-project.org/" target="_blank">Filezilla </a></li>
+		<li><a href="https://winscp.net/eng/download.php" target="_blank">WinSCP</a>, vain Windows.</li>
+	</ul> 
+  </li>
+  <li> Komentorivityökalut. rsync ja wget  pystyvät jatkamaan keskeytettyä latausta, näin että kaikkea ei ole pakko ladata jälleen uudestaan. wget tukee sekä HTTPS että FTP protokollaa. rsync ja wget löytyvät yleensä Linux ja Mac käyttöjärjestelmistä oletuksena. Windowsissa voi käyttää Windows Subsystem for Linux, tai asentaa työkalut itse. Start-BitsTransfer löytyy Windows PowerShellista oletuksena, se ei ole saatavilla Linux- ja Mac-käyttäjille.
+	<ul>
+		<li><a href="http://www.linuxguide.it/command_line/linux-manpage/do.php?file=rsync" target="_blank">rsync </a>. <a href="https://bobcares.com/blog/rsync-from-windows-to-linux-over-ssh" target="_blank"> rsync asennus Windowsiin </a></li>
+		<li><a href="http://www.linuxguide.it/command_line/linux-manpage/do.php?file=wget" target="_blank">wget</a>. <a href="https://eternallybored.org/misc/wget/" target="_blank"> wget asennus Windowsiin  </a></li>
+		<li><a href="https://docs.microsoft.com/en-us/powershell/module/bitstransfer/start-bitstransfer" target="_blank">Start-BitsTransfer</a></li>
+	</ul> 
+  </li>  
+</ul> 
