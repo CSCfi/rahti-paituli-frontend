@@ -36,14 +36,14 @@
 <h2>Hakemiston lataus</h2>
 
 <p>
-Tämä on suhteellisen helppo tapa tiedostojen lataamiseksi, jos tarvittavat tiedostot ovat palvelimella samassa hakemistossa. Jokainen Paitulin aineisto on omassa hakemistossa, joten tämä sopii erittäin hyvin kokonaisen aineiston lataamiseksi.
+Tämä on suhteellisen helppo tapa tiedostojen lataamiseksi, jos tarvittavat tiedostot ovat palvelimella samassa hakemistossa. Jokainen Paitulin aineisto on omassa hakemistossaan, joten tämä sopii erittäin hyvin kokonaisen aineiston lataamiseksi.
 </p>
 
 <h3>Hakemiston löytäminen</h3>
 <p>
   Paitulin hakemistoja on helppo selata HTTP tai FTP osoitteiden kautta.
   Aineistot on tallennettu loogisiin alihakemistoihin, joten halutun aineiston
-  löytäminen pitäisi olla kohtuullisen helppoa. Hakemistopuussa tulee ensin
+  löytämisen pitäisi olla kohtuullisen helppoa. Hakemistopuussa tulee ensin
   valita aineiston tuottaja, sitten itse aineisto, ja lopuksi vuosiversio (sekä
   mahdollisesti muita vaihtoehtoja).
 </p>
@@ -69,9 +69,9 @@ Alla olevat esimerkit lataavat koko hakemiston sekä sen alihakemistot, ja talle
 <ol>
   <li>Yhdistä palvelimeen. host name: ftp.funet.fi, protocol: FTP, port number: 21.</li>
   <li>Jos käyttäjätunnusta tai salasanaa kysytään, jätä kenttä tyhjäksi.</li>
-  <li>Valitse oikealle hakemisto, mihin tarvitsemasi aineisto on tallennettu.</li>  
+  <li>Valitse oikealla hakemisto, mihin tarvitsemasi aineisto on tallennettu.</li>  
   <li>Valitse vasemmalla hakemisto, mihin haluat ladata tiedostot.</li>    
-  <li>Vetää tiedostoja tai hakemistoja oikealta vasemmalle, että niiden lataus käynnistyisi. </li>
+  <li>Vedää tiedostoja tai hakemistoja oikealta vasemmalle, että niiden lataus käynnistyisi. </li>
 </ol>
 
 <h4>rsync</h4>
@@ -107,12 +107,12 @@ Alla olevat esimerkit lataavat koko hakemiston sekä sen alihakemistot, ja talle
   aineistoa</li>
 	<li>-np, estää ylähakemistojen latautumisen</li>
 	<li>-nH, poistaa palvelimen nimen</li>
-	<li>-x, kopioi hakemistorakenne</li>
+	<li>-x, kopioi hakemistorakenteen</li>
 	<li>-cuts-dirs, leikkaa hakemistoja polun alusta, että hakemistopuu ei olisi liian
-  pitkä, säätä tätä arvoa tarpeen mukaan</li>
+  pitkä, säädä tätä arvoa tarpeen mukaan</li>
 	<li>-c, jatkaa katkennutta latausta</li>  
     <li>
-      Jos mahdollista, käytä ftp palvelua, käyttämällä HTTPS protokolla, saat
+      Jos mahdollista, käytä ftp palvelua, käyttämällä HTTPS protokollaa, saat
     ylimääräisiä index.* tiedostoja.
     </li>
 </ul>
@@ -120,7 +120,7 @@ Alla olevat esimerkit lataavat koko hakemiston sekä sen alihakemistot, ja talle
 <h2>Lataus tiedostolistauksen mukaisesti</h2>
 
 <p>
-  Jos haluat ladata aineistosta vain tiettyjä karttalehtiä, pitää ensin muodostaa tiedostolistaus Paitulin käyttöliittymällä ja sitten ladata tiedostot komentorivityökaluilla.
+  Jos haluat ladata aineistosta vain tiettyjä karttalehtiä, sinun pitää ensin muodostaa tiedostolistaus Paitulin käyttöliittymällä ja sitten ladata tiedostot komentorivityökaluilla.
 
 </p>
 
@@ -171,7 +171,7 @@ Edelliseen esimerkkiin verrattuna tässä käytetään -i optiota tiedostolistau
 </ol>
 <div class="codeBlock">Import-CSV .\<b style="color: blue;">file_list.txt</b> | Start-BitsTransfer -Destination  <b style="color: blue;">local_folder_to_save/</b></div>
 
-<p>Tämä versio komennosta tallentaa kaikki tiedostot yhteen hakemistoon. Jos haluat säilyttää alihakemistorakenteet, .csv tiedostoon tulee lisätä jokaiselle tiedostolle oikea tallennuspaikka, ks <a href="https://www.jesusninoc.com/10/08/start-bitstransfer-examples/" target="_blank">Start-BitsTransfer, Example 2.</a> Käytä esimerkiksi Exceliä .csv tiedoston valmisteluun. Myös kaikki alihakemistot pitää olla olemassa ennen Start-BitsTransfer komennon käynnistämistä.
+<p>Tämä versio komennosta tallentaa kaikki tiedostot yhteen hakemistoon. Jos haluat säilyttää alihakemistorakenteet, .csv tiedostoon tulee lisätä jokaiselle tiedostolle oikea tallennuspaikka, ks <a href="https://www.jesusninoc.com/10/08/start-bitstransfer-examples/" target="_blank">Start-BitsTransfer, Example 2.</a> Käytä esimerkiksi Exceliä .csv tiedoston valmisteluun. Myös kaikkien alihakemistojen pitää olla olemassa ennen Start-BitsTransfer komennon käynnistämistä.
 
 
 <h2>FTP mountin tekeminen</h2>
