@@ -1,5 +1,5 @@
 import $ from 'jquery'
-import 'jquery-ui-bundle/jquery-ui'
+require("jquery-ui/ui/widgets/tooltip");
 
 import auth from '../shared/auth'
 import datasets from './datasets'
@@ -10,7 +10,8 @@ import map from './components/map'
 import { translate } from '../shared/translations'
 import { toggleTabActivation } from '../shared/header'
 
-import 'jquery-ui-bundle/jquery-ui.css'
+import 'jquery-ui/themes/base/tooltip.css'
+import 'jquery-ui/themes/base/core.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'ol/ol.css'
 import 'ol-layerswitcher/src/ol-layerswitcher.css'

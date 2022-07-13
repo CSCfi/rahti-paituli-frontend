@@ -1,5 +1,4 @@
 import $ from 'jquery'
-import 'jquery-ui-bundle/jquery-ui'
 
 import 'bootstrap-table/dist/bootstrap-table'
 import 'bootstrap-table/dist/bootstrap-table-locale-all'
@@ -13,7 +12,6 @@ import { toggleTabActivation } from '../shared/header'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-table/dist/bootstrap-table.min.css'
-import 'jquery-ui-bundle/jquery-ui.css'
 
 import '../../css/webservices.css'
 

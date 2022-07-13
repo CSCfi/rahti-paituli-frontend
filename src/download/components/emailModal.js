@@ -1,5 +1,6 @@
 import $ from 'jquery'
-import 'jquery-ui-bundle/jquery-ui'
+import 'jquery-ui/ui/widgets/dialog'
+import 'jquery-ui/themes/base/dialog.css'
 import datasets from '../datasets'
 import { getCurrentLocale, translate } from '../../shared/translations'
 import { DOWNLOAD_TYPE } from '../../shared/constants'

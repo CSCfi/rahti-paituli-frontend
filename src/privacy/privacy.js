@@ -1,11 +1,10 @@
 import $ from 'jquery'
-import 'jquery-ui-bundle/jquery-ui'
 
 import { translate } from '../shared/translations'
 import { toggleTabActivation } from '../shared/header'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
-import 'jquery-ui-bundle/jquery-ui.css'
+
 
 $(function () {
   $('#header').load('header.html')

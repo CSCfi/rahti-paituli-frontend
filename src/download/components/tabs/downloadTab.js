@@ -1,5 +1,4 @@
 import $ from 'jquery'
-import 'jquery-ui-bundle/jquery-ui'
 
 import datasets from '../../datasets'
 import emailModal from '../emailModal'

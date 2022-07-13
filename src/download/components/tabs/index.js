@@ -1,9 +1,13 @@
 import $ from 'jquery'
+require("jquery-ui/ui/widgets/tabs");
 
 import downloadTab from './downloadTab'
 import featureInfoTab from './featureInfoTab'
 import linksTab from './linksTab'
 import metadataTab from './metadataTab'
+
+import 'jquery-ui/themes/base/tabs.css'
+import 'jquery-ui/themes/base/theme.css'
 
 const tabContainerId = 'info-container'
 const tabContainer = $('#' + tabContainerId)

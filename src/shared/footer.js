@@ -1,5 +1,4 @@
 import $ from 'jquery'
-import 'jquery-ui-bundle/jquery-ui'
 
 import { translate } from './translations'
 import '../../css/footer.css'

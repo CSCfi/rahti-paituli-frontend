@@ -6,13 +6,13 @@ module.exports = merge(common, {
   mode: 'development',
   devtool: 'source-map',
   devServer: {
-    contentBase: './dist',
-    openPage: 'home.html',
+    static: './dist',
+    //openPage: 'home.html',
     port: 9000,
     proxy: {
       '/api': {
         target: 'http://localhost:8080',
-        pathRewrite: { '^/api': '' },
+		pathRewrite: { '^/api': '' },
       },
     },
   },
@@ -24,7 +24,7 @@ module.exports = merge(common, {
 
   performance: {
     hints: 'warning',
-    maxAssetSize: 200000,
-    maxEntrypointSize: 400000,
+    maxAssetSize: 20000000,
+    maxEntrypointSize: 40000000,
   },
 })
