@@ -24,7 +24,7 @@ function init() {
   const httpPath = URL.HTTP_LINKS_BASE + datasetPath
 
   addLink('http', httpPath, linksContainer)
-  addLink('ftp', ftpPath, linksContainer)
+  linksContainer.append('<strong>ftp: </strong>' + ftpPath + '<br>')
   linksContainer.append('<strong>rsync: </strong>' + rsyncPath)
   linksContainer.appendTo(rootElem)
 
