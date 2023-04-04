@@ -14,7 +14,8 @@ const metadataLink = $('#metadata-link')
 const downloadLink = $('#download-link')
 const helpLink = $('#help-link')
 const webServicesLink = $('#webservices-link')
-const ftpLink = $('#ftp-link')
+const filesLink = $('#files-link')
+const stacLink = $('#stac-link')
 const openDataLink = $('#open-data-link')
 
 function setMatomoTag() {
@@ -32,7 +33,8 @@ function setTranslations() {
   downloadLink.text(translate('header.downloadPage'))
   helpLink.text(translate('header.helpPage'))
   webServicesLink.text(translate('header.webservicesPage'))
-  ftpLink.text(translate('header.ftpPage'))
+  filesLink.text(translate('header.filesPage'))
+  stacLink.text(translate('header.stacPage'))  
   openDataLink.text(translate('header.openDataPage'))
   languageSelector.text(translate('header.language'))
 }

@@ -376,10 +376,14 @@ const translations = {
       fi: 'Rajapinnat',
       en: 'Web services',
     },
-    ftpPage: {
-      fi: 'FTP ja rsync',
-      en: 'FTP and rsync',
+    filesPage: {
+      fi: 'Massalataus',
+      en: 'Batch download',
     },
+    stacPage: {
+      fi: 'STAC',
+      en: 'STAC',
+    },	
     openDataPage: {
       fi: 'Jaa aineistosi',
       en: 'Share your data',
@@ -435,12 +439,18 @@ const translations = {
       en: `help_en.html`,
     },
   },
-  ftprsync: {
+  files: {
     contentFile: {
-      fi: `ftprsync_fi.html`,
-      en: `ftprsync_en.html`,
+      fi: `files_fi.html`,
+      en: `files_en.html`,
     },
   },
+  stac: {
+    contentFile: {
+      fi: `stac_fi.html`,
+      en: `stac_en.html`,
+    },
+  },  
   opendata: {
     contentFile: {
       fi: `opendata_fi.html`,
