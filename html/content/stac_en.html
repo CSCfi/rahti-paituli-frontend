@@ -1,105 +1,63 @@
-<h1>Share your spatial data with Paituli</h1>
+<h1>Paituli STAC - Spatio Temporal Asset Catalogue</h1>
+<h2>STAC general concepts</h2>	
 <p>
-	Students and personnel of Finnish universities have possibility to
-	share their own spatial data with Paituli. It could be data that has been
-	gathered for a scientific study or a course project. This data could be about
-	Finland or any other region in the world. 
+	The <a href="https://stacspec.org/en/" target="_blank">STAC</a> is a specification to describe geospatial information, so it can easily <strong>searched and downloaded</strong>.
+	STAC includes metadata of datasets and links to actual files, the data files are usually stored in the cloud.
+	For raster data Cloud-Optimized GeoTiff is the best option.
+	STAC is most often used for raster data, but it can be used also for vector and lidar data. The most common use case is remote sensing images. 
 </p>
+	<ul><li><a href="https://stacindex.org/catalogs" target="_blank">List of international STAC catalogues</a></li></ul>
 <p>
-	After publishing anybody can download your data. Datasets suitable for
-	<a href="http://docs.geoserver.org/latest/en/user/" target="_blank">GeoServer</a> can also be
-	previewed on download page and they will be available also as standard OGC web
-	services (WMS, WCS, WMTS or WFS). </p>
-<p>
-	Annually CSC generates a report about Paituli
-	usage, including number of downloads for each dataset. This report will be
-	sent to all data providers. Each dataset in Paituli has a permanent identifier in URN format. 
-</p>
-<p>
-	CSC publishes data free of charge and will not get any rights for the data.
-</p>
-<h3>Steps for sharing your data</h3>
-<ol>
-	<li>
+	STAC main concepts: </p>
+	
+<ul dir="auto">
+<li><strong>Catalog</strong> - general metadata and links to available Collections.</li>
+<li><strong>Collection</strong> - collection specific general metadata and links to available Items. In one collection are similar items.</li>
+<li><strong>Item</strong> - the core atomic unit, representing a single spatiotemporal asset as a GeoJSON feature plus datetime, bbox and links to data file(s).</li>
+<li><strong>Asset</strong> - Files and links related to an Item, can be data files or links to metadata etc.</li>
+</ul>
 
-			<strong>Make sure the data can be published</strong>.
-			You should either own the data or be granted the right to publish the
-			data by the data owner. No contractual or intellectual property rights
-			should prohibit opening the data. The data should be licensed with a
-			license allowing reuse. Paituli recommends
-			<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">
-				Creative Commons BY 4.0 license</a>.
-	</li>
-	<li>
-			<strong>Describe the data</strong>.
-			The data description should include:
-			<ul>
-				<li>
-					Heading in Finnish and English
-				</li>
-				<li>
-					Short description in Finnish and English (ca 5-10 rows)
-				</li>
-				<li>Longer description can be added as .pdf-file. (Optional)</li>
-				<li>
-					Dataset producer: organization, optinally researcher by name and ORCID.
-				</li>
-				<li>Date, when data was gathered</li>
-				<li>
-					Scale / pixel size
-				</li>
-				<li>
-					Coordinate system
-				</li>
-				<li>
-					License, for example CC-BY-4.0
-				</li>
-				<li>
-					Project, where the dataset was produced: name and web-page. (Optional)
-				</li>
-				<li>
-					DOI, URN or other PID if the dataset has it already (Optional)
-				</li>
-			</ul>
-	</li>
-	<li>
-		<strong>Package your data</strong>, technical recommendations
-		<ul>
-			<li>
-				Format: <a href="https://www.cogeo.org/#implementations">Cloud-optimized Geotiff</a> for raster, GeoPackage or Shape
-				for vector data, LAZ for laser scanning data, netcdf or Zarr for multi-dimensional data.
-			</li>
-			<li>
-				Coordinate system: ETRS-TM35FIN (EPSG:3067) for data about Finland,
-				WGS-84 (EPGS:4326) for global data.
-			</li>
-			<li>Maximum file size 4 Gb.</li>
-			<li>
-				Divide data to map sheets if needed, if you have map sheet index as a
-				separate file, include that to data package
-			</li>
-			<li>Make a .zip file of all the files.</li>
-			<li>
-				These are only recommendations, if you feel some other option would suit
-				your data better, please consult with CSC.
-			</li>
+<img align="middle" src="./STAC.png" />
+
+<p>
+<a href="https://stacindex.org/ecosystem#/" target="_blank">STAC end-user tools</a> are available for <a href="https://pystac-client.readthedocs.io/en/latest" target="_blank">Python </a>,  <a href="https://cran.r-project.org/web/packages/rstac/index.html" target="_blank">R</a>, <a href="https://stac-utils.github.io/qgis-stac-plugin/" target="_blank">QGIS</a> and <a href="https://github.com/JuliaClimate/STAC.jl" target="_blank">Julia</a>. 
+</p>
+	
+<h2>Paituli STAC</h2>	
+<p> Paituli STAC catalog includes Finnish data. It is in early phases, so more data collections will be added soon. Currently it includes:
+
+<ul>
+	<li> Stored at CSC:
+	<ul dir="auto">
+	<li>ESA,  <a href="https://a3s.fi/sentinel-readme/README.txt" target="_blank">Sentinel-2 products</a>, processed to Level-2A (Surface Reflectance), a selection of mostly cloud-free products from Finland. Downloaded to CSC Allas by Maria Yli-Heikkilä (LUKE), Arttu Kivimäki (NLS/FGI) and Matias Heino (Aalto).</li>
 		</ul>
-	</li>
-	<li>
-		If you want to use a specific <strong>map style</strong> for
-		visualizing your data in WMS and WMTS services, make a style description
-		file in
-		<a href="http://docs.geoserver.org/latest/en/user/styling/sld-cookbook/" target="_blank">SLD</a>
-		format and add it to the data package. If you are not familiar with SLD,
-		also styles suitable for ArcGIS or QGIS may be submitted. (Optional)
-	</li>
-	<li>
-		<strong>Send the data and its description to <a href="mailto:giscoord@csc.fi" rel="nofollow">giscoord@csc.fi</a></strong>. Smaller datasets may be sent as attachments, for bigger files
-			<a href="https://filesender.funet.fi/" target="_blank">FUNET FileSender</a> is better.
-			FileSender can accept files up to 300 Gb. If your data is bigger or you have data in Allas or Puhti services or if you
-			have problems with uploading, please contact CSC.
-		</li>
-		<li>CSC will publish your data to Paituli in a week or two.</li>
-	</ol>
-	<p>If you have any questions, please contact CSC, giscoord@csc.fi</p>
+<li>Stored at FMI, from <a href="https://pta.data.lit.fmi.fi/stac/root.json" target="_blank">FMI Tuulituhohaukka static STAC catalog</a>:
+	<ul>
+	
+	<li>ESA/FMI, Sentinel-2 11-days surface reflectance mosaics.</li>
+	<li>ESA/FMI, Sentinel-1 daily backscatter mosaics: VV and VH polarisation.</li>
+	<li>ESA/FMI, Sentinel-1 11 days backscatter mosaics: VV and VH polarisation.</li>	
+	<li>ESA/FMI, Sentinel-2 annual surface reflectance mosaics.</li>	
+	<li>ESA/SYKE, Sentinel-2 monthly index mosaics: NDVI, NDBI, NDMI, NDSI, NDTI.</li>
+	<li>ESA, Sentinel-1 backscatter tiles: VV and VH polarisation.</li>
+	<li></li>	
+
+	<li>USGS/SYKE, Landsat (4 and 5) yearly index mosaics: NDVI, NDBI, NDMI, NDSI, NDTI. Techinical problems with files on FMI side.</li>	
+	<li>NLS, Digital terrain model products: DTM, aspect, slope.</li>
+	<li>Finnish Forest center, Canopy height model.</li>
+	<li>LUKE, Multi-source forest inventory products.</li>	
+	<li>LUKE, Forest wind damage risk map.</li>
+	<li>FMI, Daily wind damage risk map.</li>	
+	</ul>
+</li>
+</ul>
+
+<h3>CSC examples for working with STAC data</h3>
+
+<p>
+	Both Python and R have libraries for searching, downloading and analyzing data from STAC. Main Python packages for using STAC are <a href="https://pystac-client.readthedocs.io/en/latest" target="_blank">pystac-client</a>, <a href="https://stackstac.readthedocs.io/" target="_blank">stackstac</a>, <a href="https://xarray.dev/" target="_blank">xarray</a> and <a href="https://www.dask.org/" target="_blank">dask</a>. The main R packages are: <a href="https://cran.r-project.org/web/packages/rstac/index.html" target="_blank">rstac</a> and <a href="https://cran.r-project.org/web/packages/gdalcubes/index.html" target="_blank">gdalcubes</a>.
+
+	CSC has prepared example scripts for both <a href="/csc-training/geocomputing/blob/master/python/STAC" target="_blank">Python</a> and <a href="/csc-training/geocomputing/blob/master/R/STAC" target="_blank">R</a>, that demostrate how search and use STAC data. 
+
+	<p>If you have any questions, please contact CSC, servicedesk@csc.fi</p>
 	

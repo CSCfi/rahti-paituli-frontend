@@ -10,6 +10,6 @@ $(function () {
   $('.content-article').load(translate('stac.contentFile'))
   $('#footer').load('footer.html', function () {
     $('.body_container').show()
-    toggleTabActivation('#open-data-link')
+    toggleTabActivation('#stac-link')
   })
 })
