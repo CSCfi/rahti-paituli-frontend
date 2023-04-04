@@ -1,12 +1,13 @@
-<h1>Paituli STAC - Spatio Temporal Asset Catalogue</h1>
-<h2>STAC general concepts</h2>	
+<h1>Paituli STAC - Spatio Temporal Asset Catalog</h1>
+<h3>STAC general concepts</h3>	
 <p>
-	The <a href="https://stacspec.org/en/" target="_blank">STAC</a> is a specification to describe geospatial information, so it can easily <strong>searched and downloaded</strong>.
-	STAC includes metadata of datasets and links to actual files, the data files are usually stored in the cloud.
-	For raster data Cloud-Optimized GeoTiff is the best option.
-	STAC is most often used for raster data, but it can be used also for vector and lidar data. The most common use case is remote sensing images. 
+	<a href="https://stacspec.org/en/" target="_blank">STAC</a> is a specification to describe geospatial information, so it can easily be <strong>searched and downloaded</strong>. 
+	STAC includes metadata of datasets and links to actual files, the data files are usually stored in the cloud. 
+	Globally a lot of STAC catalogs exist, STAC index pages have<a href="https://stacindex.org/catalogs" target="_blank"> a list of STAC catalogs</a>.
+	STAC is most often used for raster data, but it can be used also for vector and lidar data. 
+	The most common use case is remote sensing images. For raster data Cloud-Optimized GeoTiff (COG) is the best option.
 </p>
-	<ul><li><a href="https://stacindex.org/catalogs" target="_blank">List of international STAC catalogues</a></li></ul>
+
 <p>
 	STAC main concepts: </p>
 	
@@ -22,16 +23,19 @@
 <p>
 <a href="https://stacindex.org/ecosystem#/" target="_blank">STAC end-user tools</a> are available for <a href="https://pystac-client.readthedocs.io/en/latest" target="_blank">Python </a>,  <a href="https://cran.r-project.org/web/packages/rstac/index.html" target="_blank">R</a>, <a href="https://stac-utils.github.io/qgis-stac-plugin/" target="_blank">QGIS</a> and <a href="https://github.com/JuliaClimate/STAC.jl" target="_blank">Julia</a>. 
 </p>
+
+<p>
+	When searching STAC catalogs, the main criteria are location, time and collection name. Items may have also additional information, for example cloud coverage for optical images, that also can be included to search criteria. While downloading, it may be possible to define required pixel size, if data includes overviews (COG) and the download tools supports it.</p>
 	
-<h2>Paituli STAC</h2>	
+<h3>Paituli STAC</h3>	
 <p> Paituli STAC catalog includes Finnish data. It is in early phases, so more data collections will be added soon. Currently it includes:
 
 <ul>
 	<li> Stored at CSC:
 	<ul dir="auto">
-	<li>ESA,  <a href="https://a3s.fi/sentinel-readme/README.txt" target="_blank">Sentinel-2 products</a>, processed to Level-2A (Surface Reflectance), a selection of mostly cloud-free products from Finland. Downloaded to CSC Allas by Maria Yli-Heikkilä (LUKE), Arttu Kivimäki (NLS/FGI) and Matias Heino (Aalto).</li>
+	<li>ESA,  <a href="https://a3s.fi/sentinel-readme/README.txt" target="_blank">Sentinel-2 products</a>, processed to Level-2A (Surface Reflectance), a selection of mostly cloud-free products from Finland. Downloaded to CSC Allas by Maria Yli-Heikkilä (LUKE), Arttu Kivimäki (NLS/FGI) and Matias Heino (Aalto). JP2000 files.</li>
 		</ul>
-<li>Stored at FMI, from <a href="https://pta.data.lit.fmi.fi/stac/root.json" target="_blank">FMI Tuulituhohaukka static STAC catalog</a>:
+<li>Stored at FMI, from <a href="https://pta.data.lit.fmi.fi/stac/root.json" target="_blank">FMI Tuulituhohaukka static STAC catalog, all files COGs.</a>:
 	<ul>
 	
 	<li>ESA/FMI, Sentinel-2 11-days surface reflectance mosaics.</li>
@@ -52,8 +56,11 @@
 <p>
 	Paituli STAC end-point is <a href="https://paituli.csc.fi/geoserver/ogc/stac" target="_blank">https://paituli.csc.fi/geoserver/ogc/stac</a>
 </p>
+<p>
+	Paituli STAC end-point is <a href="https://paituli.csc.fi/geoserver/ogc/stac" target="_blank">https://paituli.csc.fi/geoserver/ogc/stac</a>
+</p>
 
-<h3>CSC examples for working with STAC data</h3>
+<h4>CSC examples for working with STAC data</h4>
 
 <p>
 	Both Python and R have libraries for searching, downloading and analyzing data from STAC. Main Python packages for using STAC are <a href="https://pystac-client.readthedocs.io/en/latest" target="_blank">pystac-client</a>, <a href="https://stackstac.readthedocs.io/" target="_blank">stackstac</a>, <a href="https://xarray.dev/" target="_blank">xarray</a> and <a href="https://www.dask.org/" target="_blank">dask</a>. The main R packages are: <a href="https://cran.r-project.org/web/packages/rstac/index.html" target="_blank">rstac</a> and <a href="https://cran.r-project.org/web/packages/gdalcubes/index.html" target="_blank">gdalcubes</a>.
