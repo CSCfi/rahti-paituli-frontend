@@ -27,6 +27,9 @@
 <p>
 	When searching STAC catalogs, the main criteria are location, time and collection name. Items may have also additional information, for example cloud coverage for optical images, that also can be included to search criteria. While downloading, it may be possible to define required pixel size, if data includes overviews (COG) and the download tools supports it.</p>
 	
+<p>
+	Both Python and R have further packages for downloading data from STAC and working with raster data with time dimension. These tools also support parallel computing, so handling also bigger datasets is easily possible. For more details see the examples mentioned at the end of this page.</p>	
+	
 <h3>Paituli STAC</h3>	
 <p> Paituli STAC catalog includes Finnish data. It is in early phases, so more data collections will be added soon. Currently it includes:
 
@@ -56,13 +59,16 @@
 <p>
 	Paituli STAC end-point is <a href="https://paituli.csc.fi/geoserver/ogc/stac" target="_blank">https://paituli.csc.fi/geoserver/ogc/stac</a>
 </p>
+<p>
+	STAC is API, so it requires external tool to search. <a href="https://radiantearth.github.io/stac-browser/#/external/paituli.csc.fi/geoserver/ogc/stac/?.language=en" target="_blank">STAC browser</a> can be used for searching data from Paituli STAC from web-browser.
+</p>
 
 <h4>CSC examples for working with STAC data</h4>
 
 <p>
 	Both Python and R have libraries for searching, downloading and analyzing data from STAC. Main Python packages for using STAC are <a href="https://pystac-client.readthedocs.io/en/latest" target="_blank">pystac-client</a>, <a href="https://stackstac.readthedocs.io/" target="_blank">stackstac</a>, <a href="https://xarray.dev/" target="_blank">xarray</a> and <a href="https://www.dask.org/" target="_blank">dask</a>. The main R packages are: <a href="https://cran.r-project.org/web/packages/rstac/index.html" target="_blank">rstac</a> and <a href="https://cran.r-project.org/web/packages/gdalcubes/index.html" target="_blank">gdalcubes</a>.
 
-	CSC has prepared example scripts for both <a href="/csc-training/geocomputing/blob/master/python/STAC" target="_blank">Python</a> and <a href="/csc-training/geocomputing/blob/master/R/STAC" target="_blank">R</a>, that demostrate how search and use STAC data. 
+	CSC has prepared example scripts for both <a href="/csc-training/geocomputing/blob/master/python/STAC" target="_blank">Python</a> and <a href="/csc-training/geocomputing/blob/master/R/STAC" target="_blank">R</a>, that demostrate how to search and use STAC data. 
 </p>
 
 	<p>If you have any questions, please contact CSC, servicedesk@csc.fi</p>
