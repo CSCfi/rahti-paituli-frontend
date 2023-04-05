@@ -20,18 +20,20 @@
 
 <img align="middle" src="./STAC.png" style="width: 100%"/>
 
-<p>
-<a href="https://stacindex.org/ecosystem#/" target="_blank">STAC end-user tools</a> are available for <a href="https://pystac-client.readthedocs.io/en/latest" target="_blank">Python </a>,  <a href="https://cran.r-project.org/web/packages/rstac/index.html" target="_blank">R</a>, <a href="https://stac-utils.github.io/qgis-stac-plugin/" target="_blank">QGIS</a> and <a href="https://github.com/JuliaClimate/STAC.jl" target="_blank">Julia</a>. 
+<p>STAC is API, so it requires external tool to search. <a href="https://stacindex.org/ecosystem#/" target="_blank">STAC end-user tools</a> are available for <a href="https://pystac-client.readthedocs.io/en/latest" target="_blank">Python </a>,  <a href="https://cran.r-project.org/web/packages/rstac/index.html" target="_blank">R</a>, <a href="https://stac-utils.github.io/qgis-stac-plugin/" target="_blank">QGIS</a> and <a href="https://github.com/JuliaClimate/STAC.jl" target="_blank">Julia</a>. <a href="https://radiantearth.github.io/stac-browser/" target="_blank">STAC browser</a> can be used for searching data from STAC with web-browser.
 </p>
 
 <p>
 	When searching STAC catalogs, the main criteria are location, time and collection name. Items may have also additional information, for example cloud coverage for optical images, that also can be included to search criteria. While downloading, it may be possible to define required pixel size, if data includes overviews (COG) and the download tools supports it.</p>
 	
 <p>
-	Both Python and R have further packages for downloading data from STAC and working with raster data with time dimension. These tools also support parallel computing, so handling also bigger datasets is easily possible. For more details see the examples mentioned at the end of this page.</p>	
+	Both Python and R have libraries for searching data from STAC. 
+	For raster data with time dimension exist further packages for downloading and analyzing data from STAC.
+	These tools also support parallel computing, so handling bigger datasets is easily possible. 	
+	Main Python packages for using STAC are <a href="https://pystac-client.readthedocs.io/en/latest" target="_blank">pystac-client</a>, <a href="https://stackstac.readthedocs.io/" target="_blank">stackstac</a>, <a href="https://xarray.dev/" target="_blank">xarray</a> and <a href="https://www.dask.org/" target="_blank">dask</a>. The main R packages are: <a href="https://cran.r-project.org/web/packages/rstac/index.html" target="_blank">rstac</a> and <a href="https://cran.r-project.org/web/packages/gdalcubes/index.html" target="_blank">gdalcubes</a>. For more details see the examples mentioned at the end of this page.</p>	
 	
 <h3>Paituli STAC</h3>	
-<p> Paituli STAC catalog includes Finnish data. It is in early phases, so more data collections will be added soon. Currently it includes:
+<p> Paituli STAC catalog includes Finnish data. Currently it includes:
 
 <ul>
 	<li> Stored at CSC:
@@ -57,19 +59,22 @@
 </li>
 </ul>
 <p>
-	Paituli STAC end-point is <a href="https://paituli.csc.fi/geoserver/ogc/stac" target="_blank">https://paituli.csc.fi/geoserver/ogc/stac</a>
+	Paituli STAC end-point is: <a href="https://paituli.csc.fi/geoserver/ogc/stac" target="_blank">https://paituli.csc.fi/geoserver/ogc/stac</a>
 </p>
 <p>
-	STAC is API, so it requires external tool to search. <a href="https://radiantearth.github.io/stac-browser/#/external/paituli.csc.fi/geoserver/ogc/stac/?.language=en" target="_blank">STAC browser</a> can be used for searching data from Paituli STAC from web-browser.
+	<a href="https://radiantearth.github.io/stac-browser/#/external/paituli.csc.fi/geoserver/ogc/stac/?.language=en" target="_blank">STAC browser for Paituli STAC</a>, see from web-browser what data collections are available, search for items and also preview COG files.
 </p>
-
-<h4>CSC examples for working with STAC data</h4>
+<p>
+	CSC has prepared example scripts for <a href="/csc-training/geocomputing/blob/master/python/STAC" target="_blank">Python</a> and <a href="/csc-training/geocomputing/blob/master/R/STAC" target="_blank">R</a>, that demostrate how to search and use STAC data. 
+</p>
 
 <p>
-	Both Python and R have libraries for searching, downloading and analyzing data from STAC. Main Python packages for using STAC are <a href="https://pystac-client.readthedocs.io/en/latest" target="_blank">pystac-client</a>, <a href="https://stackstac.readthedocs.io/" target="_blank">stackstac</a>, <a href="https://xarray.dev/" target="_blank">xarray</a> and <a href="https://www.dask.org/" target="_blank">dask</a>. The main R packages are: <a href="https://cran.r-project.org/web/packages/rstac/index.html" target="_blank">rstac</a> and <a href="https://cran.r-project.org/web/packages/gdalcubes/index.html" target="_blank">gdalcubes</a>.
-
-	CSC has prepared example scripts for both <a href="/csc-training/geocomputing/blob/master/python/STAC" target="_blank">Python</a> and <a href="/csc-training/geocomputing/blob/master/R/STAC" target="_blank">R</a>, that demostrate how to search and use STAC data. 
+	Paituli STAC is in early phases of operation, so more data collections will be added. Next, <a href="https://vm0160.kaj.pouta.csc.fi/geocubes/datasets/" target="_blank">Geoportti geocubes</a> and <a href="metadata.html" target="_blank">Paituli own data</a> will be added.
 </p>
 
-	<p>If you have any questions, please contact CSC, servicedesk@csc.fi</p>
+<p>
+	Paituli STAC has been developed using <a href="https://www.aka.fi/en/" target="_blank"> Academy of Finland</a> <a href="https://www.geoportti.fi/" target="_blank">Geoportti funding</a>.
+</p>
+
+	<p>If you have any feedback, please contact CSC, servicedesk@csc.fi</p>
 	
