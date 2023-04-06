@@ -1,10 +1,10 @@
 <h1>Paituli STAC - Spatio Temporal Asset Catalog</h1>
-<h3>STAC yleiset käsitteet</h3>	
+<h3>STAC yleisesti</h3>	
 <p>
 	<a href="https://stacspec.org/en/" target="_blank">STAC</a> on avoin spesifikaatio paikkatiedon kuvailemiseksi, jotta se on helposti <strong>etsittävissä ja ladattavissa</strong>. 
-	STAC sisältää datasettien metatietoja ja linkkejä varsinaisiin tiedostoihin, jotka ovat yleisesti tallennettuna pilvessä. 
+	STAC sisältää aineistojen metatietoja ja linkkejä varsinaisiin tiedostoihin, jotka ovat yleisesti tallennettuna pilvessä. 
 	STAC luetteloita on olemassa maailmanlaajuisesti ja STAC Index -sivusto sisältää <a href="https://stacindex.org/catalogs" target="_blank">listan STAC luetteloista</a>.
-	STAC on eniten käytettynä rasteridatan kanssa, mutta sitä voidaan käyttää myös vektori- ja lidardatan kanssa. 
+	STAC on eniten käytettynä rasteridatan kanssa, mutta sitä voidaan käyttää myös vektori- ja pistepilvidatan kanssa. 
 	Yleisin käyttötarkoitus on kaukokartoituskuvat. Rasteridatalle Cloud-Optimized GeoTiff (COG) on paras tiedostovaihtoehto.
 </p>
 
@@ -14,8 +14,8 @@
 
 <ul dir="auto">
 	<li><strong>Catalog</strong> (suom. Luettelo) - yleinen metatieto ja linkit saatavilla oleviin Kokoelmiin.</li>
-	<li><strong>Collection</strong> (suom. Kokoelma)- Kokoelmaan liittyvä metatieto ja linkit saatavilla oleviin Osiin. Yksi Kokoelma sisältää samanlaisia Tuotteita.</li>
-	<li><strong>Item</strong> (suom. Tuote) - ydin yksikkö, joka kuvailee dataa tietyltä ajalta ja paikalta. Tuote sisältää yhden tai useampia Resursseja.</li>
+	<li><strong>Collection</strong> (suom. Kokoelma)- Kokoelmaan liittyvä metatieto ja linkit saatavilla oleviin Tuotteisiin. Yksi Kokoelma sisältää samantyyppisiä Tuotteita.</li>
+	<li><strong>Item</strong> (suom. Tuote) - ydinyksikkö, joka kuvailee dataa tietyltä ajalta ja paikalta. Tuote sisältää yhden tai useampia Resursseja.</li>
 	<li><strong>Asset</strong> (suom. Resurssi)- Tuotteeseen liittyvät tiedostot ja linkit, jotka voivat olla datatiedostoja tai linkkejä metatietoon jne.</li>
 </ul>
 
@@ -23,9 +23,11 @@
 
 <p>
 	STAC on mahdollista toteuttaa staattisena kokoelmana JSON-tiedostoja tai ohjelmointirajapintana (API:na). Etsiessä API:n kautta tarvitaan erillisiä työkaluja.
-	<a href="https://stacindex.org/ecosystem#/" target="_blank">STAC loppukäyttäjän työkaluja</a> on tarjolla <a href="https://pystac-client.readthedocs.io/en/latest" target="_blank">Pythonille </a>, 
+	<a href="https://stacindex.org/ecosystem#/" target="_blank">STAC loppukäyttäjän työkaluja</a> on tarjolla 
+	<a href="https://pystac-client.readthedocs.io/en/latest" target="_blank">Pythonille </a>, 
 	<a href="https://cran.r-project.org/web/packages/rstac/index.html" target="_blank">R:lle</a>, 
-	<a href="https://stac-utils.github.io/qgis-stac-plugin/" target="_blank">QGIS:lle</a> sekä <a href="https://github.com/JuliaClimate/STAC.jl" target="_blank">Julia:lle</a>. 
+	<a href="https://stac-utils.github.io/qgis-stac-plugin/" target="_blank">QGIS:lle</a> 
+	sekä <a href="https://github.com/JuliaClimate/STAC.jl" target="_blank">Julia:lle</a>. 
 	<a href="https://radiantearth.github.io/stac-browser/" target="_blank">STAC Browser:ia</a> voi käyttää etsimään tietoa STAC API:sta selaimen avulla.
 </p>
 
@@ -36,13 +38,13 @@
 </p>
 	
 <p>
-	Molemmille, Pythonille ja R:lle, on kirjastoja datan etsimiseen STAC API:sta. 
+	Pythonille ja R:lle on kirjastoja datan etsimiseen STAC API:sta. 
 	Aika-ulottuvuuden sisältävälle rasteridatalle on olemassa lisäksi paketteja datan lataukseen ja analysointiin STAC API:sta.
-	Nämä työkalut myös tukevat rinnakkaislaskentaa, jolloin suurten datasettien käsittely on helposti mahdollista.
-	Ensisijaiset Python paketit STAC:in käyttämiseen ovat <a href="https://pystac-client.readthedocs.io/en/latest" target="_blank">pystac-client</a>, 
+	Nämä työkalut myös tukevat rinnakkaislaskentaa, jolloin suurten aineistojen käsittely on helposti mahdollista.
+	Ensisijaiset Python kirjastot STAC:in käyttämiseen ovat <a href="https://pystac-client.readthedocs.io/en/latest" target="_blank">pystac-client</a>, 
 	<a href="https://stackstac.readthedocs.io/" target="_blank">stackstac</a>, 
 	<a href="https://xarray.dev/" target="_blank">xarray</a> ja <a href="https://www.dask.org/" target="_blank">dask</a>.
-	Ensisijaiset R paketit ovat <a href="https://cran.r-project.org/web/packages/rstac/index.html" target="_blank">rstac</a> ja 
+	Ensisijaiset R kirjastot ovat <a href="https://cran.r-project.org/web/packages/rstac/index.html" target="_blank">rstac</a> ja 
 	<a href="https://cran.r-project.org/web/packages/gdalcubes/index.html" target="_blank">gdalcubes</a>. 
 	Lisätietoja saa sivun lopussa mainituista esimerkeistä.
 </p>
@@ -52,10 +54,13 @@
 
 <ul>
 	<li> CSC:llä tallennettuna:
-		<ul dir="auto">
-			<li>ESA, <a href="https://a3s.fi/sentinel-readme/README.txt" target="_blank">Sentinel-2 products</a>, processed to Level-2A (Surface Reflectance), a selection of mostly cloud-free products from Finland. Downloaded to CSC Allas by Maria Yli-Heikkilä (LUKE), Arttu Kivimäki (NLS/FGI) and Matias Heino (Aalto). JP2000 files.</li>
+		<ul>
+			<li>ESA, <a href="https://a3s.fi/sentinel-readme/README.txt" target="_blank">Sentinel-2 products</a>, 
+			processed to Level-2A (Surface Reflectance), a selection of mostly cloud-free products from Finland. 
+			Downloaded to CSC Allas by Maria Yli-Heikkilä (LUKE), Arttu Kivimäki (NLS/FGI) and Matias Heino (Aalto). JP2000 files.</li>
 		</ul>
-	<li>Tallennettuna FMI:lla, <a href="https://pta.data.lit.fmi.fi/stac/root.json" target="_blank">FMI Tuulituhohaukka</a> staattisesta STAC luettelosta, kaikki tiedostot COG:na:
+	<li>Tallennettuna FMI:lla, <a href="https://pta.data.lit.fmi.fi/stac/root.json" target="_blank">FMI Tuulituhohaukka</a> 
+	staattisesta STAC luettelosta, kaikki tiedostot COG:na:
 		<ul>
 			<li>ESA/FMI, Sentinel-2 11-days surface reflectance mosaics.</li>
 			<li>ESA/FMI, Sentinel-1 daily backscatter mosaics: VV and VH polarisation.</li>
@@ -74,19 +79,23 @@
 </ul>
 
 <p>
-	Paituli STAC API end-point on: <a href="https://paituli.csc.fi/geoserver/ogc/stac" target="_blank">https://paituli.csc.fi/geoserver/ogc/stac</a>
+	Paitulin STAC API end-point on: <a href="https://paituli.csc.fi/geoserver/ogc/stac" target="_blank">https://paituli.csc.fi/geoserver/ogc/stac</a>
 </p>
 <p>
-	<a href="https://radiantearth.github.io/stac-browser/#/external/paituli.csc.fi/geoserver/ogc/stac/?.language=en" target="_blank">STAC Browser Paituli STAC:lle</a>, selaimen kautta on nähtävillä mitä datakokoelmia on saatavilla, etsiä tuotteita sekä esikatsella COG-tiedostoja.
+	<a href="https://radiantearth.github.io/stac-browser/#/external/paituli.csc.fi/geoserver/ogc/stac/?.language=en" target="_blank">
+	STAC Browser Paituli STAC:lle</a>, selaimen kautta on nähtävillä mitä kokoelmia on saatavilla, etsiä tuotteita sekä esikatsella COG-tiedostoja.
 </p>
 <p>
-	CSC on valmistellut esimerkki skriptejä <a href="/csc-training/geocomputing/blob/master/python/STAC" target="_blank">Pythonille</a> ja <a href="/csc-training/geocomputing/blob/master/R/STAC" target="_blank">R:lle</a>, jotka havainnollistavat miten etsiä ja käyttää dataa STAC API:sta. 
+	CSC on valmistellut esimerkkiskriptejä <a href="/csc-training/geocomputing/blob/master/python/STAC" target="_blank">Pythonille</a> 
+	ja <a href="/csc-training/geocomputing/blob/master/R/STAC" target="_blank">R:lle</a>, jotka havainnollistavat miten etsiä ja käyttää dataa STAC API:sta. 
 </p>
 <p>
-	Paituli STAC on operoinnin alkuvaiheilla, joten enemmän datakokoelmia tullaan lisäämään. Seuraavaksi tullaan lisäämään <a href="https://vm0160.kaj.pouta.csc.fi/geocubes/datasets/" target="_blank">Geoportti geocubes</a> ja <a href="metadata.html" target="_blank">Paitulin oma data</a>.
+	Paituli STAC on operoinnin alkuvaiheilla, joten enemmän kokoelmia tullaan lisäämään. 
+	Seuraavaksi lisätään <a href="https://vm0160.kaj.pouta.csc.fi/geocubes/datasets/" target="_blank">Geoportti geocubes</a> 
+	ja <a href="metadata.html" target="_blank">Paitulin omat aineistot</a>.
 </p>
 <p>
-	Paituli STAC on kehitetty hyödyntäen <a href="https://www.aka.fi/en/" target="_blank"> Academy of Finland</a> ja <a href="https://www.geoportti.fi/" target="_blank">Geoportti</a> rahoitusta.
+	Paituli STAC on kehitetty <a href="https://www.aka.fi/en/" target="_blank"> Suomen Akatemian </a> ja <a href="https://www.geoportti.fi/" target="_blank">Geoportti</a> rahoituksella.
 </p>
 
 <p>Jos teillä on palautetta, olkaa yhteydessä CSC:en, servicedesk@csc.fi</p>
