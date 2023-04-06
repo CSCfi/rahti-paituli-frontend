@@ -1,103 +1,92 @@
-<h1>Jaa paikkatietoaineistosi Paitulissa</h1>
+<h1>Paituli STAC - Spatio Temporal Asset Catalog</h1>
+<h3>STAC yleiset käsitteet</h3>	
 <p>
-	Suomen korkeakoulujen opiskelijoilla ja henkilökunnalla on mahdollisuus
-	jakaa omia aineistoja Paitulissa ilmaiseksi. Aineistojen julkaisu ei
-	tarkoita aineistoon liittyvien oikeuksien luovuttamista. Aineisto voi olla
-	tuotettu esimerkiksi osana tutkimusta tai opetusprojektia. Aineiston kuvaama alue voi olla Suomesta tai muualta.
+	<a href="https://stacspec.org/en/" target="_blank">STAC</a> on avoin spesifikaatio paikkatiedon kuvailemiseksi, jotta se on helposti <strong>etsittävissä ja ladattavissa</strong>. 
+	STAC sisältää datasettien metatietoja ja linkkejä varsinaisiin tiedostoihin, jotka ovat yleisesti tallennettuna pilvessä. 
+	STAC luetteloita on olemassa maailmanlaajuisesti ja STAC Index -sivusto sisältää <a href="https://stacindex.org/catalogs" target="_blank">listan STAC luetteloista</a>.
+	STAC on eniten käytettynä rasteridatan kanssa, mutta sitä voidaan käyttää myös vektori- ja lidardatan kanssa. 
+	Yleisin käyttötarkoitus on kaukokartoituskuvat. Rasteridatalle Cloud-Optimized GeoTiff (COG) on paras tiedostovaihtoehto.
 </p>
-<p>
-	Aineiston julkaisun
-	jälkeen aineisto on vapaasti ladattavissa. <a href="http://docs.geoserver.org/latest/en/user/" target="_blank">GeoServerille</a> sopivat aineistot näkyvät esikatseluna lataussivulta ja ovat saatavilla
-	WMS-, WCS-, WMTS- ja WFS-rajapintojen yli.
-</p>
-<p> CSC seuraa aineistojen
-	latausmääriä ja raportoi vuosittain aineistojen toimittajille. Jokainen Paitulin aineisto saa myös pysyvän ID:n URN-formaatissa.
-</p>
-<h3>Ohjeet aineiston jakaamiseksi</h3>
-<ol>
-	<li>
-		<strong>Varmista että aineisto on avattavissa</strong>.
-		Avataksesi aineiston tulee sinun olla aineiston omistaja tai saada lupa
-		julkaista aineisto sen omistajalta. Varmistathan myös ettei mikään
-		sopimus tai tekijänoikeus estä aineiston avaamista. Aineiston
-		uudelleenkäyttö on sallittava. Suosittelemme
-		<a href="http://creativecommons.org/licenses/by/4.0/legalcode.fi" target="_blank">Creative Commons BY 4.0</a>
-		-lisenssiä.
-</li>
-
-<li>
-	<strong>Kuvaile aineisto</strong>. 
-	Aineiston kuvauken tulee sisältää:
-	<ul>
-		<li>
-			Otsikko, suomeksi ja englanniksi
-		</li>
-		<li>
-			Lyhyt kuvaus, suomeksi ja englanniksi (ca 5-10 riviä)
-		</li>
-		<li>Pidempi kuvaus voi olla .pdf tiedostona lisäksi. (Ei pakollinen)</li>
-		<li>
-			Aineiston tuottaja
-		</li>
-		<li>Aineiston ajankohta (vuosi)</li>
-		<li>
-			Mittakaava
-		</li>
-		<li>
-			Koordinaattijärjestelmä
-		</li>
-		<li>
-			Lisenssi, esimerkiksi CC-BY-4.0
-		</li>
-		<li>
-			Projekti, jossa aineisto on tuoettu ja sen kotisivu. (Ei pakollinen)
-		</li>
-		<li>
-			DOI, URN tai muu PID, jos aineistolla on jo PID. (Ei pakollinen)
-		</li>
-	</ul>
-</li>
-<li>
-	<strong>Luo aineistopaketti</strong>, teknisiä suosituksia:
-	<ul>
-		<li>
-			Formaatti: <a href="https://www.cogeo.org/#implementations">Cloud-optimized Geotiff rasteriaineistoille</a>, GeoPackage tai Shape vektoriaineistoille, LAZ laserkeilausaineistoille, netcdf tai Zarr moniuloitteiselle aineistolle.
-		</li>
-		<li>
-			Koordinaattijärjestelmä: ETRS-TM35FIN (EPSG:3067) Suomen aineistoille,
-			WGS-84 (EPGS:4326) globaaleille aineistoille.
-		</li>
-		<li>Tiedoston koko max 4 Gb.</li>
-		<li>
-			Tarvittaessa voit jakaa aineistosi karttalehdiksi, jos karttalehtijaosta
-			on saatavilla oma tiedosto, sen voi lisätä aineistopakettiin.
-		</li>
-		<li>Pakkaa kaikki tiedostot yhteen .zip-pakettiin.</li>
-		<li>
-			Nämä on vain suosituksia, jos aineistollesi olisi sopivampi joku muu
-			vaihtoehto tarkista kysymys CSC:lta.
-		</li>
-	</ul>
-</li>
-<li>
-	Jos haluat, että aineistosi esitetään WMS ja WMTS
-	palveluissa valitsemasi <strong>karttatyylillä</strong> voit lisätä
-	aineistopakettiin tyylitiedoston <a href="http://docs.geoserver.org/latest/en/user/styling/sld-cookbook/" target="_blank">SLD</a>
-	formaatissa. Jos SLD tuottaminen on vaikea, myös ArcGIS:lle tai QGIS:lle
-	sopivia tyylitiedostoja voi lähettää. (Ei pakollinen)
-</li>
-
-<li>
-	<strong>Lähetä aineistosi osoitteeseen:
-	<a href="mailto:giscoord@csc.fi" rel="nofollow">giscoord@csc.fi</a></strong>. Pienemmät aineistot voi lähettää sähköpostin liitteenä, isoimmille sopii
-	hyvin <a href="https://filesender.funet.fi/" target="_blank">FUNET FileSender</a>.
-	FileSenderin tiedostojen kokoraja on 200 Gb. Jos aineistosi on isompi tai aineistosi on Allas tai Puhti-palvelussa tai jos aineiston lähetyksen kanssa on ongelmia, ota yhteyttä CSC:lle.
-</li>
-
-<li>CSC julkaise aineistosi viikon tai kahden sisällä.</li>
-</ol>
 
 <p>
-	Kaikki kysymykset ja kommentit voi lähettää CSC:lle osoitteeseen:
-	giscoord@csc.fi
+	STAC pääkäsitteet (suomennokset eivät ole vakiintuneita): 
 </p>
+
+<ul dir="auto">
+	<li><strong>Catalog</strong> (suom. Luettelo) - yleinen metatieto ja linkit saatavilla oleviin Kokoelmiin.</li>
+	<li><strong>Collection</strong> (suom. Kokoelma)- Kokoelmaan liittyvä metatieto ja linkit saatavilla oleviin Osiin. Yksi Kokoelma sisältää samanlaisia Tuotteita.</li>
+	<li><strong>Item</strong> (suom. Tuote) - ydin yksikkö, joka kuvailee dataa tietyltä ajalta ja paikalta. Tuote sisältää yhden tai useampia Resursseja.</li>
+	<li><strong>Asset</strong> (suom. Resurssi)- Tuotteeseen liittyvät tiedostot ja linkit, jotka voivat olla datatiedostoja tai linkkejä metatietoon jne.</li>
+</ul>
+
+<img align=middle src="./STAC.png" style="width: 100%"/>
+
+<p>
+	STAC on mahdollista toteuttaa staattisena kokoelmana JSON-tiedostoja tai ohjelmointirajapintana (API:na). Etsiessä API:n kautta tarvitaan erillisiä työkaluja.
+	<a href="https://stacindex.org/ecosystem#/" target="_blank">STAC loppukäyttäjän työkaluja</a> on tarjolla <a href="https://pystac-client.readthedocs.io/en/latest" target="_blank">Pythonille </a>, 
+	<a href="https://cran.r-project.org/web/packages/rstac/index.html" target="_blank">R:lle</a>, 
+	<a href="https://stac-utils.github.io/qgis-stac-plugin/" target="_blank">QGIS:lle</a> sekä <a href="https://github.com/JuliaClimate/STAC.jl" target="_blank">Julia:lle</a>. 
+	<a href="https://radiantearth.github.io/stac-browser/" target="_blank">STAC Browser:ia</a> voi käyttää etsimään tietoa STAC API:sta selaimen avulla.
+</p>
+
+<p>
+	Etsiessä tietoa STAC luetteloista tärkeimmät kriteerit ovat sijainti, aika sekä kokoelman nimi. 
+	Tuotteet voivat sisältää myös lisätietoja, esimerkiksi optisten kuvien pilvisyyttä, jota voidaan sisällyttää hakuehdoissa.
+	Ladattaessa on mahdollista määritellä vaadittu pikselikoko, jos data sisältää overview-kuvia (COG) ja kyseinen lataustyökalu tukee sitä.
+</p>
+	
+<p>
+	Molemmille, Pythonille ja R:lle, on kirjastoja datan etsimiseen STAC API:sta. 
+	Aika-ulottuvuuden sisältävälle rasteridatalle on olemassa lisäksi paketteja datan lataukseen ja analysointiin STAC API:sta.
+	Nämä työkalut myös tukevat rinnakkaislaskentaa, jolloin suurten datasettien käsittely on helposti mahdollista.
+	Ensisijaiset Python paketit STAC:in käyttämiseen ovat <a href="https://pystac-client.readthedocs.io/en/latest" target="_blank">pystac-client</a>, 
+	<a href="https://stackstac.readthedocs.io/" target="_blank">stackstac</a>, 
+	<a href="https://xarray.dev/" target="_blank">xarray</a> ja <a href="https://www.dask.org/" target="_blank">dask</a>.
+	Ensisijaiset R paketit ovat <a href="https://cran.r-project.org/web/packages/rstac/index.html" target="_blank">rstac</a> ja 
+	<a href="https://cran.r-project.org/web/packages/gdalcubes/index.html" target="_blank">gdalcubes</a>. 
+	Lisätietoja saa sivun lopussa mainituista esimerkeistä.
+</p>
+
+<h3>Paituli STAC</h3>	
+<p> Paituli STAC luettelo sisältää suomalaista dataa. Tällä hetkellä se sisältää:
+
+<ul>
+	<li> CSC:llä tallennettuna:
+		<ul dir="auto">
+			<li>ESA, <a href="https://a3s.fi/sentinel-readme/README.txt" target="_blank">Sentinel-2 products</a>, processed to Level-2A (Surface Reflectance), a selection of mostly cloud-free products from Finland. Downloaded to CSC Allas by Maria Yli-Heikkilä (LUKE), Arttu Kivimäki (NLS/FGI) and Matias Heino (Aalto). JP2000 files.</li>
+		</ul>
+	<li>Tallennettuna FMI:lla, <a href="https://pta.data.lit.fmi.fi/stac/root.json" target="_blank">FMI Tuulituhohaukka</a> staattisesta STAC luettelosta, kaikki tiedostot COG:na:
+		<ul>
+			<li>ESA/FMI, Sentinel-2 11-days surface reflectance mosaics.</li>
+			<li>ESA/FMI, Sentinel-1 daily backscatter mosaics: VV and VH polarisation.</li>
+			<li>ESA/FMI, Sentinel-1 11 days backscatter mosaics: VV and VH polarisation.</li>	
+			<li>ESA/FMI, Sentinel-2 annual surface reflectance mosaics.</li>	
+			<li>ESA/SYKE, Sentinel-2 monthly index mosaics: NDVI, NDBI, NDMI, NDSI, NDTI.</li>
+			<li>ESA, Sentinel-1 backscatter tiles: VV and VH polarisation.</li>
+			<li>USGS/SYKE, Landsat (4 and 5) yearly index mosaics: NDVI, NDBI, NDMI, NDSI, NDTI. Techinical problems with files on FMI side.</li>	
+			<li>NLS, Digital terrain model products: DTM, aspect, slope.</li>
+			<li>Finnish Forest center, Canopy height model.</li>
+			<li>LUKE, Multi-source forest inventory products.</li>	
+			<li>LUKE, Forest wind damage risk map.</li>
+			<li>FMI, Daily wind damage risk map.</li>	
+		</ul>
+	</li>
+</ul>
+
+<p>
+	Paituli STAC API end-point on: <a href="https://paituli.csc.fi/geoserver/ogc/stac" target="_blank">https://paituli.csc.fi/geoserver/ogc/stac</a>
+</p>
+<p>
+	<a href="https://radiantearth.github.io/stac-browser/#/external/paituli.csc.fi/geoserver/ogc/stac/?.language=en" target="_blank">STAC Browser Paituli STAC:lle</a>, selaimen kautta on nähtävillä mitä datakokoelmia on saatavilla, etsiä tuotteita sekä esikatsella COG-tiedostoja.
+</p>
+<p>
+	CSC on valmistellut esimerkki skriptejä <a href="/csc-training/geocomputing/blob/master/python/STAC" target="_blank">Pythonille</a> ja <a href="/csc-training/geocomputing/blob/master/R/STAC" target="_blank">R:lle</a>, jotka havainnollistavat miten etsiä ja käyttää dataa STAC API:sta. 
+</p>
+<p>
+	Paituli STAC on operoinnin alkuvaiheilla, joten enemmän datakokoelmia tullaan lisäämään. Seuraavaksi tullaan lisäämään <a href="https://vm0160.kaj.pouta.csc.fi/geocubes/datasets/" target="_blank">Geoportti geocubes</a> ja <a href="metadata.html" target="_blank">Paitulin oma data</a>.
+</p>
+<p>
+	Paituli STAC on kehitetty hyödyntäen <a href="https://www.aka.fi/en/" target="_blank"> Academy of Finland</a> ja <a href="https://www.geoportti.fi/" target="_blank">Geoportti</a> rahoitusta.
+</p>
+
+<p>Jos teillä on palautetta, olkaa yhteydessä CSC:en, servicedesk@csc.fi</p>
