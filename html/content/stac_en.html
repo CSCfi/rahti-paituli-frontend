@@ -1,44 +1,52 @@
 <h1>Paituli STAC - Spatio Temporal Asset Catalog</h1>
-<h3>STAC general concepts</h3>	
+
 <p>
-	<a href="https://stacspec.org/en/" target="_blank">STAC</a> is a specification to describe geospatial information, so it can easily be <strong>searched and downloaded</strong>. 
-	STAC includes metadata of datasets and links to actual files, the data files are usually stored in the cloud. 
-	Globally a lot of STAC catalogs exist, STAC index pages have<a href="https://stacindex.org/catalogs" target="_blank"> a list of STAC catalogs</a>.
-	STAC is most often used for raster data, but it can be used also for vector and lidar data. 
-	The most common use case is remote sensing images. For raster data Cloud-Optimized GeoTiff (COG) is the best option.
+	<a href="https://stacspec.org/en/" target="_blank">STAC</a> is a specification to describe geospatial datasets with temporal dimension. It drastically simplifies <strong>searching and downloading</strong> datasets. STAC includes only the metadata of datasets and links to the actual files. The data files themselves are usually stored in the cloud. STAC is most often used for remote sensing imagery and other raster data, but it can be used also for vector and LiDAR data. STAC is especially suitable for time-series applications.
 </p>
 
 <p>
 	STAC main concepts: </p>
 	
 <ul dir="auto">
-<li><strong>Catalog</strong> - general metadata and links to available Collections.</li>
-<li><strong>Collection</strong> - collection specific general metadata and links to available Items. In one collection are similar items.</li>
-<li><strong>Item</strong> - the core atomic unit, describing data for specific time and location. Item has one or several assets.</li>
-<li><strong>Asset</strong> - Files and links related to an Item, can be data files or links to metadata etc.</li>
+<li><strong>Catalog</strong> - general description of the service and links to available Collections. Example: Paituli STAC
+</li>
+<li><strong>Collection</strong> - collection specific general metadata and links to available Items. In one collection are similar items. Example: ESA/SYKE, Sentinel-2 monthly index mosaics</li>
+<li><strong>Item</strong> - the core atomic unit, describing data for specific time and location. Each Item has one or several Assets. Example: ESA/SYKE, Sentinel-2 monthly index mosaics of area X at timepoint Y
+</li>
+<li><strong>Asset</strong> - Files and links related to an Item, can be data files or links to metadata etc. Example: One index file of ESA/SYKE, Sentinel-2 monthly index mosaics of area X at timepoint Y. The dataset includes several indices, each index is an Asset, because each of them is in a separate file.
+</li>
 </ul>
 
 <img align="middle" src="./STAC.png" style="width: 100%"/>
 
-
-<p>STAC can be provided as static collection of JSON files or as an API. For searching via the API some external tools is required. <a href="https://stacindex.org/ecosystem#/" target="_blank">STAC end-user tools</a> are available for <a href="https://pystac-client.readthedocs.io/en/latest" target="_blank">Python </a>,  <a href="https://cran.r-project.org/web/packages/rstac/index.html" target="_blank">R</a>, <a href="https://stac-utils.github.io/qgis-stac-plugin/" target="_blank">QGIS</a> and <a href="https://github.com/JuliaClimate/STAC.jl" target="_blank">Julia</a>. <a href="https://radiantearth.github.io/stac-browser/" target="_blank">STAC browser</a> can be used for searching data from STAC with web-browser.
+<p>	
+	Globally, a lot of STAC catalogs exist, STAC index website provides <a href="https://stacindex.org/catalogs" target="_blank">a list of public STAC catalogs</a>. STAC index provides also a good possibility to explore different catalogs. </p>
 
 <p>
-	When searching STAC catalogs, the main criteria are location, time and collection name. Items may have also additional information, for example cloud coverage for optical images, that also can be included to search criteria. While downloading, it may be possible to define required pixel size, if data includes overviews (COG) and the download tools supports it.</p>
-	
+	When searching STAC catalogs, the main criteria are location, time and collection name. Items may have also additional information, for example cloud coverage for optical remote sensing images, that also can be included to search criteria. 
+</p>
+
 <p>
-	Both Python and R have libraries for searching data from STAC. 
-	For raster data with time dimension exist further packages for downloading and analyzing data from STAC.
-	These tools also support parallel computing, so handling bigger datasets is easily possible. 	
-	Main Python packages for using STAC are <a href="https://pystac-client.readthedocs.io/en/latest" target="_blank">pystac-client</a>, <a href="https://stackstac.readthedocs.io/" target="_blank">stackstac</a>, <a href="https://xarray.dev/" target="_blank">xarray</a> and <a href="https://www.dask.org/" target="_blank">dask</a>. The main R packages are: <a href="https://cran.r-project.org/web/packages/rstac/index.html" target="_blank">rstac</a> and <a href="https://cran.r-project.org/web/packages/gdalcubes/index.html" target="_blank">gdalcubes</a>. For more details see the examples mentioned at the end of this page.</p>	
+	STAC can be provided as <strong>static</strong> collection of JSON files or as an <strong>API</strong>. STAC API support fast searching of big datasets with thousands or millions of Items.
+</p>
+		
+<p>
+	The best storage option for STAC data is a cloud optimized format: <a href="https://www.cogeo.org/"> Cloud-Optimized GeoTiff (COG) </a> for raster, <a href="https://copc.io/">COPC</a> for LiDAR. Cloud optimized formats enable downloading only a subset of larger files, covering only a defined area or only generalized overview of the data. Also other formats can be used, but depending on file inner organization subsetting might work less optimally.
+<p>
+
+<p>
+	For searching and downloading data from STAC some external <strong>tool</strong> is required. <a href="https://stacindex.org/ecosystem#/" target="_blank">STAC end-user tools</a> are available for <a href="https://pystac-client.readthedocs.io/en/latest" target="_blank">Python </a>,  <a href="https://cran.r-project.org/web/packages/rstac/index.html" target="_blank">R</a>, <a href="https://stac-utils.github.io/qgis-stac-plugin/" target="_blank">QGIS</a> and <a href="https://github.com/JuliaClimate/STAC.jl" target="_blank">Julia</a>. Python and R have further packages for downloading and analyzing multitemporal raster data. These tools also support parallel computing, so handling bigger datasets is easily possible. <a href="https://radiantearth.github.io/stac-browser/" target="_blank">STAC browser</a> can be used for searching data from STAC with web-browser. Each STAC catalog has its own STAC end-point, which should be given to the tools.
+
+</p>
+
 	
-<h3>Paituli STAC</h3>	
-<p> Paituli STAC catalog includes Finnish data. Currently it includes:
+<h2>Paituli STAC contents</h2>	
+<p> Paituli STAC catalog includes Finnish data, currently:
 
 <ul>
 	<li> Stored at CSC:
 	<ul dir="auto">
-	<li>ESA,  <a href="https://a3s.fi/sentinel-readme/README.txt" target="_blank">Sentinel-2 products</a>, processed to Level-2A (Surface Reflectance), a selection of mostly cloud-free products from Finland. Downloaded to CSC Allas by Maria Yli-Heikkilä (LUKE), Arttu Kivimäki (NLS/FGI) and Matias Heino (Aalto). JP2000 files.</li>
+	<li>ESA,  <a href="https://a3s.fi/sentinel-readme/README.txt" target="_blank">Sentinel-2 products</a>, processed to Level-2A (Surface Reflectance), a selection of mostly cloud-free products from Finland. Downloaded to CSC Allas by Maria Yli-Heikkilä (LUKE), Arttu Kivimäki (NLS/FGI) and Matias Heino (Aalto). Files in JPG2000 format.</li>
 		</ul>
 <li>Stored at FMI, from <a href="https://pta.data.lit.fmi.fi/stac/root.json" target="_blank">FMI Tuulituhohaukka static STAC catalog, all files COGs.</a>:
 	<ul>
@@ -49,7 +57,7 @@
 	<li>ESA/FMI, Sentinel-2 annual surface reflectance mosaics.</li>	
 	<li>ESA/SYKE, Sentinel-2 monthly index mosaics: NDVI, NDBI, NDMI, NDSI, NDTI.</li>
 	<li>ESA, Sentinel-1 backscatter tiles: VV and VH polarisation.</li>
-	<li>USGS/SYKE, Landsat (4 and 5) yearly index mosaics: NDVI, NDBI, NDMI, NDSI, NDTI. Techinical problems with files on FMI side.</li>	
+	<li>USGS/SYKE, Landsat (4 and 5) yearly index mosaics: NDVI, NDBI, NDMI, NDSI, NDTI. This collection unfortunately has techinical problems on FMI side, so data download likely does not work.</li>	
 	<li>NLS, Digital terrain model products: DTM, aspect, slope.</li>
 	<li>Finnish Forest center, Canopy height model.</li>
 	<li>LUKE, Multi-source forest inventory products.</li>	
@@ -59,13 +67,14 @@
 </li>
 </ul>
 <p>
-	Paituli STAC end-point is: <a href="https://paituli.csc.fi/geoserver/ogc/stac" target="_blank">https://paituli.csc.fi/geoserver/ogc/stac</a>
+	Paituli is a STAC API and its end-point is: <a href="https://paituli.csc.fi/geoserver/ogc/stac" target="_blank">https://paituli.csc.fi/geoserver/ogc/stac</a>
 </p>
+
 <p>
 	<a href="https://radiantearth.github.io/stac-browser/#/external/paituli.csc.fi/geoserver/ogc/stac/?.language=en" target="_blank">STAC browser for Paituli STAC</a>, see from web-browser what data collections are available, search for items and also preview COG files.
 </p>
 <p>
-	CSC has prepared example scripts for <a href="/csc-training/geocomputing/blob/master/python/STAC" target="_blank">Python</a> and <a href="/csc-training/geocomputing/blob/master/R/STAC" target="_blank">R</a>, that demostrate how to search and use STAC data. 
+	CSC has prepared example scripts for <a href="/csc-training/geocomputing/blob/master/python/STAC" target="_blank">Python</a> and <a href="/csc-training/geocomputing/blob/master/R/STAC" target="_blank">R</a>, that demostrate how to search and use STAC data and what are the main libraries for working with STAC. 
 </p>
 
 <p>
