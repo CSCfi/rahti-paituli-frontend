@@ -1,11 +1,8 @@
 <h1>Paituli STAC - Spatio Temporal Asset Catalog</h1>
-<h3>STAC yleisesti</h3>	
+
 <p>
-	<a href="https://stacspec.org/en/" target="_blank">STAC</a> on avoin spesifikaatio paikkatiedon kuvailemiseksi, jotta se on helposti <strong>etsittävissä ja ladattavissa</strong>. 
-	STAC sisältää aineistojen metatietoja ja linkkejä varsinaisiin tiedostoihin, jotka ovat yleisesti tallennettuna pilvessä. 
-	STAC luetteloita on olemassa maailmanlaajuisesti ja STAC Index -sivusto sisältää <a href="https://stacindex.org/catalogs" target="_blank">listan STAC luetteloista</a>.
-	STAC on eniten käytettynä rasteridatan kanssa, mutta sitä voidaan käyttää myös vektori- ja pistepilviaineistojen kanssa. 
-	Yleisin käyttötarkoitus on kaukokartoitusaineistot. Rasteridatalle Cloud-Optimized GeoTiff (COG) on paras tiedostovaihtoehto.
+	<a href="https://stacspec.org/en/" target="_blank">STAC</a> on spesifikaatio paikkatiedon kuvailemiseksi, jolla on ajallinen ulottuvuus. Se huomattavasti helpottaa aineistojen <strong>etsimistä ja lataamista</strong>. 
+	STAC sisältää vain aineistojen metatietoja ja linkkejä varsinaisiin tiedostoihin, jotka ovat yleisesti tallennettuna pilvessä. 	STAC on eniten käytettynä kaukokartoituskuvien ja muun rasteridatan kanssa, mutta sitä voidaan käyttää myös vektori- ja pistepilviaineistojen kanssa. STAC sopii parhaiten aikasarjoja käsitteleviin käyttötapauksiin.
 </p>
 
 <p>
@@ -13,43 +10,44 @@
 </p>
 
 <ul dir="auto">
-	<li><strong>Catalog</strong> (suom. Luettelo) - yleinen metatieto ja linkit saatavilla oleviin Kokoelmiin.</li>
-	<li><strong>Collection</strong> (suom. Kokoelma)- Kokoelmaan liittyvä metatieto ja linkit saatavilla oleviin Tuotteisiin. Yksi Kokoelma sisältää samantyyppisiä Tuotteita.</li>
-	<li><strong>Item</strong> (suom. Tuote) - ydinyksikkö, joka kuvailee dataa tietyltä ajalta ja paikalta. Tuote sisältää yhden tai useampia Resursseja.</li>
-	<li><strong>Asset</strong> (suom. Resurssi)- Tuotteeseen liittyvät tiedostot ja linkit, jotka voivat olla datatiedostoja tai linkkejä metatietoon jne.</li>
+	<li><strong>Catalog</strong> (suom. Luettelo) - yleinen palvelun metatieto ja linkit saatavilla oleviin Kokoelmiin. Esimerkki: Paituli STAC</li>
+	<li><strong>Collection</strong> (suom. Kokoelma)- Kokoelmaan liittyvä metatieto ja linkit saatavilla oleviin Tuotteisiin. Yksi Kokoelma sisältää samantyyppisiä Tuotteita. Esimerkki: ESA/SYKE, Sentinel-2 kuukausittaiset indeksimosaiikit </li>
+	<li><strong>Item</strong> (suom. Tuote) - ydinyksikkö, joka kuvailee dataa tietyltä ajalta ja paikalta. Tuote sisältää yhden tai useampia Resursseja. Esimerkki: ESA/SYKE, Sentinel-2 kuukausittaiset indeksimosaiikit alueelta X ja ajankohtasta Y</li>
+	<li><strong>Asset</strong> (suom. Resurssi)- Tuotteeseen liittyvät tiedostot ja linkit, jotka voivat olla datatiedostoja tai linkkejä metatietoon jne. Esimerkki: NDVI indeksi ESA/SYKE, Sentinel-2 kuukausittaiset indeksimosaiikit alueelta X ja ajankohtasta Y. Aineisto sisältää myös muita indekseja, josta jokainen on Resurssi, sillä jokainen indeksi on tallennettu erilliseen tiedostoon. </li>
 </ul>
 
 <img align=middle src="./STAC.png" style="width: 100%"/>
 
+<p>	
+	STAC luetteloita on olemassa maailmanlaajuisesti ja STAC Index -sivusto sisältää <a href="https://stacindex.org/catalogs" target="_blank">listan STAC luetteloista</a>. STAC Index tarjoaa myös hyvän mahdollisuuden tutusta luetteloihin.	
+</p>
+
 <p>
-	STAC on mahdollista toteuttaa staattisena kokoelmana JSON-tiedostoja tai ohjelmointirajapintana (API:na). Jotta STAC rajapintaa voi hyödyntää aineistojen etsimiseen, tarvitaan erillisiä työkaluja.
+	Etsiessä dataa STAC luetteloista tärkeimmät kriteerit ovat sijainti, aika sekä kokoelman nimi. 
+	Tuotteet voivat sisältää myös lisätietoja, esimerkiksi kaukokartoituksen optisten kuvien pilvisyyttä, jota voidaan sisällyttää hakuehdoissa.
+
+</p>
+
+<p>
+	STAC on mahdollista toteuttaa <strong>staattisena</strong> kokoelmana JSON-tiedostoja tai <strong>ohjelmointirajapintana (API:na)</strong>. STAC API tukee nopeaa hakua myös isoista aineistoista, jossa on tuhansia tai miljoonia tuotteita.
+</p>
+		
+<p>	
+	Paras tallennusvaihtoehto STAC aineistoille on pilvioptimoitu tiedostomuoto: <a href="https://www.cogeo.org/"> Cloud-Optimized GeoTiff (COG)</a> rasteriaineistoille ja <a href="https://copc.io/">COPC</a> pistepilviaineistoille. Pilvioptimoitut tiedostomuotot mahdollistavat aineistojen osittaisen latauksen, näin että ladataan vain tietty alue tai vain yleistetty versio aineistosta. Myös muita tiedostomuotoja voidaan käyttää, mutta riippuen niiden sisäisistä rakenteista osittainen lataus voi toimia vähemmän optimaalisesti.
+</p>
+
+<p>	
+	Jotta STAC rajapintaa voi hyödyntää aineistojen etsimiseen, tarvitaan erillisiä <strong>työkaluja</strong>.
 	<a href="https://stacindex.org/ecosystem#/" target="_blank">STAC loppukäyttäjän työkaluja</a> on tarjolla 
 	<a href="https://pystac-client.readthedocs.io/en/latest" target="_blank">Pythonille </a>, 
 	<a href="https://cran.r-project.org/web/packages/rstac/index.html" target="_blank">R:lle</a>, 
 	<a href="https://stac-utils.github.io/qgis-stac-plugin/" target="_blank">QGIS:lle</a> 
 	sekä <a href="https://github.com/JuliaClimate/STAC.jl" target="_blank">Julia:lle</a>. 
-	<a href="https://radiantearth.github.io/stac-browser/" target="_blank">STAC Browser:ia</a> voi käyttää etsimään tietoa STAC rajapinnasta selaimen avulla.
+	Pythonille ja R:lle on olemassa lisäksi kirjastoja aika-ulottuvuuden sisältävän rasteridatan lataukseen ja analysointiin. Nämä työkalut tukevat myös rinnakkaislaskentaa, jolloin suurten aineistojen käsittely on helposti mahdollista.
+	<a href="https://radiantearth.github.io/stac-browser/" target="_blank">STAC Browser:ia</a> voi käyttää etsimään tietoa STAC rajapinnasta selaimen avulla. Jokaisella STAC luettelolla on osoite, joka pitää antaa työkaluille luettolen löytäämiseksi.
 </p>
 
-<p>
-	Etsiessä tietoa STAC luetteloista tärkeimmät kriteerit ovat sijainti, aika sekä kokoelman nimi. 
-	Tuotteet voivat sisältää myös lisätietoja, esimerkiksi optisten kuvien pilvisyyttä, jota voidaan sisällyttää hakuehdoissa.
-	Ladattaessa on mahdollista määritellä vaadittu pikselikoko, jos data sisältää yleisnäkymä-kuvia (esim. COG) ja kyseinen lataustyökalu tukee sitä.
-</p>
-	
-<p>
-	Pythonille ja R:lle on kirjastoja datan etsimiseen STAC rajapinnasta. 
-	Aika-ulottuvuuden sisältävälle rasteridatalle on olemassa lisäksi paketteja datan lataukseen ja analysointiin STAC rajapinnasta.
-	Nämä työkalut myös tukevat rinnakkaislaskentaa, jolloin suurten aineistojen käsittely on helposti mahdollista.
-	Ensisijaiset Python kirjastot STAC:in käyttämiseen ovat <a href="https://pystac-client.readthedocs.io/en/latest" target="_blank">pystac-client</a>, 
-	<a href="https://stackstac.readthedocs.io/" target="_blank">stackstac</a>, 
-	<a href="https://xarray.dev/" target="_blank">xarray</a> ja <a href="https://www.dask.org/" target="_blank">dask</a>.
-	Ensisijaiset R kirjastot ovat <a href="https://cran.r-project.org/web/packages/rstac/index.html" target="_blank">rstac</a> ja 
-	<a href="https://cran.r-project.org/web/packages/gdalcubes/index.html" target="_blank">gdalcubes</a>. 
-	Lisätietoja saa sivun lopussa mainituista esimerkeistä.
-</p>
-
-<h3>Paituli STAC</h3>	
+<h2>Paituli STAC sisältö</h2>	
 <p> Paituli STAC luettelo sisältää suomalaista dataa. Tällä hetkellä se sisältää:
 
 <ul>
@@ -68,7 +66,7 @@
 			<li>ESA/FMI, Sentinel-2 annual surface reflectance mosaics.</li>	
 			<li>ESA/SYKE, Sentinel-2 monthly index mosaics: NDVI, NDBI, NDMI, NDSI, NDTI.</li>
 			<li>ESA, Sentinel-1 backscatter tiles: VV and VH polarisation.</li>
-			<li>USGS/SYKE, Landsat (4 and 5) yearly index mosaics: NDVI, NDBI, NDMI, NDSI, NDTI. Techinical problems with files on FMI side.</li>	
+			<li>USGS/SYKE, Landsat (4 and 5) yearly index mosaics: NDVI, NDBI, NDMI, NDSI, NDTI. Valitettavasti tämän aineiston kanssa on FMI:n puolella teknisiä ongelmia, joten tiedostojen lataus ei onnistu.</li>	
 			<li>NLS, Digital terrain model products: DTM, aspect, slope.</li>
 			<li>Finnish Forest center, Canopy height model.</li>
 			<li>LUKE, Multi-source forest inventory products.</li>	
@@ -87,7 +85,7 @@
 </p>
 <p>
 	CSC on valmistellut esimerkkiskriptejä <a href="https://www.github.com/csc-training/geocomputing/blob/master/python/STAC" target="_blank">Pythonille</a> 
-	ja <a href="https://www.github.com/csc-training/geocomputing/blob/master/R/STAC" target="_blank">R:lle</a>, jotka havainnollistavat miten etsiä ja käyttää dataa STAC rajapinnasta. 
+	ja <a href="https://www.github.com/csc-training/geocomputing/blob/master/R/STAC" target="_blank">R:lle</a>, jotka havainnollistavat miten etsiä ja käyttää dataa STAC rajapinnasta ja mitkä ovat keskeiset tarvittavat kirjastot. 
 </p>
 <p>
 	Paituli STAC on operoinnin alkuvaiheilla, joten enemmän kokoelmia tullaan lisäämään. 
