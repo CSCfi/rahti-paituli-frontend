@@ -20,7 +20,7 @@
 <img align="middle" src="./STAC.png" style="width: 100%"/>
 
 <p>	
-	Globally, a lot of STAC catalogs exist, STAC index website provides <a href="https://stacindex.org/catalogs" target="_blank">a list of public STAC catalogs</a>. STAC index provides also a good possibility to explore different catalogs. </p>
+	Globally, a lot of STAC catalogs exist. STAC index website provides <a href="https://stacindex.org/catalogs" target="_blank">a list of public STAC catalogs</a> and also a good possibility to explore different catalogs. </p>
 
 <p>
 	When searching STAC catalogs, the main criteria are location, time and collection name. Items may have also additional information, for example cloud coverage for optical remote sensing images, that also can be included to search criteria. 
@@ -31,11 +31,11 @@
 </p>
 		
 <p>
-	The best storage option for STAC data is a cloud optimized format: <a href="https://www.cogeo.org/"> Cloud-Optimized GeoTiff (COG)</a> for raster and <a href="https://copc.io/">COPC</a> for LiDAR. Cloud optimized formats enable downloading only a subset of larger files, covering only a defined area or only generalized overview of the data. Also other formats can be used, but depending on file inner organization subsetting might work less optimally.
+	The best storage option for actual data linked from STAC is a cloud optimized format: <a href="https://www.cogeo.org/"> Cloud-Optimized GeoTiff (COG)</a> for raster and <a href="https://copc.io/">COPC</a> for LiDAR. Cloud optimized formats enable downloading only a subset of larger files, covering only a defined area or only generalized overview of the data. Also other formats can be used, but depending on file inner organization subsetting might work less optimally.
 </p>
 
 <p>
-	For searching and downloading data from STAC some external <strong>tool</strong> is required. <a href="https://stacindex.org/ecosystem#/" target="_blank">STAC end-user tools</a> are available for <a href="https://pystac-client.readthedocs.io/en/latest" target="_blank">Python </a>,  <a href="https://cran.r-project.org/web/packages/rstac/index.html" target="_blank">R</a>, <a href="https://stac-utils.github.io/qgis-stac-plugin/" target="_blank">QGIS</a> and <a href="https://github.com/JuliaClimate/STAC.jl" target="_blank">Julia</a>. Python and R have further packages for downloading and analyzing multitemporal raster data. These tools also support parallel computing, so handling bigger datasets is easily possible. <a href="https://radiantearth.github.io/stac-browser/" target="_blank">STAC browser</a> can be used for searching data from STAC with web-browser. Each STAC catalog has its own STAC end-point, which should be given to the tools, so that they can find the catalog. CSC has prepared example scripts for <a href="/csc-training/geocomputing/blob/master/python/STAC" target="_blank">Python</a> and <a href="/csc-training/geocomputing/blob/master/R/STAC" target="_blank">R</a>, that demostrate how to search and use STAC data and what are the main required libraries. 
+	For searching and downloading data from STAC some external <strong>tool</strong> is required. <a href="https://stacindex.org/ecosystem#/" target="_blank">STAC end-user tools</a> are available for <a href="https://pystac-client.readthedocs.io/en/latest" target="_blank">Python </a>,  <a href="https://cran.r-project.org/web/packages/rstac/index.html" target="_blank">R</a>, <a href="https://stac-utils.github.io/qgis-stac-plugin/" target="_blank">QGIS</a> and <a href="https://github.com/JuliaClimate/STAC.jl" target="_blank">Julia</a>. Python and R have further packages for downloading and analyzing multitemporal raster data. These tools also support parallel computing, so handling bigger datasets is easily possible. <a href="https://radiantearth.github.io/stac-browser/" target="_blank">STAC browser</a> can be used for searching data from any STAC with web-browser. Each STAC catalog has its own STAC end-point, which should be given to the tools, so that they can find the catalog. CSC has prepared example scripts for <a href="/csc-training/geocomputing/blob/master/python/STAC" target="_blank">Python</a> and <a href="/csc-training/geocomputing/blob/master/R/STAC" target="_blank">R</a>, that demostrate how to search and use STAC data and what are the main required libraries. 
 
 </p>
 
