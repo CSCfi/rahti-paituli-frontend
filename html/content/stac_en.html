@@ -1,7 +1,7 @@
 <h1>Paituli STAC - Spatio Temporal Asset Catalog</h1>
 
 <p>
-	<a href="https://stacspec.org/en/" target="_blank">STAC</a> is a specification to describe geospatial datasets with temporal dimension. It drastically simplifies <strong>searching and downloading</strong> datasets. STAC includes only the metadata of datasets and links to the actual files. The data files themselves are usually stored in the cloud. STAC is most often used for remote sensing imagery and other raster data, but it can be used also for vector and LiDAR data. STAC is especially suitable for time-series applications.
+	<a href="https://stacspec.org/en/" target="_blank">STAC</a> is a specification to describe geospatial datasets with temporal dimension. It drastically simplifies <strong>searching and downloading</strong> datasets. STAC includes only the metadata of datasets and links to the actual files. The data files themselves are usually stored in the cloud. STAC is most often used for remote sensing imagery and other raster data, but it can be used also for vector and point cloud data. STAC is especially suitable for time-series applications.
 </p>
 
 <p>
@@ -31,7 +31,7 @@
 </p>
 		
 <p>
-	The best storage option for actual data linked from STAC is a cloud optimized format: <a href="https://www.cogeo.org/"> Cloud-Optimized GeoTiff (COG)</a> for raster and <a href="https://copc.io/">COPC</a> for LiDAR. Cloud optimized formats enable downloading only a subset of larger files, covering only a defined area or only generalized overview of the data. Also other formats can be used, but depending on file inner organization subsetting might work less optimally.
+	The best storage option for actual data linked from STAC is a cloud optimized format: <a href="https://www.cogeo.org/"> Cloud-Optimized GeoTiff (COG)</a> for raster and <a href="https://copc.io/">COPC</a> for point cloud data. Cloud optimized formats enable downloading only a subset of larger files, covering only a defined area or only generalized overview of the data. Also other formats can be used, but depending on file inner organization subsetting might work less optimally.
 </p>
 
 <p>
