@@ -45,7 +45,7 @@
 
 <h4>New OGC API standards</h4>
 
-<p> The new <a href="https://ogcapi.ogc.org/">OGC API standards</a> are still under development. Paituli supports them as much as GeoServer has implemented them. Also client side implementations are developing, for example QGIS and ArcGIS Pro currently support only OGC API Features. </p>
+<p> The new <a href="https://ogcapi.ogc.org/">OGC API standards</a> are still under development. Paituli supports them as much as GeoServer has implemented them. Also client side implementations are developing, for example QGIS and ArcGIS Pro currently support only OGC API Features. Note that the end-points changed 25.8.2023.</p>
 
 <table>
   <tbody>
@@ -57,18 +57,23 @@
     <tr>
       <td><b>Maps</b>, similar to WMS</td>
 	  <td>Map image for viewing</td>
-      <td>https://paituli.csc.fi/geoserver/ogc/maps</td>
+      <td>https://paituli.csc.fi/geoserver/ogc/maps/v1</td>
     </tr>
     <tr>
       <td><b>Tiles</b>, similar to WMTS</td>
 	  <td>Map image tile for viewing</td>
-      <td>https://paituli.csc.fi/geoserver/ogc/tiles</td>
+      <td>https://paituli.csc.fi/geoserver/ogc/tiles/v1</td>
     </tr>
     <tr>
       <td><b>Features</b>, similar to WFS</td>
 	  <td>Vector data</td>
-      <td>https://paituli.csc.fi/geoserver/ogc/features</td>
+      <td>https://paituli.csc.fi/geoserver/ogc/features/v1</td>
     </tr>
+    <tr>
+      <td><b>Coverages</b>, samankaltainen kuin WCS</td>
+	  <td>Vektoriaineisto</td>
+      <td>https://paituli.csc.fi/geoserver/ogc/coverages/v1</td>
+    </tr>		
   </tbody>
 </table>
 <p>
@@ -95,6 +100,7 @@ example BBOX that defines the area of interest.
 <ul> 
 <li><a href="https://docs.qgis.org/3.16/en/docs/training_manual/online_resources/wms.html">QGIS training manual: Web mapping services</a>
 <li><a href="https://pro.arcgis.com/en/pro-app/latest/help/data/services/ogc-services.htm">ArcGIS Pro user manual: About using OGC service layers</a>
+<li><a href="https://pro.arcgis.com/en/pro-app/latest/help/data/services/add-ogc-api-services.htm">ArcGIS Pro user manual: Add OGC API services</a>
 <li><a href="http://docs.geoserver.org/latest/en/user/services/index.html">GeoServer user guide</a></li> 
 </ul> 
 
