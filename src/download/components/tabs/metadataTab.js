@@ -97,6 +97,7 @@ function getMetadataDescriptionFromMetax(rawMetadata) {
       return null
     }
     // Fix links from MarkDown to HTML
+	// [title](url) style
     const regexp = /\[.*?\]\(http.*?\)/g
     const matches = []
 
@@ -110,14 +111,14 @@ function getMetadataDescriptionFromMetax(rawMetadata) {
       notes = insert(
         notes,
         matchIdx + 1,
-        '<b><a href="' +
+        '<a href="' +
           notes.substring(
             notes.indexOf('(', matchIdx) + 1,
             notes.indexOf(')', matchIdx)
           ) +
           '" target="_blank">'
       )
-      notes = insert(notes, notes.indexOf(']', matchIdx), '</a></b>')
+      notes = insert(notes, notes.indexOf(']', matchIdx), '</a>')
       notes = notes.replace(
         notes.substring(
           notes.indexOf('(', matchIdx),
@@ -126,10 +127,40 @@ function getMetadataDescriptionFromMetax(rawMetadata) {
         ''
       )
     })
-    notes = notes.replace(/\[|\]/g, '')
+    notes = notes.replace(/\[|\]/g, '')	
+	
+	// <url> style
+    const regexp2 = /<http.*?>/g
+    const matches2 = []
+
+    let match2
+    while ((match = regexp2.exec(notes)) != null) {
+      matches2.push(match.index)
+    }
+    matches2.reverse()
+
+    $.each(matches2, (loopIdx, matchIdx) => {
+		// Add link ending
+		notes = insert(notes, notes.indexOf('>', matchIdx), '</a')		
+		// Add link beginning
+		notes = insert(
+			notes,
+			matchIdx + 1,
+			'a href="' +
+			  notes.substring(
+				notes.indexOf('<', matchIdx) + 1,
+				notes.indexOf('>', matchIdx)
+			  ) +
+			  '" target="_blank">'
+		  )
+    })	
+
 
     // Fix new lines from MarkDown to HTML
-    return notes.replace(/(\r\n|\n|\r)/gm, '<br>')
+    notes = notes.replace(/(\r\n|\n|\r)/gm, '<br>')
+	console.log(notes)
+	
+	return notes
   }
   return null
 }
