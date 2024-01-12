@@ -35,11 +35,12 @@
 </p>
 
 <p>
-	For searching and downloading data from STAC some external <strong>tool</strong> is required. <a href="https://stacindex.org/ecosystem#/" target="_blank">STAC end-user tools</a> are available for <a href="https://pystac-client.readthedocs.io/en/latest" target="_blank">Python </a>,  <a href="https://cran.r-project.org/web/packages/rstac/index.html" target="_blank">R</a>, <a href="https://stac-utils.github.io/qgis-stac-plugin/" target="_blank">QGIS</a> and <a href="https://github.com/JuliaClimate/STAC.jl" target="_blank">Julia</a>. Python and R have further packages for downloading and analyzing multitemporal raster data. These tools also support parallel computing, so handling bigger datasets is easily possible. <a href="https://radiantearth.github.io/stac-browser/" target="_blank">STAC browser</a> can be used for searching data from any STAC with web-browser. Each STAC catalog has its own STAC end-point, which should be given to the tools, so that they can find the catalog. 
-</p>
+	For searching and downloading data from STAC some external <strong>tool</strong> is required. <a href="https://radiantearth.github.io/stac-browser/" target="_blank">STAC browser</a> can be used for searching data from any STAC with web-browser. <a href="https://stacindex.org/ecosystem#/" target="_blank">STAC end-user tools</a> are available for <a href="https://pystac-client.readthedocs.io/en/latest" target="_blank">Python </a>,  <a href="https://cran.r-project.org/web/packages/rstac/index.html" target="_blank">R</a>, <a href="https://stac-utils.github.io/qgis-stac-plugin/" target="_blank">QGIS</a> and <a href="https://github.com/JuliaClimate/STAC.jl" target="_blank">Julia</a>. Additionally [GDAL](https://docs.csc.fi/support/tutorials/gis/virtual-rasters/#creating-virtual-raster-with-gdal-gdal_translate-and-stac) enables creating virtual rasters of STAC search results. Each STAC catalog has its own STAC end-point, which should be given to the tools, so that they can find the catalog. 
 
+
+<h3>Example scripts for Python and R</h3>
 <p>
-	CSC has prepared <strong>example scripts</strong> for <a href="https://www.github.com/csc-training/geocomputing/blob/master/python/STAC" target="_blank">Python</a> and <a href="https://www.github.com/csc-training/geocomputing/blob/master/R/STAC" target="_blank">R</a>, that demostrate how to search and use STAC data and what are the main required libraries. 
+	Python and R have further packages for downloading and analyzing multitemporal raster data. These tools also support parallel computing, so handling bigger datasets is easily possible. CSC has prepared example scripts for <a href="https://www.github.com/csc-training/geocomputing/blob/master/python/STAC" target="_blank">Python</a> and <a href="https://www.github.com/csc-training/geocomputing/blob/master/R/STAC" target="_blank">R</a>, that demostrate how to search and use STAC data and what are the main required libraries. 
 
 </p>
 
@@ -53,15 +54,17 @@
 </p>
 
 <ul>
-	<li> Stored at CSC, in Espoo datacenter:
+	<li> Stored at CSC, in Espoo and Kajaani datacenter:
 		<ul dir="auto">
-			<li><a href="metadata.html" target="_blank">Paituli own data</a>, only raster data, a lot of different datasets. Files in different formats, inc. GeoTiff, COG, JPG2000 and NetCDF format.
-			</li>
+			<li><a href="metadata.html" target="_blank">Paituli own data</a>, only raster data, a lot of different datasets. Files in different formats, inc. GeoTiff, COG, JPG2000 and NetCDF format. 
+			</li>	
+			<li> All Items of Paituli data have 2 assets - one with public URL-link to data in Espoo and one Puhti specific path. Puhti specific paths can and should be used ONLY when working on CSC supercomputer Puhti.
+			</li>			
 		</ul>
 	</li>
 	<li> Stored at CSC, in Kajaani datacenter:
 		<ul dir="auto">
-			<li>ESA,  <a href="https://a3s.fi/sentinel-readme/README.txt" target="_blank">Sentinel-2 products</a>, processed to Level-2A (Surface Reflectance), a selection of mostly cloud-free products from Finland. Downloaded to CSC Allas by Maria Yli-Heikkilä (LUKE), Arttu Kivimäki (NLS/FGI) and Matias Heino (Aalto). Files in JPG2000 format.
+			<li>ESA,  <a href="https://a3s.fi/sentinel-readme/README.txt" target="_blank">Sentinel-2 products</a>, processed to Level-2A (Surface Reflectance), a selection of mostly cloud-free products from Finland. Downloaded to CSC Allas by Maria Yli-Heikkilä (LUKE), Arttu Kivimäki (NLS/FGI) and Matias Heino (Aalto). Files in original JPG2000 format.
 			</li>
 			<li><a href="https://vm0160.kaj.pouta.csc.fi/geocubes/datasets/" target="_blank">Geoportti geocubes</a> data, a lot of different raster datasets, all recalculated to common grid at several different resolutions. All files GeoTiffs, for each dataset also COG available.
 			</li>			
