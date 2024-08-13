@@ -20,8 +20,6 @@ function init() {
 function loadDataLayer() {
   if (datasets.hasCurrent() && datasets.getCurrent().data_url != null) {
     const dataUrl = datasets.getCurrent().data_url
-	console.log("Add data layer")
-	console.log(dataUrl)
     dataLayer = new TileLayer({
       title: translate('map.datamap'),
       source: new source.TileWMS({
@@ -33,18 +31,12 @@ function loadDataLayer() {
         //hidpi: false,
         serverType: 'geoserver',
       }),
-      //maxResolution: datasets.getCurrent().data_max_scale / 2835,
       visible: true,
     })
-	console.log(dataLayer.getMaxResolution())
-	console.log(datasets.getCurrent().data_max_scale)
-	
+	// Set max scale for those layers, that have limit
 	if ( datasets.getCurrent().data_max_scale  != null ){
 		dataLayer.setMaxResolution( datasets.getCurrent().data_max_scale / 2835 )
-	}
-	
-	console.log(dataLayer.getMaxResolution())
-	
+	}	
   } else {
     dataLayer = null
   }
