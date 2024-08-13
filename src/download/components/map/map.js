@@ -1,6 +1,7 @@
 import { Map, View } from 'ol'
 import * as control from 'ol/control'
 import * as layer from 'ol/layer'
+import TileLayer from 'ol/layer/WebGLTile.js';
 import * as proj from 'ol/proj'
 import * as source from 'ol/source'
 import LayerSwitcher from 'ol-layerswitcher'
@@ -23,49 +24,49 @@ const osmLayerOptions = {
       'Background map: © <a target="_blank" href="https://ows.terrestris.de/dienste.html">terrestris</a>. Data: © <a target="_blank" href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>',
     params: {
       LAYERS: 'OSM-WMS',
-      VERSION: '1.1.0',
+//      VERSION: '1.1.0',
     },
   }),
-  opacity: 1.0,
+//  opacity: 1.0,
   visible: true,
 }
 
-const municipalitiesLayer = new layer.Tile({
+const municipalitiesLayer = new TileLayer({
   title: translate('map.municipalitiesmap'),
   source: new source.TileWMS({
     url: URL.WMS_PAITULI_BASE,
     params: {
       LAYERS: LAYER.MUNICIPALITIES_LAYER,
-      SRS: 'EPSG:3067',
-      VERSION: '1.1.0',
+      // SRS: 'EPSG:3067',
+      // VERSION: '1.1.0',
     },
   }),
-  opacity: 1.0,
+//  opacity: 1.0,
   visible: false,
 })
 
-const catchmentLayer = new layer.Tile({
+const catchmentLayer = new TileLayer({
   title: translate('map.catchment'),
   source: new source.TileWMS({
     url: URL.WMS_PAITULI_BASE,
     params: {
       LAYERS: LAYER.CATCHMENT_AREAS_LAYER,
-      SRS: 'EPSG:2393',
-      VERSION: '1.1.0',
+//      SRS: 'EPSG:2393',
+//      VERSION: '1.1.0',
     },
   }),
-  opacity: 1.0,
+//  opacity: 1.0,
   visible: false,
 })
 
 const overviewMap = new control.OverviewMap({
   collapsed: true,
-  layers: [new layer.Tile(osmLayerOptions)],
+  layers: [new TileLayer(osmLayerOptions)],
 })
 
 const map = new Map({
   layers: [
-    new layer.Tile(osmLayerOptions),
+    new TileLayer(osmLayerOptions),
     catchmentLayer,
     municipalitiesLayer,
   ],

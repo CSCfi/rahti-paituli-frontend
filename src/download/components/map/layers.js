@@ -1,6 +1,7 @@
 import $ from 'jquery'
 import * as source from 'ol/source'
 import * as layer from 'ol/layer'
+import TileLayer from 'ol/layer/WebGLTile.js';
 import * as ol_format from 'ol/format'
 import * as style from 'ol/style'
 
@@ -20,12 +21,12 @@ function loadDataLayer() {
   if (datasets.hasCurrent() && datasets.getCurrent().data_url != null) {
     const dataUrl = datasets.getCurrent().data_url
 
-    dataLayer = new layer.Tile({
+    dataLayer = new TileLayer({
       title: translate('map.datamap'),
       source: new source.TileWMS({
         url: URL.WMS_PAITULI_BASE_GWC,
-        params: { LAYERS: dataUrl, VERSION: '1.1.1' },
-        hidpi: false,
+        params: { LAYERS: dataUrl' }, //, VERSION: '1.1.1
+        //hidpi: false,
         serverType: 'geoserver',
       }),
       maxResolution: datasets.getCurrent().data_max_scale / 2835,
