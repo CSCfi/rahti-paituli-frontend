@@ -24,7 +24,7 @@ const osmLayerOptions = {
       'Background map: © <a target="_blank" href="https://ows.terrestris.de/dienste.html">terrestris</a>. Data: © <a target="_blank" href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>',
     params: {
       LAYERS: 'OSM-WMS',
-//      VERSION: '1.1.0',
+      VERSION: '1.1.0',
     },
   }),
 //  opacity: 1.0,
@@ -38,7 +38,7 @@ const municipalitiesLayer = new TileLayer({
     params: {
       LAYERS: LAYER.MUNICIPALITIES_LAYER,
       // SRS: 'EPSG:3067',
-      // VERSION: '1.1.0',
+      VERSION: '1.1.0',
     },
   }),
 //  opacity: 1.0,
@@ -52,7 +52,7 @@ const catchmentLayer = new TileLayer({
     params: {
       LAYERS: LAYER.CATCHMENT_AREAS_LAYER,
 //      SRS: 'EPSG:2393',
-//      VERSION: '1.1.0',
+      VERSION: '1.1.0',
     },
   }),
 //  opacity: 1.0,

@@ -25,7 +25,7 @@ function loadDataLayer() {
       title: translate('map.datamap'),
       source: new source.TileWMS({
         url: URL.WMS_PAITULI_BASE_GWC,
-        params: { LAYERS: dataUrl }, //, VERSION: '1.1.1'
+        params: { LAYERS: dataUrl, VERSION: '1.1.1' }, //
         //hidpi: false,
         serverType: 'geoserver',
       }),
