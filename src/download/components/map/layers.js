@@ -36,7 +36,8 @@ function loadDataLayer() {
       maxResolution: datasets.getCurrent().data_max_scale / 2835,
       visible: true,
     })
-	console.log(dataLayer.maxresolution)
+	console.log(dataLayer.getMaxResolution())
+	console.log(datasets.getCurrent().data_max_scale)
   } else {
     dataLayer = null
   }
